@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
-    <div className="bg-blue-500 min-h-screen flex items-center justify-center">
-      <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg flex flex-col items-center">
+
+      <div className=" bg-white rounded-lg shadow-lg flex flex-col items-center">
         <h1 className="text-3xl text-center text-gray-800 mb-6">
           Bienvenido a nuestra cooperativa
         </h1>
@@ -17,26 +17,14 @@ function HomePage() {
           <img
             src={logo1}
             alt="Imagen Cooperativa"
-            className="rounded-lg shadow-lg"
+            className="rounded-lg "
           />
         </div>
         <div className="flex justify-center my-2">
-          <p className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg ">
-            Already hace an account?{" "}
-            <Link to="/login" className="text-white">
-              Login
-            </Link>
-          </p>
+         
         </div>
-        <div>
-        <p className="bg-green-600 text-white px-6 py-3 rounded-lg text-lg ">
-          Don't hace an account?{" "}
-          <Link to="/register" className="text-white">
-            Register
-          </Link>
-        </p>
-        </div>
-      </div>
+
+   
     </div>
   );
 }

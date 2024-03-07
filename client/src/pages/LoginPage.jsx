@@ -18,7 +18,7 @@ function LoginPage() {
   });
 
   useEffect(()=>{
-    if(isAuthenticated) navigate("/products")
+    if(isAuthenticated) navigate("/home")
   },[isAuthenticated])
 
 
