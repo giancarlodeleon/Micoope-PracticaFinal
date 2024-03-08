@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function RegisterPage() {
   const {
@@ -8,21 +9,32 @@ function RegisterPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const { signup, errors: RegisterErrors } = useAuth();
   const navigate = useNavigate();
+  const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
 
   const onSubmit = handleSubmit(async (values) => {
     try {
       await signup(values);
-      navigate("/users");
+      setRedirectOnSuccess(true);
+      setTimeout(() => {
+        setRedirectOnSuccess(false);
+      }, 4000);
     } catch (error) {
       console.error("Error during signup:", error);
     }
   });
 
+  useEffect(() => {
+    if (redirectOnSuccess && RegisterErrors.length === 0) {
+      navigate("/users");
+    }
+  }, [redirectOnSuccess, RegisterErrors, navigate]);
+
   return (
-    <div className="flex h-[calc(100vh-100px)] items-center justify-center ">
-      <div className=" bg-blue-900 max-w-md p-10 rounded-md">
+    <div className="items-center justify-center py-20 ">
+      <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto">
         {RegisterErrors.map((error, i) => (
           <div
             className="bg-red-500 p-2 my-1 text-white rounded-md text-center"
@@ -61,8 +73,25 @@ function RegisterPage() {
             <p className="text-red-500">Password is required</p>
           )}
 
-          <button type="submit" className="text-white">
-            Register
+          <select
+            type="text"
+            {...register("rol", { required: true })}
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+          >
+            <option value="">Seleccione una opción</option>
+            <option value="R1">Administrador</option>
+            <option value="R2">Coordinador</option>
+            <option value="R3">Agencia</option>
+          </select>
+          {errors.options && (
+            <p className="text-red-500">Debe seleccionar una opción</p>
+          )}
+
+          <button
+            type="submit"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
+          >
+            Agregar
           </button>
         </form>
       </div>
