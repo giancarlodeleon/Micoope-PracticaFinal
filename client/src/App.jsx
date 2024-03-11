@@ -13,6 +13,8 @@ import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
 
 import ProtectedRoute from "./ProtectedRoute";
+import AdminRoute from "./AdminRoute";
+import CoordRoute from "./CoordRoute";
 import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
 
@@ -27,18 +29,23 @@ function App() {
               <Route path="/" element={<LoginPage />} />
 
               <Route element={<ProtectedRoute />}>
-
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/resumen" element={<Resumen />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/almacen" element={<Almacen />} />
-                <Route path="/agencias" element={<Agencias />} />
-                <Route path="/reportes" element={<Reportes />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/add-product" element={<ProductsFormPage />} />
-                <Route path="/products/:id" element={<ProductsFormPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+              <Route element={<AdminRoute />}>
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/users" element={<Users />} />
+                  </Route>
+                  <Route element={<CoordRoute />}>
+                  <Route path="/almacen" element={<Almacen />} />
+                  </Route>
+                  <Route path="/home" element={<HomePage />} />
+                  <Route path="/resumen" element={<Resumen />} />
+                  <Route path="/agencias" element={<Agencias />} />
+                  <Route path="/reportes" element={<Reportes />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/add-product" element={<ProductsFormPage />} />
+                  <Route path="/products/:id" element={<ProductsFormPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  
+                
               </Route>
             </Routes>
           </main>

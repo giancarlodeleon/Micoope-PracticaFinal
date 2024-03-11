@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import Logo from "../assets/descarga.png";
 
 function Navbar() {
-  const { isAuthenticated, logout, user } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
   return (
@@ -21,31 +21,53 @@ function Navbar() {
         <ul className="flex gap-x-14 items-center">
           {isAuthenticated ? (
             <>
-              <li>
-                <NavLink
-                  to="/users"
-                  style={{ fontSize: "20px" }}
-                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${location.pathname === "/users" ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50" : ""}`}
-                  activeStyle={{ background: "blue", color: "white" }}
-                >
-                  Usuario
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/almacen"
-                  style={{ fontSize: "20px" }}
-                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${location.pathname === "/almacen" ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50" : ""}`}
-                  activeStyle={{ background: "blue", color: "white" }}
-                >
-                  Almacen
-                </NavLink>
-              </li>
+              {user.rol === "R1" ? (
+                <li>
+                  <NavLink
+                    to="/users"
+                    style={{ fontSize: "20px" }}
+                    className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                      location.pathname === "/users"
+                        ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                        : ""
+                    }`}
+                    activeStyle={{ background: "blue", color: "white" }}
+                  >
+                    Usuario
+                  </NavLink>
+                </li>
+              ) : (
+                <></>
+              )}
+
+              {user.rol === "R1" || user.rol === "R2" ? (
+                <li>
+                  <NavLink
+                    to="/almacen"
+                    style={{ fontSize: "20px" }}
+                    className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                      location.pathname === "/almacen"
+                        ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                        : ""
+                    }`}
+                    activeStyle={{ background: "blue", color: "white" }}
+                  >
+                    Almacen
+                  </NavLink>
+                </li>
+              ) : (
+                <></>
+              )}
+
               <li>
                 <NavLink
                   to="/resumen"
                   style={{ fontSize: "20px" }}
-                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${location.pathname === "/resumen" ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50" : ""}`}
+                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                    location.pathname === "/resumen"
+                      ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                      : ""
+                  }`}
                   activeStyle={{ background: "blue", color: "white" }}
                 >
                   Resumen
@@ -55,7 +77,11 @@ function Navbar() {
                 <NavLink
                   to="/agencias"
                   style={{ fontSize: "20px" }}
-                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${location.pathname === "/agencias" ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50" : ""}`}
+                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                    location.pathname === "/agencias"
+                      ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                      : ""
+                  }`}
                   activeStyle={{ background: "blue", color: "white" }}
                 >
                   Agencias
@@ -65,8 +91,11 @@ function Navbar() {
                 <NavLink
                   to="/reportes"
                   style={{ fontSize: "20px" }}
-                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${location.pathname === "/reportes" ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50" : ""}`}
-             
+                  className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                    location.pathname === "/reportes"
+                      ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                      : ""
+                  }`}
                 >
                   Reportes
                 </NavLink>
@@ -86,8 +115,7 @@ function Navbar() {
               </li>
             </>
           ) : (
-            <>
-            </>
+            <></>
           )}
         </ul>
       </nav>

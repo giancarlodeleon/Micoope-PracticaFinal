@@ -1,18 +1,23 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isDirty, isValid },
+    watch,
+  } = useForm({
+    mode: "onChange", // activa la validación en tiempo real
+  });
 
   const { signup, errors: RegisterErrors } = useAuth();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
+
+  const password = watch("password", ""); // Observa el campo de contraseña
 
   const onSubmit = handleSubmit(async (values) => {
     try {
@@ -33,8 +38,8 @@ function RegisterPage() {
   }, [redirectOnSuccess, RegisterErrors, navigate]);
 
   return (
-    <div className="items-center justify-center py-20 ">
-      <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto">
+    <div className="items-center justify-center py-20">
+      <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
         {RegisterErrors.map((error, i) => (
           <div
             className="bg-red-500 p-2 my-1 text-white rounded-md text-center"
@@ -48,33 +53,47 @@ function RegisterPage() {
           <input
             type="text"
             {...register("username", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2 "
-            placeholder="Username"
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Nombre de usuario"
           />
           {errors.username && (
-            <p className="text-red-500">Username is required</p>
+            <p className="text-red-500">Nombre de usuario requerido</p>
           )}
 
           <input
             type="email"
             {...register("email", { required: true })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
-            placeholder="Email"
+            placeholder="Correo electronico"
           />
-          {errors.email && <p className="text-red-500">Email is required</p>}
+          {errors.email && (
+            <p className="text-red-500">Correo electronico requerido</p>
+          )}
 
           <input
             type="password"
             {...register("password", { required: true })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
-            placeholder="Password"
+            placeholder="Contrasena"
           />
           {errors.password && (
-            <p className="text-red-500">Password is required</p>
+            <p className="text-red-500">Contrasena requerida</p>
+          )}
+
+          <input
+            type="password"
+            {...register("confirmPassword", {
+              required: true,
+              validate: (value) => value === password || "Las contraseñas no coinciden",
+            })}
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Confirmar Contrasena"
+          />
+          {errors.confirmPassword && (
+            <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
 
           <select
-            type="text"
             {...register("rol", { required: true })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
           >
@@ -83,17 +102,22 @@ function RegisterPage() {
             <option value="R2">Coordinador</option>
             <option value="R3">Agencia</option>
           </select>
-          {errors.options && (
-            <p className="text-red-500">Debe seleccionar una opción</p>
-          )}
+          {errors.rol && <p className="text-red-500">Debe seleccionar una opción</p>}
 
           <button
             type="submit"
-            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
+
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
           >
             Agregar
           </button>
         </form>
+        <Link
+          to="/users"
+          className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+        >
+          Regresar
+        </Link>
       </div>
     </div>
   );

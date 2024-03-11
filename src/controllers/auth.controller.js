@@ -5,11 +5,11 @@ import  jwt  from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.js";
 
 export const register = async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, rol } = req.body;
 
   try {
     const userFound = await User.findOne({ email });
-    if (userFound) return res.status(400).json(["The email already exists"]);
+    if (userFound) return res.status(400).json(["El correo ya existe"]);
 
     const passwordHash = await bcrypt.hash(password, 10); // sirve para encriptar la password
 
@@ -17,6 +17,7 @@ export const register = async (req, res) => {
       username,
       email,
       password: passwordHash,
+      rol,
     });
 
     const userSaved = await newUser.save();
@@ -27,6 +28,7 @@ export const register = async (req, res) => {
       id: userSaved._id,
       username: userSaved.username,
       email: userSaved.email,
+      rol:userSaved.rol,
       createdAt: userSaved.createdAt,
       updatedAt: userSaved.updatedAt,
     });
@@ -36,13 +38,13 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password,rol} = req.body;
 
   try {
     const userFound = await User.findOne({ email });
-    if (!userFound) return res.status(400).json(["User not found"]);
+    if (!userFound) return res.status(400).json(["Usuario no encontrado"]);
     const isMatch = await bcrypt.compare(password, userFound.password);
-    if (!isMatch) return res.status(400).json(["Incorrect password"]);
+    if (!isMatch) return res.status(400).json(["Contrasena incorrecta"]);
 
     const token = await createAccessToken({ id: userFound._id });
     res.cookie("token", token);
@@ -50,6 +52,7 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      rol: userFound.rol,
       createdAt: userFound.createdAt,
       updatedAt: userFound.updatedAt,
     });
@@ -67,11 +70,12 @@ export const logout = (req, res) => {
 
 export const profile = async (req, res) => {
   const userFound = await User.findById(req.user.id);
-  if (!userFound) return res.status(400).json(["User not found"]);
+  if (!userFound) return res.status(400).json(["Usuario no encontrado"]);
   return res.json({
     id: userFound._id,
     username: userFound.username,
     email: userFound.email,
+    rol:userFound.rol,
     createdAt: userFound.createdAt,
     updatedAt: userFound.updatedAt,
   });
@@ -92,6 +96,7 @@ export const verifyToken = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+      rol:userFound.rol,
     });
   });
 };
