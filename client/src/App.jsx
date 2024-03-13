@@ -8,7 +8,6 @@ import ProductsFormPage from "./pages/ProductsFormPage";
 import ProfilePage from "./pages/ProfilePage";
 import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
-import Reportes from "./pages/Reportes";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
 
@@ -17,40 +16,39 @@ import AdminRoute from "./AdminRoute";
 import CoordRoute from "./CoordRoute";
 import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   return (
     <AuthProvider>
-      <ProductProvider>
-        <BrowserRouter>
-          <main className="">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<LoginPage />} />
-
-              <Route element={<ProtectedRoute />}>
-              <Route element={<AdminRoute />}>
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/users" element={<Users />} />
+      <UserProvider>
+        <ProductProvider>
+          <BrowserRouter>
+            <main className="">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<AdminRoute />}>
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/users" element={<Users />} />
                   </Route>
                   <Route element={<CoordRoute />}>
-                  <Route path="/almacen" element={<Almacen />} />
+                    <Route path="/almacen" element={<Almacen />} />
                   </Route>
                   <Route path="/home" element={<HomePage />} />
                   <Route path="/resumen" element={<Resumen />} />
                   <Route path="/agencias" element={<Agencias />} />
-                  <Route path="/reportes" element={<Reportes />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/add-product" element={<ProductsFormPage />} />
                   <Route path="/products/:id" element={<ProductsFormPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
-                  
-                
-              </Route>
-            </Routes>
-          </main>
-        </BrowserRouter>
-      </ProductProvider>
+                </Route>
+              </Routes>
+            </main>
+          </BrowserRouter>
+        </ProductProvider>
+      </UserProvider>
     </AuthProvider>
   );
 }

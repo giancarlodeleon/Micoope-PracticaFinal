@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useUsers } from "../context/UserContext";
 
 function Users() {
-  const users = [
-    { id: 1, username: "user1", password: "password1", rol: "admin" },
-    { id: 2, username: "user2", password: "password2", rol: "user" },
-    { id: 3, username: "user3", password: "password3", rol: "user" },
-  ];
+  const { getUsers, users } = useUsers();
+
+  useEffect(() => {
+    getUsers();
+  });
 
   const handleEdit = (userId) => {
     console.log("Edit user with ID:", userId);
@@ -36,27 +38,31 @@ function Users() {
             <thead>
               <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">Username</th>
-                <th className="py-2 text-center">Contrasena</th>
+                <th className="py-2 text-center">Correo electronico</th>
                 <th className="py-2 text-center">Rol</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
+              {users.map((place) => (
+                <tr key={place.id}>
                   <td className="text-center border border-blue-100">
-                    {user.username}
+                    {place.username}
                   </td>
                   <td className="text-center border border-blue-100">
-                    {user.password}
+                    {place.email}
                   </td>
                   <td className="text-center border border-blue-100">
-                    {user.rol}
+                    {place.rol === "R1"
+                      ? "Administrador"
+                      : place.rol === "R2"
+                      ? "Coordinador"
+                      : "Agencia"}
                   </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <button
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
-                      onClick={() => handleEdit(user.id)}
+                      onClick={() => handleEdit(place.id)}
                     >
                       Editar
                     </button>
