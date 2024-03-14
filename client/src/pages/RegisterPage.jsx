@@ -7,11 +7,9 @@ function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
     watch,
-  } = useForm({
-    mode: "onChange", // activa la validación en tiempo real
-  });
+  } = useForm();
 
   const { signup, errors: RegisterErrors } = useAuth();
   const navigate = useNavigate();
@@ -48,7 +46,7 @@ function RegisterPage() {
             {error}
           </div>
         ))}
-        <h1 className="text-2xl text-white font-bold">Agregar Usuario</h1>
+        <h1 className="text-2xl text-white font-bold">Usuario</h1>
         <form onSubmit={onSubmit}>
           <input
             type="text"
@@ -97,19 +95,19 @@ function RegisterPage() {
             {...register("rol", { required: true })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
           >
-            <option value="">Seleccione una opción</option>
+            <option value="">Seleccione un rol</option>
             <option value="R1">Administrador</option>
             <option value="R2">Coordinador</option>
             <option value="R3">Agencia</option>
           </select>
-          {errors.rol && <p className="text-red-500">Debe seleccionar una opción</p>}
+          {errors.rol && <p className="text-red-500">Debe seleccionar un rol</p>}
 
           <button
             type="submit"
 
             className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
           >
-            Agregar
+            Guardar
           </button>
         </form>
         <Link

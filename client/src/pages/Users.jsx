@@ -1,20 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useUsers } from "../context/UserContext";
+import { useAuth } from "../context/AuthContext";
 
 function Users() {
-  const { getUsers, users } = useUsers();
+  const { getUsers, users, deleteUser } = useUsers();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUsers();
   });
 
-  const handleEdit = (userId) => {
-    console.log("Edit user with ID:", userId);
-  };
-
-  const handleDelete = (userId) => {
-    console.log("Delete user with ID:", userId);
+  const handleDeleteClick = (useId) => {
+    const confirmDelete = window.confirm(
+      "¿Estás seguro de que quieres eliminar este usuario?"
+    );
+    if (confirmDelete) {
+      if (user.id === useId) {
+        deleteUser(useId);
+        setTimeout(() => {
+          navigate("/");
+          logout();
+        }, 1000);
+      }
+      deleteUser(useId);
+    }
   };
 
   return (
@@ -45,7 +56,7 @@ function Users() {
             </thead>
             <tbody>
               {users.map((place) => (
-                <tr key={place.id}>
+                <tr key={place._id}>
                   <td className="text-center border border-blue-100">
                     {place.username}
                   </td>
@@ -68,7 +79,7 @@ function Users() {
                     </button>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDeleteClick(place._id)}
                     >
                       Eliminar
                     </button>

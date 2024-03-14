@@ -1,6 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import {
   getUsersRequest,
+  deleteUserRequest
+
 
 } from "../api/user";
 
@@ -27,12 +29,24 @@ export function UserProvider({ children }) {
     }
   };
 
+  const deleteUser = async (id) => {
+    try {
+      const res = await deleteUserRequest(id);
+      if (res.status == 204)
+        setUsers(users.filter((users) => users._id !== id));
+    } catch (error) {
+      console.log(res);
+    }
+  };
+
+
+
   return (
     <UserContext.Provider
       value={{
         users,
         getUsers,
-
+        deleteUser
       }}
     >
       {children}
