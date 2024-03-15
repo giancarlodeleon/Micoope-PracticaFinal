@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { useEffect } from "react";
 import { useUsers } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
+
 
 function Users() {
   const { getUsers, users, deleteUser } = useUsers();
@@ -71,12 +72,12 @@ function Users() {
                       : "Agencia"}
                   </td>
                   <td className="flex justify-center items-center border border-blue-100">
-                    <button
+                    <Link
+                      to={`/users/${place._id}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
-                      onClick={() => handleEdit(place.id)}
                     >
                       Editar
-                    </button>
+                    </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
                       onClick={() => handleDeleteClick(place._id)}

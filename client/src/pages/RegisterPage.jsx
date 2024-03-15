@@ -1,33 +1,40 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useUsers } from "../context/UserContext";
 
 function RegisterPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     watch,
   } = useForm();
 
+  const { getUser, updateUser, errors: UpdateErrors } = useUsers();
+  const params = useParams();
+
   const { signup, errors: RegisterErrors } = useAuth();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
+  const [updateRedirect, setUpdateRedirect] = useState(false);
 
   const password = watch("password", ""); // Observa el campo de contraseña
 
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      await signup(values);
-      setRedirectOnSuccess(true);
-      setTimeout(() => {
-        setRedirectOnSuccess(false);
-      }, 4000);
-    } catch (error) {
-      console.error("Error during signup:", error);
+  useEffect(() => {
+    async function loadUser() {
+      if (params.id) {
+        const user = await getUser(params.id);
+        console.log(user);
+        setValue("username", user.username);
+        setValue("email", user.email);
+        setValue("rol", user.rol);
+      }
     }
-  });
+    loadUser();
+  }, []);
 
   useEffect(() => {
     if (redirectOnSuccess && RegisterErrors.length === 0) {
@@ -35,9 +42,47 @@ function RegisterPage() {
     }
   }, [redirectOnSuccess, RegisterErrors, navigate]);
 
+  const onSubmit = handleSubmit(async (values) => {
+    if (params.id) {
+      try {
+        await updateUser(params.id, values);
+        setUpdateRedirect(true);
+        setTimeout(() => {
+          setUpdateRedirect(false);
+        }, 4000);
+      } catch (error) {
+        console.error("Error during signup:", error);
+      }
+    } else {
+      try {
+        await signup(values);
+        setRedirectOnSuccess(true);
+        setTimeout(() => {
+          setRedirectOnSuccess(false);
+        }, 4000);
+      } catch (error) {
+        console.error("Error during signup:", error);
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (UpdateErrors.length === 0 && updateRedirect) {
+      navigate("/users");
+    }
+  }, [UpdateErrors, updateRedirect, navigate]);
+
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
+        {UpdateErrors.map((error, i) => (
+          <div
+            className="bg-red-500 p-2 my-1 text-white rounded-md text-center"
+            key={i}
+          >
+            {error}
+          </div>
+        ))}
         {RegisterErrors.map((error, i) => (
           <div
             className="bg-red-500 p-2 my-1 text-white rounded-md text-center"
@@ -46,6 +91,7 @@ function RegisterPage() {
             {error}
           </div>
         ))}
+
         <h1 className="text-2xl text-white font-bold">Usuario</h1>
         <form onSubmit={onSubmit}>
           <input
@@ -82,7 +128,8 @@ function RegisterPage() {
             type="password"
             {...register("confirmPassword", {
               required: true,
-              validate: (value) => value === password || "Las contraseñas no coinciden",
+              validate: (value) =>
+                value === password || "Las contraseñas no coinciden",
             })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Confirmar Contrasena"
@@ -100,11 +147,12 @@ function RegisterPage() {
             <option value="R2">Coordinador</option>
             <option value="R3">Agencia</option>
           </select>
-          {errors.rol && <p className="text-red-500">Debe seleccionar un rol</p>}
+          {errors.rol && (
+            <p className="text-red-500">Debe seleccionar un rol</p>
+          )}
 
           <button
             type="submit"
-
             className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
           >
             Guardar

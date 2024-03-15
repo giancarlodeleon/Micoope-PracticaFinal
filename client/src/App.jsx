@@ -5,7 +5,6 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductsFormPage from "./pages/ProductsFormPage";
-import ProfilePage from "./pages/ProfilePage";
 import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
 import Users from "./pages/Users";
@@ -32,6 +31,7 @@ function App() {
                   <Route element={<AdminRoute />}>
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/users" element={<Users />} />
+                    <Route path="/users/:id" element={<RegisterPage />} />
                   </Route>
                   <Route element={<CoordRoute />}>
                     <Route path="/almacen" element={<Almacen />} />
@@ -42,7 +42,7 @@ function App() {
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/add-product" element={<ProductsFormPage />} />
                   <Route path="/products/:id" element={<ProductsFormPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
+                  
                 </Route>
               </Routes>
             </main>
