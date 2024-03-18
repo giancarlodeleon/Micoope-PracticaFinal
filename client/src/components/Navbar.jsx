@@ -83,7 +83,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggle}
-                        to=""
+                        to="/agencias"
                         style={{ fontSize: "20px" }}
                         className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
                         activeStyle={{ background: "blue", color: "white" }}
@@ -124,10 +124,10 @@ function Navbar() {
               </li>
               <li>
                 <NavLink
-                  to="/agencias"
+                  to="/agencia"
                   style={{ fontSize: "20px" }}
                   className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                    location.pathname === "/agencias"
+                    location.pathname === "/agencia"
                       ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                       : ""
                   }`}

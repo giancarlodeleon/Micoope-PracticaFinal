@@ -7,6 +7,8 @@ import ProductsPage from "./pages/ProductsPage";
 import ProductsFormPage from "./pages/ProductsFormPage";
 import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
+import Agencia from "./pages/Agencia"
+import AgenciaFormPage from "./pages/AgenciaFormPage";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
 
@@ -16,11 +18,13 @@ import CoordRoute from "./CoordRoute";
 import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
+import { AgenciaProvider } from "./context/AgenciaContext";
 
 function App() {
   return (
     <AuthProvider>
       <UserProvider>
+        <AgenciaProvider>
         <ProductProvider>
           <BrowserRouter>
             <main className="">
@@ -32,13 +36,16 @@ function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/users" element={<Users />} />
                     <Route path="/users/:id" element={<RegisterPage />} />
+                    <Route path="/agencias" element={<Agencias />} />
+                    <Route path="/add-agencia" element={<AgenciaFormPage />} />
+                    <Route path="/agencias/:id" element={<AgenciaFormPage />} />
                   </Route>
                   <Route element={<CoordRoute />}>
                     <Route path="/almacen" element={<Almacen />} />
                   </Route>
                   <Route path="/home" element={<HomePage />} />
                   <Route path="/resumen" element={<Resumen />} />
-                  <Route path="/agencias" element={<Agencias />} />
+                  <Route path="/agencia" element={<Agencia />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/add-product" element={<ProductsFormPage />} />
                   <Route path="/products/:id" element={<ProductsFormPage />} />
@@ -48,6 +55,7 @@ function App() {
             </main>
           </BrowserRouter>
         </ProductProvider>
+        </AgenciaProvider>
       </UserProvider>
     </AuthProvider>
   );
