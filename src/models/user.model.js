@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
+    agencia:{
+        type: String,
+        trim: true,
+        required: true,
+    },
+    estado:{
+        type: Boolean,
+        default: true,
+        trim: true,
+        required: true,
+    },
+},{
+},{
 },{
     timestamps:true
 })

@@ -1,8 +1,7 @@
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useUsers } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
-
 
 function Users() {
   const { getUsers, users, deleteUser } = useUsers();
@@ -52,6 +51,8 @@ function Users() {
                 <th className="py-2 text-center">Username</th>
                 <th className="py-2 text-center">Correo electronico</th>
                 <th className="py-2 text-center">Rol</th>
+                <th className="py-2 text-center">Agencia</th>
+                <th className="py-2 text-center">Estado</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -71,6 +72,15 @@ function Users() {
                       ? "Coordinador"
                       : "Agencia"}
                   </td>
+                  <td className="text-center border border-blue-100">
+                    {place.agencia}
+                  </td>
+                  <td className="text-center border border-blue-100">
+                  {place.estado === true
+                      ? "Activo"
+                      : "Desactivo"}
+             
+                    </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link
                       to={`/users/${place._id}`}

@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import { useUsers } from "../context/UserContext";
+import { useAgencias } from "../context/AgenciaContext";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useUsers } from "../context/UserContext";
 
 function RegisterPage() {
   const {
@@ -14,14 +15,18 @@ function RegisterPage() {
   } = useForm();
 
   const { getUser, updateUser, errors: UpdateErrors } = useUsers();
-  const params = useParams();
-
   const { signup, errors: RegisterErrors } = useAuth();
+  const { getAgencias, agencias } = useAgencias();
+  const params = useParams();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
   const [updateRedirect, setUpdateRedirect] = useState(false);
 
   const password = watch("password", ""); // Observa el campo de contraseña
+
+  useEffect(() => {
+    getAgencias();
+  });
 
   useEffect(() => {
     async function loadUser() {
@@ -31,6 +36,8 @@ function RegisterPage() {
         setValue("username", user.username);
         setValue("email", user.email);
         setValue("rol", user.rol);
+        setValue("agencia",user.agencia);
+        setValue("estado",user.estado)
       }
     }
     loadUser();
@@ -138,6 +145,21 @@ function RegisterPage() {
             <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
 
+          
+          <select
+            {...register("agencia", { required: true })}
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+          >
+            <option value="">Seleccione una Agencia</option>
+            {agencias.map((place) => (
+              <option value={place.name}>{place.name}</option>
+            ))}
+          </select>
+
+          {errors.agencia && (
+            <p className="text-red-500">Debe seleccionar una agencia</p>
+          )}
+
           <select
             {...register("rol", { required: true })}
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
@@ -150,6 +172,16 @@ function RegisterPage() {
           {errors.rol && (
             <p className="text-red-500">Debe seleccionar un rol</p>
           )}
+
+          <div className="flex items-center py-2">
+            <label className="text-white font px-5">Estado</label>
+            <input
+              type="checkbox"
+              {...register("estado", { value: true })}
+              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+            
+          </div>
 
           <button
             type="submit"

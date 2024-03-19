@@ -19,6 +19,12 @@ export const registerSchema = z.object({
   rol: z.string({
     required_error: "El rol es requerido",
   }),
+  agencia: z.string({
+    required_error: "La agencia es requerida",
+  }),
+  estado: z.boolean({
+    required_error: "El estado es requerido",
+  }),
 });
 
 export const loginSchema = z.object({

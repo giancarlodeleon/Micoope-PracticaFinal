@@ -5,7 +5,7 @@ import  jwt  from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.js";
 
 export const register = async (req, res) => {
-  const { email, password, username, rol } = req.body;
+  const { email, password, username, rol, agencia, estado } = req.body;
 
   try {
     const userFound = await User.findOne({ email });
@@ -18,6 +18,8 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       rol,
+      agencia,
+      estado
     });
 
     const userSaved = await newUser.save();
@@ -29,6 +31,8 @@ export const register = async (req, res) => {
       username: userSaved.username,
       email: userSaved.email,
       rol:userSaved.rol,
+      agencia:userSaved.agencia,
+      estado:userSaved.estado,
       createdAt: userSaved.createdAt,
       updatedAt: userSaved.updatedAt,
     });
@@ -53,6 +57,8 @@ export const login = async (req, res) => {
       username: userFound.username,
       email: userFound.email,
       rol: userFound.rol,
+      agencia: userFound.agencia,
+      estado: userFound.estado,
       createdAt: userFound.createdAt,
       updatedAt: userFound.updatedAt,
     });
@@ -76,6 +82,8 @@ export const profile = async (req, res) => {
     username: userFound.username,
     email: userFound.email,
     rol:userFound.rol,
+    agencia: userFound.agencia,
+    estado: userFound.estado,
     createdAt: userFound.createdAt,
     updatedAt: userFound.updatedAt,
   });
@@ -97,6 +105,8 @@ export const verifyToken = async (req, res) => {
       username: userFound.username,
       email: userFound.email,
       rol:userFound.rol,
+      agencia: userFound.agencia,
+      estado: userFound.estado,
     });
   });
 };
