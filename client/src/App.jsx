@@ -9,6 +9,8 @@ import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
 import Agencia from "./pages/Agencia"
 import AgenciaFormPage from "./pages/AgenciaFormPage";
+import Roles from "./pages/Roles"
+import RolFormPage from "./pages/RolFormPage";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
 
@@ -39,6 +41,9 @@ function App() {
                     <Route path="/agencias" element={<Agencias />} />
                     <Route path="/add-agencia" element={<AgenciaFormPage />} />
                     <Route path="/agencias/:id" element={<AgenciaFormPage />} />
+                    <Route path="/roles" element={<Roles />} />
+                    <Route path="/add-rol" element={<RolFormPage />} />
+                    <Route path="/roles/:id" element={<RolFormPage />} />
                   </Route>
                   <Route element={<CoordRoute />}>
                     <Route path="/almacen" element={<Almacen />} />

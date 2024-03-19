@@ -42,11 +42,12 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password} = req.body;
+  const { email, password,estado} = req.body;
 
   try {
     const userFound = await User.findOne({ email });
     if (!userFound) return res.status(400).json(["Usuario no encontrado"]);
+    if (!userFound.estado) return res.status(400).json(["Usuario deshabilitado"]);
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch) return res.status(400).json(["Contrasena incorrecta"]);
 
@@ -105,8 +106,7 @@ export const verifyToken = async (req, res) => {
       username: userFound.username,
       email: userFound.email,
       rol:userFound.rol,
-      agencia: userFound.agencia,
-      estado: userFound.estado,
+      estado:userFound.estado
     });
   });
 };
