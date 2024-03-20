@@ -1,15 +1,13 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import {useAgencias} from "../context/AgenciaContext"
-
+import { useAgencias } from "../context/AgenciaContext";
 
 function Agencias() {
   const { getAgencias, agencias, deleteAgencia } = useAgencias();
 
-
   useEffect(() => {
     getAgencias();
-  });
+  },[]);
 
   const handleDeleteClick = (useId) => {
     const confirmDelete = window.confirm(
@@ -19,7 +17,6 @@ function Agencias() {
       deleteAgencia(useId);
     }
   };
-  
 
   return (
     <div className="flex justify-center p-4 ">
@@ -44,11 +41,10 @@ function Agencias() {
                 <th className="py-2 text-center">Codigo</th>
                 <th className="py-2 text-center">Nombre</th>
                 <th className="py-2 text-center">Acciones</th>
-
               </tr>
             </thead>
             <tbody>
-            {agencias.map((place) => (
+              {agencias.map((place) => (
                 <tr key={place._id}>
                   <td className="text-center border border-blue-100">
                     {place.code}
@@ -56,7 +52,6 @@ function Agencias() {
                   <td className="text-center border border-blue-100">
                     {place.name}
                   </td>
-                  
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link
                       to={`/agencias/${place._id}`}
@@ -73,11 +68,6 @@ function Agencias() {
                   </td>
                 </tr>
               ))}
-
-
-
-
-
             </tbody>
           </table>
         </div>
@@ -86,4 +76,4 @@ function Agencias() {
   );
 }
 
-export default Agencias
+export default Agencias;

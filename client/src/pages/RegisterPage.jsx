@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useUsers } from "../context/UserContext";
 import { useAgencias } from "../context/AgenciaContext";
+import {useRols} from "../context/RolContext";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ function RegisterPage() {
   const { getUser, updateUser, errors: UpdateErrors } = useUsers();
   const { signup, errors: RegisterErrors } = useAuth();
   const { getAgencias, agencias } = useAgencias();
+  const { getRols, rol } = useRols();
   const params = useParams();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
@@ -26,7 +28,8 @@ function RegisterPage() {
 
   useEffect(() => {
     getAgencias();
-  });
+    getRols();
+  },[]);
 
   useEffect(() => {
     async function loadUser() {
@@ -165,16 +168,16 @@ function RegisterPage() {
             className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
           >
             <option value="">Seleccione un rol</option>
-            <option value="R1">Administrador</option>
-            <option value="R2">Coordinador</option>
-            <option value="R3">Agencia</option>
+            {rol.map((place) => (
+              <option value={place.name}>{place.name}</option>
+            ))}
           </select>
           {errors.rol && (
             <p className="text-red-500">Debe seleccionar un rol</p>
           )}
 
           <div className="flex items-center py-2">
-            <label className="text-white font px-5">Estado</label>
+            <label className="text-white font ">Estado</label>
             <input
               type="checkbox"
               {...register("estado", { value: true })}

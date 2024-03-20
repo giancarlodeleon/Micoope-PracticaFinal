@@ -10,7 +10,7 @@ function Users() {
 
   useEffect(() => {
     getUsers();
-  });
+  },[]);
 
   const handleDeleteClick = (useId) => {
     const confirmDelete = window.confirm(
@@ -66,20 +66,16 @@ function Users() {
                     {place.email}
                   </td>
                   <td className="text-center border border-blue-100">
-                    {place.rol === "R1"
-                      ? "Administrador"
-                      : place.rol === "R2"
-                      ? "Coordinador"
-                      : "Agencia"}
+                    {place.rol}
                   </td>
                   <td className="text-center border border-blue-100">
                     {place.agencia}
                   </td>
+                  
                   <td className="text-center border border-blue-100">
                   {place.estado === true
                       ? "Activo"
                       : "Desactivo"}
-             
                     </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link
