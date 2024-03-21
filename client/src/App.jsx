@@ -15,8 +15,10 @@ import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
 
 import ProtectedRoute from "./ProtectedRoute";
-import AdminRoute from "./AdminRoute";
-import CoordRoute from "./CoordRoute";
+import ManejoInformacionRoute from "./ManejoInformacionRoute";
+import ResumenRoute from "./ResumenRoute";
+import AlmacenRoute from "./AlmacenRoute";
+import AgenciaRoute from "./AgenciaRoute";
 import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
@@ -36,10 +38,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route element={<ProtectedRoute />}>
-                      
-
-
-
+                      <Route element={<ManejoInformacionRoute />}>
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/users" element={<Users />} />
                         <Route path="/users/:id" element={<RegisterPage />} />
@@ -55,22 +54,17 @@ function App() {
                         <Route path="/roles" element={<Roles />} />
                         <Route path="/add-rol" element={<RolFormPage />} />
                         <Route path="/rols/:id" element={<RolFormPage />} />
-                      
-
-
-
-
-
-                      
-                        <Route path="/almacen" element={<Almacen />} />
-                      
-
-
-
-
-                      <Route path="/home" element={<HomePage />} />
+                      </Route>
+                      <Route element={<AlmacenRoute />}>
+                      <Route path="/almacen" element={<Almacen />} />
+                      </Route>
+                      <Route element={<ResumenRoute />}>
                       <Route path="/resumen" element={<Resumen />} />
+                      </Route>
+                      <Route element={<AgenciaRoute />}>
                       <Route path="/agencia" element={<Agencia />} />
+                      </Route>
+                      <Route path="/home" element={<HomePage />} />
                       <Route path="/products" element={<ProductsPage />} />
                       <Route
                         path="/add-product"

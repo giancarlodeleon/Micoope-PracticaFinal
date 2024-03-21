@@ -29,7 +29,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  }, []);
+  });
 
   return (
     <>
@@ -48,27 +48,31 @@ function Navbar() {
             <>
               <li>
                 {/* Botón para desplegar el menú */}
-                <button
+
+                <NavLink
                   style={{ fontSize: "20px" }}
                   onClick={handleDropdownToggle}
-                  className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                    location.pathname === "/users" ||
-                    location.pathname === "/agencias" ||
-                    location.pathname === "/roles"
-                      ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
-                      : ""
-                  }`}
                 >
                   {rol.map((place) =>
-                    place.name !== user.rol ? null : (
-                      <option className="font-bold">
-                        {place.permission_of_information
-                          ? "Manejo de información"
-                          : ""}
+                    place.name !== user.rol ||
+                    !place.permission_of_information ? null : (
+                      <option
+                        key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                        style={{ fontSize: "20px" }}
+                        className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          location.pathname === "/users" ||
+                          location.pathname === "/agencias" ||
+                          location.pathname === "/roles"
+                            ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                            : ""
+                        }`}
+                      >
+                        Manejo de informacion
                       </option>
                     )
                   )}
-                </button>
+                </NavLink>
+
                 {/* Contenido del menú desplegable */}
                 {dropdownOpen && (
                   <ul className="absolute bg-white shadow-md rounded-lg mt-1 z-50 w-64 flex flex-col justify-center items-center">
@@ -77,40 +81,67 @@ function Navbar() {
                       <NavLink
                         onClick={handleDropdownToggle}
                         to="/users"
-                        style={{ fontSize: "20px" }}
-                        className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
-                        Usuarios
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_information ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Usuarios
+                            </option>
+                          )
+                        )}
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         onClick={handleDropdownToggle}
                         to="/roles"
-                        style={{ fontSize: "20px" }}
-                        className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
-                        Roles
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_information ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Roles
+                            </option>
+                          )
+                        )}
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         onClick={handleDropdownToggle}
                         to="/agencias"
-                        style={{ fontSize: "20px" }}
-                        className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
-                        Agencias
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_information ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Agencias
+                            </option>
+                          )
+                        )}
                       </NavLink>
                     </li>
                   </ul>
                 )}
               </li>
               <li>
-              <NavLink
+                <NavLink
                   to="/almacen"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
@@ -133,7 +164,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li>
-              <NavLink
+                <NavLink
                   to="/resumen"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
