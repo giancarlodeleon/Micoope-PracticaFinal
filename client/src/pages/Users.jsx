@@ -10,7 +10,7 @@ function Users() {
   const [currentPage, setCurrentPage] = useState(1); // Estado para almacenar la página actual
   const [searchTerm, setSearchTerm] = useState(""); // Estado para almacenar el término de búsqueda
   const [selectedAgency, setSelectedAgency] = useState(""); // Estado para almacenar la agencia seleccionada
-  const [selectedStatus, setSelectedStatus] = useState(""); // Estado para almacenar el estado seleccionado
+  const [selectedStatus] = useState(""); // Estado para almacenar el estado seleccionado
   const [selectedRole, setSelectedRole] = useState(""); // Estado para almacenar el rol seleccionado
   const usersPerPage = 10; // Número de usuarios por página
 

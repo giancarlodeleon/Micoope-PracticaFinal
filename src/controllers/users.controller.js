@@ -34,8 +34,6 @@ export const updateUsers = async (req, res) => {
   try {
     const { password } = req.body;
     req.body.password = await bcrypt.hash(password, 10);
-    
-
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
