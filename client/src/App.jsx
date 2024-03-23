@@ -8,12 +8,19 @@ import ProductsFormPage from "./pages/ProductsFormPage";
 import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
 import Agencia from "./pages/Agencia";
-import AgenciaFormPage from "./pages/AgenciaFormPage";
+import AgenciaFormPage from "./pages/AgenciaFormPage"
+import AportacionesIngresado from "./pages/AportacionesIngresadoPage";
+import AportacionesEntregadoPage from "./pages/AportacionesEntregadoPage";
+import AhorroDisponible from "./pages/AhorroPage";
+import InfantoJuvenil from "./pages/InfantoPage";
+import MiPlazo from "./pages/PlazoPage";
+import Programado from "./pages/ProgramadoPage";
+import BoletasTRX from "./pages/BoletasTRXPage";
+import Vales from "./pages/ValesPage";
 import Roles from "./pages/Roles";
 import RolFormPage from "./pages/RolFormPage";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
-
 import ProtectedRoute from "./ProtectedRoute";
 import ManejoInformacionRoute from "./ManejoInformacionRoute";
 import ResumenRoute from "./ResumenRoute";
@@ -63,6 +70,14 @@ function App() {
                       </Route>
                       <Route element={<AgenciaRoute />}>
                       <Route path="/agencia" element={<Agencia />} />
+                      <Route path="/aportacionesIngresado" element={<AportacionesIngresado />} />
+                      <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
+                      <Route path="/ahorro-disponible" element={<AhorroDisponible />} />
+                      <Route path="/infanto-juvenil" element={<InfantoJuvenil />} />
+                      <Route path="/plazo-fijo" element={<MiPlazo />} />
+                      <Route path="/programado" element={<Programado />} />
+                      <Route path="/boletasTRX" element={<BoletasTRX />} />
+                      <Route path="/vales" element={<Vales />} />
                       </Route>
                       <Route path="/home" element={<HomePage />} />
                       <Route path="/products" element={<ProductsPage />} />

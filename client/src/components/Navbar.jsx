@@ -10,22 +10,39 @@ function Navbar() {
   const location = useLocation();
 
   // Estado para controlar la visibilidad del menú desplegable
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpenManejo, setDropdownOpenManejo] = useState(false);
+  const [dropdownOpenAgencia, setDropdownOpenAgencia] = useState(false);
 
   // Función para manejar el clic en el botón de desplegar
-  const handleDropdownToggle = () => {
-    setDropdownOpen(!dropdownOpen);
+  const handleDropdownToggleManejo = () => {
+    setDropdownOpenManejo(!dropdownOpenManejo);
+  };
+
+  const handleDropdownToggleAgencia = () => {
+    setDropdownOpenAgencia(!dropdownOpenAgencia);
   };
 
   useEffect(() => {
     let timer;
-    if (dropdownOpen) {
+    if (dropdownOpenAgencia) {
       timer = setTimeout(() => {
-        setDropdownOpen(false);
+        setDropdownOpenAgencia(false);
       }, 2000); // Cerrar el menú después de 5 segundos
     }
     return () => clearTimeout(timer);
-  }, [dropdownOpen]);
+  }, [dropdownOpenAgencia]);
+
+  
+
+  useEffect(() => {
+    let timer;
+    if (dropdownOpenManejo) {
+      timer = setTimeout(() => {
+        setDropdownOpenManejo(false);
+      }, 2000); // Cerrar el menú después de 5 segundos
+    }
+    return () => clearTimeout(timer);
+  }, [dropdownOpenManejo]);
 
   useEffect(() => {
     getRols();
@@ -51,7 +68,7 @@ function Navbar() {
 
                 <NavLink
                   style={{ fontSize: "20px" }}
-                  onClick={handleDropdownToggle}
+                  onClick={handleDropdownToggleManejo}
                 >
                   {rol.map((place) =>
                     place.name !== user.rol ||
@@ -74,12 +91,12 @@ function Navbar() {
                 </NavLink>
 
                 {/* Contenido del menú desplegable */}
-                {dropdownOpen && (
+                {dropdownOpenManejo && (
                   <ul className="absolute bg-white shadow-md rounded-lg mt-1 z-50 w-64 flex flex-col justify-center items-center">
                     {/* Opciones del menú desplegable */}
                     <li>
                       <NavLink
-                        onClick={handleDropdownToggle}
+                        onClick={handleDropdownToggleManejo}
                         to="/users"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
@@ -99,7 +116,7 @@ function Navbar() {
                     </li>
                     <li>
                       <NavLink
-                        onClick={handleDropdownToggle}
+                        onClick={handleDropdownToggleManejo}
                         to="/roles"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
@@ -119,7 +136,7 @@ function Navbar() {
                     </li>
                     <li>
                       <NavLink
-                        onClick={handleDropdownToggle}
+                        onClick={handleDropdownToggleManejo}
                         to="/agencias"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
@@ -187,9 +204,9 @@ function Navbar() {
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/agencia"
-                  activeStyle={{ background: "blue", color: "white" }}
+              <NavLink
+                  style={{ fontSize: "20px" }}
+                  onClick={handleDropdownToggleAgencia}
                 >
                   {rol.map((place) =>
                     place.name !== user.rol ||
@@ -197,17 +214,169 @@ function Navbar() {
                       <option
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
-                        className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                          location.pathname === "/agencia"
+                        className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          location.pathname === "/aportaciones" ||
+                          location.pathname === "/ahorro-disponible" ||
+                          location.pathname === "/plazo-fijo" ||
+                          location.pathname === "/infanto-juvenil" ||
+                          location.pathname === "/programado" ||
+                          location.pathname === "/boletastrx" ||
+                          location.pathname === "/vales" 
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                             : ""
                         }`}
                       >
-                        Agencia
+                        Manejo de Agencia
                       </option>
                     )
                   )}
                 </NavLink>
+                {/* Contenido del menú desplegable */}
+                {dropdownOpenAgencia && (
+                  <ul className="absolute bg-white shadow-md rounded-lg mt-1 z-50 flex flex-col justify-center items-center">
+                    {/* Opciones del menú desplegable */}
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/aportacionesIngresado"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Aportaciones
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/ahorro-disponible"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Ahorro Disponible
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/infanto-juvenil"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Infanto Infantil
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/plazo-fijo"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Plazo Fijo
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/programado"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Programado
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/boletastrx"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Boletas TRX
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleDropdownToggleAgencia}
+                        to="/vales"
+                        activeStyle={{ background: "blue", color: "white" }}
+                      >
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_of_Office ? null : (
+                            <option
+                              key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                              style={{ fontSize: "20px" }}
+                              className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                            >
+                              Vales de Efectivo
+                            </option>
+                          )
+                        )}
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
               <li>
                 <NavLink
