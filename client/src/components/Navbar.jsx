@@ -258,7 +258,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/ahorro-disponible"
+                        to="/ahorro-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
@@ -278,7 +278,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/infanto-juvenil"
+                        to="/infanto-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
@@ -298,7 +298,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/plazo-fijo"
+                        to="/plazo-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
@@ -318,7 +318,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/programado"
+                        to="/programado-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
@@ -338,7 +338,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/boletastrx"
+                        to="/boletastrx-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
@@ -358,7 +358,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/vales"
+                        to="/vales-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>

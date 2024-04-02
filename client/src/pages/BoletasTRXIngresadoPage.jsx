@@ -1,10 +1,6 @@
-import { Link } from "react-router-dom"; 
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-function AportacionesPage() {
-
-
-
+function BoletasTRXIngresadoPage() {
   return (
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
@@ -12,7 +8,7 @@ function AportacionesPage() {
           className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
-          Aportaciones
+          Boletas TRX
         </h1>
         <div className="my-2 overflow-x-auto rounded-lg">
           <div className="flex justify-between">
@@ -21,7 +17,7 @@ function AportacionesPage() {
             <Link to="" className="bg-blue-900 font-bold text-blue-50  hover:text-blue-50 border-2  border-blue-300  w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block">Correlativo Ingresado Agencia</Link>
             </div>
             <div className="flex-1 " style={{ marginRight: '50px' }}>
-            <Link to="/aportacionesEntregado" className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block">Correlativo Entregado Asociados</Link>
+            <Link to="/boletasTRX-entregado" className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block">Correlativo Entregado Asociados</Link>
             </div>
           </div>
           <table className="w-full border-collapse rounded-lg mt-2">
@@ -68,4 +64,4 @@ function AportacionesPage() {
   );
 }
 
-export default AportacionesPage;
+export default BoletasTRXIngresadoPage

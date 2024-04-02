@@ -9,14 +9,20 @@ import Almacen from "./pages/Almacen";
 import Agencias from "./pages/Agencias";
 import Agencia from "./pages/Agencia";
 import AgenciaFormPage from "./pages/AgenciaFormPage"
-import AportacionesIngresado from "./pages/AportacionesIngresadoPage";
+import AportacionesIngresadoPage from "./pages/AportacionesIngresadoPage";
 import AportacionesEntregadoPage from "./pages/AportacionesEntregadoPage";
-import AhorroDisponible from "./pages/AhorroPage";
-import InfantoJuvenil from "./pages/InfantoPage";
-import MiPlazo from "./pages/PlazoPage";
-import Programado from "./pages/ProgramadoPage";
-import BoletasTRX from "./pages/BoletasTRXPage";
-import Vales from "./pages/ValesPage";
+import AhorroDisponibleIngresado from "./pages/AhorroIngresadoPage";
+import AhorroDisponibleEntregado from "./pages/AhorroEntregadoPage";
+import InfantoJuvenilIngresado from "./pages/InfantoIngresadoPage";
+import InfantoJuvenilEntregado from "./pages/InfantoEntregadoPage";
+import MiPlazoIngresado from "./pages/PlazoIngresadoPage";
+import MiPlazoEntregado from "./pages/PlazoEntregadoPage";
+import ProgramadoIngresado from "./pages/ProgramadoIngresadoPage";
+import ProgramadoEntregado from "./pages/ProgramadoEntregadoPage";
+import BoletasTRXIngresado from "./pages/BoletasTRXIngresadoPage";
+import BoletasTRXEntregado from "./pages/BoletasTRXEntregadoPage";
+import ValesIngresado from "./pages/ValesIngresadoPage";
+import ValesEntregado from "./pages/ValesEntregadoPage";
 import Roles from "./pages/Roles";
 import RolFormPage from "./pages/RolFormPage";
 import Users from "./pages/Users";
@@ -70,14 +76,20 @@ function App() {
                       </Route>
                       <Route element={<AgenciaRoute />}>
                       <Route path="/agencia" element={<Agencia />} />
-                      <Route path="/aportacionesIngresado" element={<AportacionesIngresado />} />
+                      <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
-                      <Route path="/ahorro-disponible" element={<AhorroDisponible />} />
-                      <Route path="/infanto-juvenil" element={<InfantoJuvenil />} />
-                      <Route path="/plazo-fijo" element={<MiPlazo />} />
-                      <Route path="/programado" element={<Programado />} />
-                      <Route path="/boletasTRX" element={<BoletasTRX />} />
-                      <Route path="/vales" element={<Vales />} />
+                      <Route path="/ahorro-ingresado" element={<AhorroDisponibleIngresado />} />
+                      <Route path="/ahorro-entregado" element={<AhorroDisponibleEntregado />} />
+                      <Route path="/infanto-ingresado" element={<InfantoJuvenilIngresado />} />
+                      <Route path="/infanto-entregado" element={<InfantoJuvenilEntregado />} />
+                      <Route path="/plazo-ingresado" element={<MiPlazoIngresado />} />
+                      <Route path="/plazo-entregado" element={<MiPlazoEntregado />} />
+                      <Route path="/programado-ingresado" element={<ProgramadoIngresado />} />
+                      <Route path="/programado-entregado" element={<ProgramadoEntregado />} />
+                      <Route path="/boletasTRX-ingresado" element={<BoletasTRXIngresado />} />
+                      <Route path="/boletasTRX-entregado" element={<BoletasTRXEntregado />} />
+                      <Route path="/vales-ingresado" element={<ValesIngresado />} />
+                      <Route path="/vales-entregado" element={<ValesEntregado />} />
                       </Route>
                       <Route path="/home" element={<HomePage />} />
                       <Route path="/products" element={<ProductsPage />} />
