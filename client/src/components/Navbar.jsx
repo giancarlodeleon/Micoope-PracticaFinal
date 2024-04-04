@@ -159,7 +159,7 @@ function Navbar() {
               </li>
               <li>
                 <NavLink
-                  to="/almacen"
+                  to="/boletas"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
                   {rol.map((place) =>
@@ -289,7 +289,7 @@ function Navbar() {
                               style={{ fontSize: "20px" }}
                               className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                             >
-                              Infanto Infantil
+                              Infanto Juvenil
                             </option>
                           )
                         )}

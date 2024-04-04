@@ -10,12 +10,14 @@ function AgenciaFormPage() {
     setValue,
     formState: { errors },
   } = useForm();
+
   const {
     createAgencia,
     getAgencia,
     updateAgencia,
     errors: AgenciaErrors,
   } = useAgencias();
+  
   const navigate = useNavigate();
   const params = useParams();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
@@ -77,7 +79,7 @@ function AgenciaFormPage() {
             {...register("name", { required: true })}
             className="w-full bg-blue-500 text-white px-4 py-2 rounded-md my-2"
           />
-          {errors.name && <p className="text-red-500">nombre Requerido</p>}
+          {errors.name && <p className="text-red-500">Nombre Requerido</p>}
           <button
             type="submit"
             className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"

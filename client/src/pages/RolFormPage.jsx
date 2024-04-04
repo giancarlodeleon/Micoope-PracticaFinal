@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRols } from "../context/RolContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 function RolFormPage() {
 

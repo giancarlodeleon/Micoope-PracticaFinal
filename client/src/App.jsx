@@ -6,8 +6,10 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductsFormPage from "./pages/ProductsFormPage";
 import Almacen from "./pages/Almacen";
+import BoletaFormPage from "./pages/BoletaFormPage";
+import BoletaIngresoPage from "./pages/BoletaIngresoPage";
+import BoletaEgresoPage from "./pages/BoletaEgresoPage";
 import Agencias from "./pages/Agencias";
-import Agencia from "./pages/Agencia";
 import AgenciaFormPage from "./pages/AgenciaFormPage"
 import AportacionesIngresadoPage from "./pages/AportacionesIngresadoPage";
 import AportacionesEntregadoPage from "./pages/AportacionesEntregadoPage";
@@ -37,6 +39,7 @@ import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
 import { AgenciaProvider } from "./context/AgenciaContext";
 import { RolProvider } from "./context/RolContext";
+import { BoletaProvider } from "./context/BoletaContext";
 
 function App() {
   return (
@@ -45,6 +48,7 @@ function App() {
         <AgenciaProvider>
           <ProductProvider>
             <RolProvider>
+            <BoletaProvider>
               <BrowserRouter>
                 <main className="">
                   <Navbar />
@@ -69,13 +73,16 @@ function App() {
                         <Route path="/rols/:id" element={<RolFormPage />} />
                       </Route>
                       <Route element={<AlmacenRoute />}>
-                      <Route path="/almacen" element={<Almacen />} />
+                      <Route path="/boletas" element={<Almacen />} />
+                      <Route path="/boletas/:id" element={<BoletaFormPage />} />
+                      <Route path="/boletas/ingreso/:id" element={<BoletaIngresoPage />} />
+                      <Route path="/boletas/egreso/:id" element={<BoletaEgresoPage />} />
+                      <Route path="/add-boleta" element={<BoletaFormPage />} />
                       </Route>
                       <Route element={<ResumenRoute />}>
                       <Route path="/resumen" element={<Resumen />} />
                       </Route>
                       <Route element={<AgenciaRoute />}>
-                      <Route path="/agencia" element={<Agencia />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
                       <Route path="/ahorro-ingresado" element={<AhorroDisponibleIngresado />} />
@@ -105,6 +112,7 @@ function App() {
                   </Routes>
                 </main>
               </BrowserRouter>
+              </BoletaProvider>
             </RolProvider>
           </ProductProvider>
         </AgenciaProvider>
