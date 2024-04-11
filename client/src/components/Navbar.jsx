@@ -32,8 +32,6 @@ function Navbar() {
     return () => clearTimeout(timer);
   }, [dropdownOpenAgencia]);
 
-  
-
   useEffect(() => {
     let timer;
     if (dropdownOpenManejo) {
@@ -74,10 +72,15 @@ function Navbar() {
                     place.name !== user.rol ||
                     !place.permission_of_information ? null : (
                       <option
-                        key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                        key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                          location.pathname === "/users" ||
+                          location.pathname.startsWith("/users") ||
+                          location.pathname.startsWith("/agencias") ||
+                          location.pathname.startsWith("/rols") ||
+                          location.pathname === "/register" ||
+                          location.pathname === "/add-agencia" ||
+                          location.pathname === "/add-rol" ||
                           location.pathname === "/agencias" ||
                           location.pathname === "/roles"
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
@@ -169,7 +172,9 @@ function Navbar() {
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                          location.pathname === "/boletas"
+                          location.pathname === "/boletas" ||
+                          location.pathname.startsWith("/boletas") ||
+                          location.pathname === "/add-boleta"
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                             : ""
                         }`}
@@ -204,7 +209,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li>
-              <NavLink
+                <NavLink
                   style={{ fontSize: "20px" }}
                   onClick={handleDropdownToggleAgencia}
                 >
@@ -215,6 +220,7 @@ function Navbar() {
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          location.pathname.startsWith("/movimientos") ||
                           location.pathname === "/aportacionesIngresado" ||
                           location.pathname === "/aportacionesEntregado" ||
                           location.pathname === "/ahorro-ingresado" ||
@@ -228,7 +234,7 @@ function Navbar() {
                           location.pathname === "/boletastrx-ingresado" ||
                           location.pathname === "/boletastrx-entregado" ||
                           location.pathname === "/vales-ingresado" ||
-                          location.pathname === "/vales-entregado" 
+                          location.pathname === "/vales-entregado"
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                             : ""
                         }`}
