@@ -78,7 +78,7 @@ function Users() {
             placeholder="Buscar por username..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-1/3 mb-2 px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg mr-2"
+            className="w-1/3 px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg mr-2"
           />
           <select
             value={selectedAgency}

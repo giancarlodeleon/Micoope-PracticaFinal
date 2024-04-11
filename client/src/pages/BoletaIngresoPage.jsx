@@ -34,23 +34,27 @@ function BoletaIngresoPage() {
         loadBoleta();
       }, [params.id, getBoleta, setValue]);
 
-
       const onSubmit = handleSubmit(async (data) => {
+        // Verificar que el valor de "existencia" no sea negativo
+        if (parseInt(data.existencia) < 0) {
+          alert('La cantidad no puede ser negativa');
+          return;
+        }
+      
         if (params.id) {
-            const existencia = parseInt(data.existencia);
-            const nuevaExistencia = existenciaActual + existencia;
-            await updateBoleta(params.id, {
-                ...data,
-                existencia: nuevaExistencia,
-                hasta: data.hasta + existencia
-            });
+          const existencia = parseInt(data.existencia);
+          const nuevaExistencia = existenciaActual + existencia;
+          await updateBoleta(params.id, {
+              ...data,
+              existencia: nuevaExistencia,
+              hasta: data.hasta + existencia
+          });
         }
         setRedirectOnSuccess(true);
         setTimeout(() => {
             setRedirectOnSuccess(false);
         }, 4000);
-    });
-
+      });
 
       useEffect(() => {
         if (redirectOnSuccess && BoletaErrors.length === 0) {
@@ -71,7 +75,7 @@ function BoletaIngresoPage() {
                 {error}
               </div>
             ))}
-            <h1 className="text-2xl text-white font-bold">Boleta</h1>
+            <h1 className="text-2xl text-white font-bold">Ingreso de Boletas</h1>
             <form onSubmit={onSubmit}>
            
             <input

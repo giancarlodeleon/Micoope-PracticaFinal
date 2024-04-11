@@ -38,6 +38,18 @@ function BoletaFormPage() {
   }, [getAgencias]);
 
   const onSubmit = handleSubmit(async (data) => {
+    // Verificar que los valores de "De" y "Hasta" no sean negativos
+    if (parseInt(data.de) < 0 || parseInt(data.hasta) < 0) {
+      alert('Los valores de "De" y "Hasta" no pueden ser negativos');
+      return;
+    }
+  
+    // Verificar que el valor de "De" no sea mayor que el valor de "Hasta"
+    if (parseInt(data.de) > parseInt(data.hasta)) {
+      alert('El valor de "De" no puede ser mayor que el valor de "Hasta"');
+      return;
+    }
+  
     if (params.id) {
       data.de = parseInt(data.de);
       data.hasta = parseInt(data.hasta);
@@ -47,13 +59,14 @@ function BoletaFormPage() {
       data.de = parseInt(data.de);
       data.hasta = parseInt(data.hasta);
       const existencia = data.hasta - data.de + 1;
-      await createBoleta({ ...data, existencia});
+      await createBoleta({ ...data, existencia });
     }
     setRedirectOnSuccess(true);
     setTimeout(() => {
       setRedirectOnSuccess(false);
     }, 4000);
   });
+
 
   useEffect(() => {
     if (redirectOnSuccess && BoletaErrors.length === 0) {

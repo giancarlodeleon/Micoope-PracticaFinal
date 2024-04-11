@@ -10,6 +10,7 @@ import BoletaFormPage from "./pages/BoletaFormPage";
 import BoletaIngresoPage from "./pages/BoletaIngresoPage";
 import BoletaEgresoPage from "./pages/BoletaEgresoPage";
 import Agencias from "./pages/Agencias";
+import MovimientoFormPage from "./pages/MovimientoFormPage";
 import AgenciaFormPage from "./pages/AgenciaFormPage"
 import AportacionesIngresadoPage from "./pages/AportacionesIngresadoPage";
 import AportacionesEntregadoPage from "./pages/AportacionesEntregadoPage";
@@ -40,6 +41,7 @@ import { UserProvider } from "./context/UserContext";
 import { AgenciaProvider } from "./context/AgenciaContext";
 import { RolProvider } from "./context/RolContext";
 import { BoletaProvider } from "./context/BoletaContext";
+import { MovimientoProvider} from "./context/MovimientoContext"
 
 function App() {
   return (
@@ -49,6 +51,7 @@ function App() {
           <ProductProvider>
             <RolProvider>
             <BoletaProvider>
+              <MovimientoProvider>
               <BrowserRouter>
                 <main className="">
                   <Navbar />
@@ -83,6 +86,7 @@ function App() {
                       <Route path="/resumen" element={<Resumen />} />
                       </Route>
                       <Route element={<AgenciaRoute />}>
+                      <Route path="/movimientos/:id" element={<MovimientoFormPage />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
                       <Route path="/ahorro-ingresado" element={<AhorroDisponibleIngresado />} />
@@ -112,6 +116,7 @@ function App() {
                   </Routes>
                 </main>
               </BrowserRouter>
+              </MovimientoProvider>
               </BoletaProvider>
             </RolProvider>
           </ProductProvider>
