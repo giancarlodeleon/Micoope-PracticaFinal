@@ -42,7 +42,8 @@ function Navbar() {
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                       location.pathname === "/products" ||
-                      location.pathname === "/add-product"
+                      location.pathname === "/add-product" ||
+                      location.pathname.startsWith("/products") 
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
@@ -61,7 +62,8 @@ function Navbar() {
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                       location.pathname === "/gastos" ||
-                      location.pathname === "/add-gasto"
+                      location.pathname === "/add-gasto" ||
+                      location.pathname.startsWith("/gastos") 
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
