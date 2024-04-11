@@ -7,20 +7,11 @@ import HomePage from "./pages/HomePage";
 import Users from "./pages/Users";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
-import { AgenciaProvider } from "./context/AgenciaContext";
-import { RolProvider } from "./context/RolContext";
-import { BoletaProvider } from "./context/BoletaContext";
-import { MovimientoProvider} from "./context/MovimientoContext"
 
 function App() {
   return (
     <AuthProvider>
       <UserProvider>
-        <AgenciaProvider>
-
-            <RolProvider>
-            <BoletaProvider>
-              <MovimientoProvider>
               <BrowserRouter>
                 <main className="">
                   <Navbar />
@@ -31,12 +22,7 @@ function App() {
                         <Route path="/users/:id" element={<RegisterPage />} />
                   </Routes>
                 </main>
-              </BrowserRouter>
-              </MovimientoProvider>
-              </BoletaProvider>
-            </RolProvider>
-
-        </AgenciaProvider>
+              </BrowserRouter>       
       </UserProvider>
     </AuthProvider>
   );
