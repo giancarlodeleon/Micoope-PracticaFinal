@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
-import Logo from "../assets/descarga.png";
+import Logo from "../assets/Usac_logo.png";
 
 function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -56,7 +56,7 @@ function Navbar() {
             src={Logo}
             alt="Imagen Cooperativa"
             className="rounded-lg"
-            style={{ maxWidth: "200px" }}
+            style={{ maxWidth: "80px" }}
           />
         </Link>
 

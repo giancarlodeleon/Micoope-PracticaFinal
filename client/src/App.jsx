@@ -30,11 +30,7 @@ import Roles from "./pages/Roles";
 import RolFormPage from "./pages/RolFormPage";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
-import ProtectedRoute from "./ProtectedRoute";
-import ManejoInformacionRoute from "./ManejoInformacionRoute";
-import ResumenRoute from "./ResumenRoute";
-import AlmacenRoute from "./AlmacenRoute";
-import AgenciaRoute from "./AgenciaRoute";
+
 import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
@@ -57,8 +53,8 @@ function App() {
                   <Navbar />
                   <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    <Route element={<ProtectedRoute />}>
-                      <Route element={<ManejoInformacionRoute />}>
+               
+                  
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/users" element={<Users />} />
                         <Route path="/users/:id" element={<RegisterPage />} />
@@ -74,18 +70,13 @@ function App() {
                         <Route path="/roles" element={<Roles />} />
                         <Route path="/add-rol" element={<RolFormPage />} />
                         <Route path="/rols/:id" element={<RolFormPage />} />
-                      </Route>
-                      <Route element={<AlmacenRoute />}>
+
                       <Route path="/boletas" element={<Almacen />} />
                       <Route path="/boletas/:id" element={<BoletaFormPage />} />
                       <Route path="/boletas/ingreso/:id" element={<BoletaIngresoPage />} />
                       <Route path="/boletas/egreso/:id" element={<BoletaEgresoPage />} />
                       <Route path="/add-boleta" element={<BoletaFormPage />} />
-                      </Route>
-                      <Route element={<ResumenRoute />}>
                       <Route path="/resumen" element={<Resumen />} />
-                      </Route>
-                      <Route element={<AgenciaRoute />}>
                       <Route path="/movimientos/:id" element={<MovimientoFormPage />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
@@ -101,7 +92,7 @@ function App() {
                       <Route path="/boletasTRX-entregado" element={<BoletasTRXEntregado />} />
                       <Route path="/vales-ingresado" element={<ValesIngresado />} />
                       <Route path="/vales-entregado" element={<ValesEntregado />} />
-                      </Route>
+                    
                       <Route path="/home" element={<HomePage />} />
                       <Route path="/products" element={<ProductsPage />} />
                       <Route
@@ -112,7 +103,7 @@ function App() {
                         path="/products/:id"
                         element={<ProductsFormPage />}
                       />
-                    </Route>
+             
                   </Routes>
                 </main>
               </BrowserRouter>
