@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 export const ProductSchema = z.object({
-    name: z.string({
-        required_error: "Name is required"
+    nombre: z.string({
+        required_error: "Nombre requerido"
     }),
-    price: z.number({
-        required_error: "Price is required"
+    precio_compra: z.number({
+        required_error: "Precio de compra requerido"
+    }),
+    precio_venta: z.number({
+        required_error: "Precio de venta requerido"
     }),
     date: z.string().datetime().optional(),
 })

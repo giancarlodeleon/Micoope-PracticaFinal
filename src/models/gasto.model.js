@@ -1,18 +1,13 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema(
+const gastoSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
       required: true,
     },
 
-    precio_compra: {
-      type: Number,
-      required: true,
-    },
-
-    precio_venta: {
+    precio: {
       type: Number,
       required: true,
     },
@@ -22,10 +17,11 @@ const productSchema = new mongoose.Schema(
       default: Date.now,
     },
 
+
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("Product",productSchema);
+export default mongoose.model("Gasto",gastoSchema);
