@@ -3,8 +3,6 @@ import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductsFormPage from "./pages/ProductsFormPage";
 import Almacen from "./pages/Almacen";
 import BoletaFormPage from "./pages/BoletaFormPage";
 import BoletaIngresoPage from "./pages/BoletaIngresoPage";
@@ -30,8 +28,6 @@ import Roles from "./pages/Roles";
 import RolFormPage from "./pages/RolFormPage";
 import Users from "./pages/Users";
 import Resumen from "./pages/Resumen";
-
-import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./context/UserContext";
 import { AgenciaProvider } from "./context/AgenciaContext";
@@ -44,7 +40,7 @@ function App() {
     <AuthProvider>
       <UserProvider>
         <AgenciaProvider>
-          <ProductProvider>
+
             <RolProvider>
             <BoletaProvider>
               <MovimientoProvider>
@@ -94,23 +90,14 @@ function App() {
                       <Route path="/vales-entregado" element={<ValesEntregado />} />
                     
                       <Route path="/home" element={<HomePage />} />
-                      <Route path="/products" element={<ProductsPage />} />
-                      <Route
-                        path="/add-product"
-                        element={<ProductsFormPage />}
-                      />
-                      <Route
-                        path="/products/:id"
-                        element={<ProductsFormPage />}
-                      />
-             
+                     
                   </Routes>
                 </main>
               </BrowserRouter>
               </MovimientoProvider>
               </BoletaProvider>
             </RolProvider>
-          </ProductProvider>
+
         </AgenciaProvider>
       </UserProvider>
     </AuthProvider>
