@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 import Logo from "../assets/Usac_logo.png";
+import Calavera from "../assets/Calavera.jpg";
 
 function Navbar() {
 
@@ -13,7 +14,7 @@ function Navbar() {
         <Link to="/">
           <img
             src={Logo}
-            alt="Imagen Cooperativa"
+            alt="USAC"
             className="rounded-lg"
             style={{ maxWidth: "80px" }}
           />
@@ -22,6 +23,16 @@ function Navbar() {
         <ul className="flex gap-x-10 items-center">
 
             <>
+            <li style={{ fontSize: "50px", WebkitTextStroke: "2px black",color:"red" }} className="font-bold">Simulador de La Chabela</li>
+            <Link to="/">
+          <img
+            src={Calavera}
+            alt="Calavera"
+            className="rounded-lg"
+            style={{ maxWidth: "60px" }}
+          />
+        </Link>
+
               <li>
                 <NavLink
                   to="/products"
