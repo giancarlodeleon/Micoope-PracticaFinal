@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+
 import Logo from "../assets/Usac_logo.png";
 
 function Navbar() {
-  const { isAuthenticated, logout, user } = useAuth();
 
   const location = useLocation();
 
