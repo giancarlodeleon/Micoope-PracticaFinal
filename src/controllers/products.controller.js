@@ -17,7 +17,6 @@ export const createProducts = async (req, res) => {
       precio_compra,
       precio_venta,
       date,
-      user: req.user.id,
     });
     const savedProduct = await newProduct.save();
     res.json(savedProduct);

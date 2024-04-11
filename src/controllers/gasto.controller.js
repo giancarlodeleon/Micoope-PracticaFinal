@@ -16,7 +16,6 @@ export const createGasto = async (req, res) => {
       nombre,
       precio,
       date,
-      user: req.user.id,
     });
     const savedGasto = await newGasto.save();
     res.json(savedGasto);

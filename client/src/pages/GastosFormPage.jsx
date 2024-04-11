@@ -40,30 +40,21 @@ function GastosFormPage() {
             <form onSubmit={onSubmit}>
               <input
                 type="text"
-                placeholder="Nombre"
+                placeholder="Gasto"
                 {...register("nombre", { required: true })}
                 className="w-full bg-blue-500 text-white px-4 py-2 rounded-md my-2"
                 autoFocus
               />
-              {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
+              {errors.nombre && <p className="text-red-500">Gasto Requerido</p>}
     
               <input
                 type="number"
-                placeholder="Precio Compra"
-                {...register("precio_compra", { required: true })}
+                placeholder="Precio"
+                {...register("precio", { required: true })}
                 className="w-full bg-blue-500 text-white px-4 py-2 rounded-md my-2"
                 autoFocus
               />
-              {errors.precio_compra && <p className="text-red-500">Precio Compra Requerido</p>}
-    
-              <input
-                type="number"
-                placeholder="Precio Venta"
-                {...register("precio_venta", { required: true })}
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded-md my-2"
-                autoFocus
-              />
-              {errors.precio_venta && <p className="text-red-500">Precio Venta Requerido</p>}
+              {errors.precio && <p className="text-red-500">Precio Requerido</p>}
               
               <button
                 type="submit"
