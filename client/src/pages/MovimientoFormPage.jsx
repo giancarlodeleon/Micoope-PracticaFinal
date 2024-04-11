@@ -2,7 +2,7 @@ import React from 'react'
 
 function MovimientoFormPage() {
   return (
-    <div>MovimientoFormPage</div>
+    <div>Hola amiguitos</div>
   )
 }
 
