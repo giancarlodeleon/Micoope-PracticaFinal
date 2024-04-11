@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <>
       <nav className="bg-white my-1 flex justify-between items-center px-10 rounded-lg relative z-50">
-        <Link to="/home">
+        <Link to="/">
           <img
             src={Logo}
             alt="Imagen Cooperativa"
@@ -25,13 +25,13 @@ function Navbar() {
             <>
               <li>
                 <NavLink
-                  to=""
+                  to="/productos"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
                   <option
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                      location.pathname === ""
+                      location.pathname === "/productos"
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
@@ -42,14 +42,14 @@ function Navbar() {
               </li>
               <li>
                 <NavLink
-                  to=""
+                  to="/gastos"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
                   <option
                     // Asegúrate de incluir la clave única para cada elemento
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                      location.pathname === ""
+                      location.pathname === "/gastos"
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
@@ -58,20 +58,25 @@ function Navbar() {
                   </option>
                 </NavLink>
               </li>
-
               <li>
                 <NavLink
-                  to="/"
-                  style={{ fontSize: "20px", marginLeft: "30px" }}
-                  className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
-                  onClick={() => {
-                    logout();
-                  }}
+                  to="/simulador"
                   activeStyle={{ background: "blue", color: "white" }}
                 >
-                  Cerrar Sesión
+                  <option
+                    // Asegúrate de incluir la clave única para cada elemento
+                    style={{ fontSize: "20px" }}
+                    className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                      location.pathname === "/simulador"
+                        ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                        : ""
+                    }`}
+                  >
+                    Simulador
+                  </option>
                 </NavLink>
               </li>
+
             </>
       
         </ul>
