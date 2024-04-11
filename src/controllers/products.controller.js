@@ -2,9 +2,7 @@ import Product from "../models/product.model.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({
-      user: req.user.id,
-    });
+    const products = await Product.find();
     res.json(products);
   } catch (error) {
     return res.status(500).json({ message: "Something went Wrong" });
