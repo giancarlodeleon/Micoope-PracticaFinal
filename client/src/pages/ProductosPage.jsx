@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 function ProductosPage() {
 
   const { getProducts, products, deleteProduct } = useProducts();
-
   const [currentPage, setCurrentPage] = useState(1); 
   const [searchTerm, setSearchTerm] = useState(""); 
   const rolsPerPage = 10; 

@@ -24,14 +24,14 @@ function Navbar() {
 
             <>
             <li style={{ fontSize: "50px", WebkitTextStroke: "2px black",color:"red" }} className="font-bold">Simulador de La Chabela</li>
-            <Link to="/">
+            <h1>
           <img
             src={Calavera}
             alt="Calavera"
             className="rounded-lg"
             style={{ maxWidth: "60px" }}
           />
-        </Link>
+        </h1>
 
               <li>
                 <NavLink
@@ -41,7 +41,8 @@ function Navbar() {
                   <option
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                      location.pathname === "/products"
+                      location.pathname === "/products" ||
+                      location.pathname === "/add-product"
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
@@ -59,7 +60,8 @@ function Navbar() {
                     // Asegúrate de incluir la clave única para cada elemento
                     style={{ fontSize: "20px" }}
                     className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                      location.pathname === "/gastos"
+                      location.pathname === "/gastos" ||
+                      location.pathname === "/add-gasto"
                         ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                         : ""
                     }`}
