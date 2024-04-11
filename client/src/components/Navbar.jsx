@@ -169,7 +169,7 @@ function Navbar() {
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                          location.pathname === "/almacen"
+                          location.pathname === "/boletas"
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                             : ""
                         }`}
@@ -215,13 +215,20 @@ function Navbar() {
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                          location.pathname === "/aportaciones" ||
-                          location.pathname === "/ahorro-disponible" ||
-                          location.pathname === "/plazo-fijo" ||
-                          location.pathname === "/infanto-juvenil" ||
-                          location.pathname === "/programado" ||
-                          location.pathname === "/boletastrx" ||
-                          location.pathname === "/vales" 
+                          location.pathname === "/aportacionesIngresado" ||
+                          location.pathname === "/aportacionesEntregado" ||
+                          location.pathname === "/ahorro-ingresado" ||
+                          location.pathname === "/ahorro-entregado" ||
+                          location.pathname === "/infanto-ingresado" ||
+                          location.pathname === "/infanto-entregado" ||
+                          location.pathname === "/plazo-ingresado" ||
+                          location.pathname === "/plazo-entregado" ||
+                          location.pathname === "/programado-ingresado" ||
+                          location.pathname === "/programado-entregado" ||
+                          location.pathname === "/boletastrx-ingresado" ||
+                          location.pathname === "/boletastrx-entregado" ||
+                          location.pathname === "/vales-ingresado" ||
+                          location.pathname === "/vales-entregado" 
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                             : ""
                         }`}

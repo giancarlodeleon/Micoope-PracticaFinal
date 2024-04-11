@@ -3,8 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductsFormPage from "./pages/ProductsFormPage";
+
 import Almacen from "./pages/Almacen";
 import BoletaFormPage from "./pages/BoletaFormPage";
 import BoletaIngresoPage from "./pages/BoletaIngresoPage";
@@ -102,16 +101,7 @@ function App() {
                       <Route path="/vales-ingresado" element={<ValesIngresado />} />
                       <Route path="/vales-entregado" element={<ValesEntregado />} />
                       </Route>
-                      <Route path="/home" element={<HomePage />} />
-                      <Route path="/products" element={<ProductsPage />} />
-                      <Route
-                        path="/add-product"
-                        element={<ProductsFormPage />}
-                      />
-                      <Route
-                        path="/products/:id"
-                        element={<ProductsFormPage />}
-                      />
+                      <Route path="/home" element={<HomePage />} />               
                     </Route>
                   </Routes>
                 </main>
