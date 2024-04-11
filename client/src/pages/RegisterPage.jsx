@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useUsers } from "../context/UserContext";
-import { useAgencias } from "../context/AgenciaContext";
-import {useRols} from "../context/RolContext";
+
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -17,19 +16,13 @@ function RegisterPage() {
 
   const { getUser, updateUser, errors: UpdateErrors } = useUsers();
   const { signup, errors: RegisterErrors } = useAuth();
-  const { getAgencias, agencias } = useAgencias();
-  const { getRols, rol } = useRols();
+
   const params = useParams();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
   const [updateRedirect, setUpdateRedirect] = useState(false);
 
   const password = watch("password", ""); // Observa el campo de contraseña
-
-  useEffect(() => {
-    getAgencias();
-    getRols();
-  },[]);
 
   useEffect(() => {
     async function loadUser() {
@@ -148,33 +141,7 @@ function RegisterPage() {
             <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
 
-          
-          <select
-            {...register("agencia", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
-          >
-            <option value="">Seleccione una Agencia</option>
-            {agencias.map((place) => (
-              <option value={place.name}>{place.name}</option>
-            ))}
-          </select>
-
-          {errors.agencia && (
-            <p className="text-red-500">Debe seleccionar una agencia</p>
-          )}
-
-          <select
-            {...register("rol", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
-          >
-            <option value="">Seleccione un rol</option>
-            {rol.map((place) => (
-              <option value={place.name}>{place.name}</option>
-            ))}
-          </select>
-          {errors.rol && (
-            <p className="text-red-500">Debe seleccionar un rol</p>
-          )}
+    
 
           <div className="flex items-center py-2">
             <label className="text-white font ">Estado</label>
