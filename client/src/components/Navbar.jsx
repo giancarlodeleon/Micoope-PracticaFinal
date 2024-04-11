@@ -21,7 +21,7 @@ function Navbar() {
         </Link>
 
         <ul className="flex gap-x-10 items-center">
-          {isAuthenticated && (
+
             <>
               <li>
                 <NavLink
@@ -73,7 +73,7 @@ function Navbar() {
                 </NavLink>
               </li>
             </>
-          )}
+      
         </ul>
       </nav>
       <hr className="border-gray-300 w-full" />

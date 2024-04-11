@@ -48,9 +48,7 @@ function App() {
                 <main className="">
                   <Navbar />
                   <Routes>
-                    <Route path="/" element={<LoginPage />} />
-               
-                  
+                    <Route path="/" element={<HomePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/users" element={<Users />} />
                         <Route path="/users/:id" element={<RegisterPage />} />
@@ -88,8 +86,6 @@ function App() {
                       <Route path="/boletasTRX-entregado" element={<BoletasTRXEntregado />} />
                       <Route path="/vales-ingresado" element={<ValesIngresado />} />
                       <Route path="/vales-entregado" element={<ValesEntregado />} />
-                    
-                      <Route path="/home" element={<HomePage />} />
                      
                   </Routes>
                 </main>
