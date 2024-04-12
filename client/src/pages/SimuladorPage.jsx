@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
+import { useGastos } from "../context/GastoContext";
+import { useDatos} from "../context/DatoContext";
 import { Link } from "react-router-dom";
 
 function SimuladorPage() {
@@ -7,6 +9,17 @@ function SimuladorPage() {
   const [Tservicio, setTservicio] = useState("");
   const [Mprods, setMprods] = useState("");
   const [HSimular, setHSimular] = useState("");
+
+  const { getProducts } = useProducts();
+  const { getGastos } = useGastos();
+  const { createDato, deleteDato, getDatos } = useDatos();
+
+  useEffect(() => {
+    getProducts();
+    getGastos();
+    getDatos();
+  },[]);
+
 
   return (
     <div className="flex justify-center p-4 ">
