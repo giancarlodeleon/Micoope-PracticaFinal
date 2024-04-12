@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { authRequired } from "../middlewares/validateToken.js";
 import {
   getGasto,
   createGasto,
@@ -12,10 +11,10 @@ import { GastoSchema } from "../schemas/gasto.schema.js";
 
 const router = Router();
 
-router.get("/gasto",authRequired, getGastos);
-router.get("/gasto/:id",authRequired, getGasto);
-router.post("/gasto",authRequired,validateSchema(GastoSchema), createGasto);
-router.delete("/gasto/:id",authRequired, deleteGasto);
-router.put("/gasto/:id",authRequired,validateSchema(GastoSchema), updateGasto);
+router.get("/gasto", getGastos);
+router.get("/gasto/:id", getGasto);
+router.post("/gasto",validateSchema(GastoSchema), createGasto);
+router.delete("/gasto/:id", deleteGasto);
+router.put("/gasto/:id",validateSchema(GastoSchema), updateGasto);
 
 export default router;

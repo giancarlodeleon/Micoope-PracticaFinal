@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import productsRoutes from './routes/products.routes.js'
 import gastosRoutes from './routes/gastos.routes.js'
+import datosRoutes from './routes/dato.routes.js'
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use('/api',productsRoutes);
 app.use('/api',gastosRoutes);
+app.use('/api',datosRoutes);
 
 
 
