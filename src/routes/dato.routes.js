@@ -11,6 +11,6 @@ const router = Router();
 
 router.get("/dato", getDatos);
 router.post("/dato",validateSchema(DatoSchema), createDato);
-router.delete("/dato/:id", deleteDato);
+router.delete("/dato", deleteDato);
 
 export default router;

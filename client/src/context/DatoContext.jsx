@@ -33,16 +33,19 @@ export function DatoProvider({ children }) {
     console.log(res);
   };
 
-  const deleteDato = async (id) => {
+
+  const deleteDato  = async () => {
     try {
-      const res = await deleteDatoRequest(id);
-      if (res.status == 204)
-        setDatos(datos.filter((datos) => datos._id !== id));
+      const res = await deleteDatoRequest();
+      if (res.status === 204) {
+        setDatos([]); // Eliminar todos los datos
+      }
     } catch (error) {
-      console.log(res);
+      console.error("Error deleting all datos:", error);
     }
   };
 
+  
   return (
     <DatoContext.Provider
       value={{

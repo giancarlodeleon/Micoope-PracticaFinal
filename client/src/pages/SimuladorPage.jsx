@@ -1,25 +1,126 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
 import { useGastos } from "../context/GastoContext";
-import { useDatos} from "../context/DatoContext";
+import { useDatos } from "../context/DatoContext";
 import { Link } from "react-router-dom";
 
 function SimuladorPage() {
-  const [Tllegada, setTllegada] = useState("");
   const [Tservicio, setTservicio] = useState("");
   const [Mprods, setMprods] = useState("");
   const [HSimular, setHSimular] = useState("");
+  const [tablaDatos, setTablaDatos] = useState([]);
+  const [camposLlenos, setCamposLlenos] = useState(false); // Estado para verificar si todos los campos están llenos
+  const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
   const { getProducts } = useProducts();
   const { getGastos } = useGastos();
-  const { createDato, deleteDato, getDatos } = useDatos();
+  const { createDato, deleteDato, getDatos, datos } = useDatos();
 
   useEffect(() => {
     getProducts();
     getGastos();
     getDatos();
-  },[]);
+  }, []);
 
+  const handleSimulate = async () => {
+    // Verificar si la tabla está vacía
+    if (tablaDatos.length === 0) {
+      // Verificar si todos los campos están llenos
+      if (
+        Tservicio.trim() !== "" &&
+        Mprods.trim() !== "" &&
+        HSimular.trim() !== ""
+      ) {
+        try {
+          // Aquí llamamos a la función asincrónica y esperamos su finalización
+
+          const numFilas = parseInt(HSimular);
+          const tiemposLlegada = [];
+          for (let i = 1; i <= numFilas; i++) {
+            const tiempoLlegadaAleatorio = Math.floor(Math.random() * parseInt(Tservicio)) + 1;
+            tiemposLlegada.push(tiempoLlegadaAleatorio);
+            for (let j = 1; j <= tiempoLlegadaAleatorio; j++) {
+            const hora = i;
+            const cliente = j;
+            const producto = 5;
+            const nombre_producto = "Manzana";
+            const precio_compra = 5;
+            const precio_venta = 4;
+            await createDato({
+              hora,
+              cliente,
+              producto,
+              nombre_producto,
+              precio_compra,
+              precio_venta,
+            });
+            }
+          }
+
+          // Obtener el valor de HSimular y convertirlo a un número entero
+
+          // Verificar si HSimular es un número válido
+          if (isNaN(numFilas) || numFilas <= 0) {
+            // Si HSimular no es un número válido o es menor o igual a cero, no se simula nada
+            console.error(
+              "Ingrese un valor válido para la cantidad de filas a simular."
+            );
+            return;
+          }
+
+          // Generar datos simulados según el valor de HSimular y Tservicio
+          const datosSimulados = [];
+          for (let i = 1; i <= numFilas; i++) {
+
+
+            
+            // Agregar el dato simulado a la tabla de datos
+            datosSimulados.push({
+              hora: i,
+              tiempoLlegada: tiemposLlegada[i-1],
+              tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
+            });
+          }
+
+          // Actualizar el estado de la tabla con los datos simulados
+          setTablaDatos(datosSimulados);
+        } catch (error) {
+          console.error("Error al crear el rol:", error);
+        }
+      } else {
+        // Si no todos los campos están llenos, mostrar un mensaje de error
+        console.error("Por favor, complete todos los campos antes de simular.");
+      }
+    } else {
+      console.error(
+        "La tabla no está vacía. Por favor, limpie los datos antes de simular."
+      );
+    }
+  };
+
+  // Función para limpiar los campos de entrada y la tabla
+  const handleClear = async () => {
+    try {
+      deleteDato();
+      // Limpiar la tabla de datos
+      setTablaDatos([]);
+      // Limpiar los estados de los campos de entrada
+      setTservicio("");
+      setMprods("");
+      setHSimular("");
+    } catch (error) {
+      console.error("Error al limpiar los datos:", error);
+    }
+  };
+
+  // Verificar si la tabla está vacía y habilitar o deshabilitar el botón de Simular
+  useEffect(() => {
+    if (tablaDatos.length === 0) {
+      setTablaVacia(true);
+    } else {
+      setTablaVacia(false);
+    }
+  }, [tablaDatos]);
 
   return (
     <div className="flex justify-center p-4 ">
@@ -32,35 +133,47 @@ function SimuladorPage() {
         </h1>
 
         {/* Campos de ingreso de datos */}
-        <div className="flex justify-between my-4">
-          <input
-            type="text"
-            value={Tllegada}
-            onChange={(e) => setTllegada(e.target.value)}
-            placeholder="Tiempo Llegada"
-            className="px-3 py-2 border border-gray-300 rounded-lg mr-4"
-          />
+        <div className="flex flex-col md:flex-row justify-between my-4">
           <input
             type="text"
             value={Tservicio}
             onChange={(e) => setTservicio(e.target.value)}
             placeholder="Tiempo Servicio"
-            className="px-3 py-2 border border-gray-300 rounded-lg mr-4"
+            className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
           <input
             type="text"
             value={Mprods}
             onChange={(e) => setMprods(e.target.value)}
             placeholder="Media Productos"
-            className="px-3 py-2 border border-gray-300 rounded-lg mr-4"
+            className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
           <input
             type="text"
             value={HSimular}
             onChange={(e) => setHSimular(e.target.value)}
             placeholder="Horas a Simular"
-            className="px-3 py-2 border border-gray-300 rounded-lg"
+            className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0"
           />
+        </div>
+
+        {/* Botones para simular y limpiar */}
+        <div className="flex justify-center my-4">
+          <button
+            onClick={handleSimulate}
+            className={`bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2 ${
+              tablaVacia ? "" : "cursor-not-allowed opacity-50"
+            }`}
+            disabled={!tablaVacia}
+          >
+            Simular
+          </button>
+          <button
+            onClick={handleClear}
+            className="bg-gray-300 text-gray-800 font-bold hover:bg-gray-400 py-2 px-4 rounded-lg"
+          >
+            Limpiar
+          </button>
         </div>
 
         {/* Tabla */}
@@ -75,19 +188,28 @@ function SimuladorPage() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="text-center border border-blue-100">1</td>
-                <td className="text-center border border-blue-100">15</td>
-                <td className="text-center border border-blue-100">18</td>
-                <td className="flex justify-center items-center border border-blue-100">
-                  <Link
-                    to={``}
-                    className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
-                  >
-                    Ver Detalles
-                  </Link>
-                </td>
-              </tr>
+              {/* Mapea los datos de la tabla */}
+              {tablaDatos.map((dato, index) => (
+                <tr key={index}>
+                  <td className="text-center border border-blue-100">
+                    {dato.hora}
+                  </td>
+                  <td className="text-center border border-blue-100">
+                    {dato.tiempoLlegada}
+                  </td>
+                  <td className="text-center border border-blue-100">
+                    {dato.tiempoServicio}
+                  </td>
+                  <td className="flex justify-center items-center border border-blue-100">
+                    <Link
+                      to={``}
+                      className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
+                    >
+                      Ver Detalles
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

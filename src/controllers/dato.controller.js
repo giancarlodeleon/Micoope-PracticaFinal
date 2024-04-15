@@ -30,11 +30,10 @@ export const createDato = async (req, res) => {
 
 export const deleteDato = async (req, res) => {
   try {
-    const dato = await Dato.findByIdAndDelete(req.params.id);
-    if (!dato) return res.status(404).json({ message: "Dato not found" });
+    await Dato.deleteMany({});
     return res.sendStatus(204);
   } catch (error) {
-    return res.status(404).json({ message: "Dato not found" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
