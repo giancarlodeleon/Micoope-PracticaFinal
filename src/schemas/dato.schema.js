@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 export const DatoSchema = z.object({
+    caso: z.number({
+        required_error: "hora es Requerido"
+    }),
     hora: z.number({
         required_error: "hora es Requerido"
     }),

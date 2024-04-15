@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const datoSchema = new mongoose.Schema(
   {
+    caso: {
+      type: Number,
+      required: true,
+    },
+
     hora: {
       type: Number,
       required: true,

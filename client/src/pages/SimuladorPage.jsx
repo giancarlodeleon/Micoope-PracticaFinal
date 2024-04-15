@@ -12,7 +12,7 @@ function SimuladorPage() {
   const [camposLlenos, setCamposLlenos] = useState(false); // Estado para verificar si todos los campos están llenos
   const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
-  const { getProducts } = useProducts();
+  const { getProducts, products } = useProducts();
   const { getGastos } = useGastos();
   const { createDato, deleteDato, getDatos, datos } = useDatos();
 
@@ -36,24 +36,38 @@ function SimuladorPage() {
 
           const numFilas = parseInt(HSimular);
           const tiemposLlegada = [];
-          for (let i = 1; i <= numFilas; i++) {
-            const tiempoLlegadaAleatorio = Math.floor(Math.random() * parseInt(Tservicio)) + 1;
-            tiemposLlegada.push(tiempoLlegadaAleatorio);
-            for (let j = 1; j <= tiempoLlegadaAleatorio; j++) {
-            const hora = i;
-            const cliente = j;
-            const producto = 5;
-            const nombre_producto = "Manzana";
-            const precio_compra = 5;
-            const precio_venta = 4;
-            await createDato({
-              hora,
-              cliente,
-              producto,
-              nombre_producto,
-              precio_compra,
-              precio_venta,
-            });
+
+          for (let t = 1; t <= 3; t++) {
+            for (let i = 1; i <= numFilas; i++) {
+              const tiempoLlegadaAleatorio =
+                Math.floor(Math.random() * parseInt(Tservicio)) + 1;
+              tiemposLlegada.push(tiempoLlegadaAleatorio);
+              for (let j = 1; j <= tiempoLlegadaAleatorio; j++) {
+                const productoAleatorio =
+                  Math.floor(Math.random() * parseInt(Mprods)) + 1;
+                for (let k = 1; k <= productoAleatorio; k++) {
+                  const productoSeleccionado =
+                    products[Math.floor(Math.random() * products.length)];
+
+                  const caso = t;
+                  const hora = i;
+                  const cliente = j;
+                  const producto = k;
+                  const nombre_producto = productoSeleccionado.nombre;
+                  const precio_compra = productoSeleccionado.precio_compra;
+                  const precio_venta = productoSeleccionado.precio_venta;
+
+                  await createDato({
+                    caso,
+                    hora,
+                    cliente,
+                    producto,
+                    nombre_producto,
+                    precio_compra,
+                    precio_venta,
+                  });
+                }
+              }
             }
           }
 
@@ -71,13 +85,10 @@ function SimuladorPage() {
           // Generar datos simulados según el valor de HSimular y Tservicio
           const datosSimulados = [];
           for (let i = 1; i <= numFilas; i++) {
-
-
-            
             // Agregar el dato simulado a la tabla de datos
             datosSimulados.push({
               hora: i,
-              tiempoLlegada: tiemposLlegada[i-1],
+              tiempoLlegada: tiemposLlegada[i - 1],
               tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
             });
           }
@@ -182,7 +193,7 @@ function SimuladorPage() {
             <thead>
               <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">Hora</th>
-                <th className="py-2 text-center">Tiempo llegada</th>
+                <th className="py-2 text-center">Clientes que llegaron</th>
                 <th className="py-2 text-center">Tiempo Servicio</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>

@@ -10,7 +10,7 @@ function GastosPage() {
 
   useEffect(() => {
     getGastos();
-  }, []);
+  }, );
 
   const handleDeleteClick = (gastoId) => {
     const confirmDelete = window.confirm(

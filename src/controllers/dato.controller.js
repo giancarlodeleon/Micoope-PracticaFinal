@@ -11,8 +11,9 @@ export const getDatos = async (req, res) => {
 
 export const createDato = async (req, res) => {
   try {
-    const { hora, cliente,producto,nombre_producto,precio_compra,precio_venta, date } = req.body;
+    const { caso,hora, cliente,producto,nombre_producto,precio_compra,precio_venta, date } = req.body;
     const newDato = new Dato({
+      caso,
       hora,
       cliente,
       producto,
