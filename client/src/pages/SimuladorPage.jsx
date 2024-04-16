@@ -5,22 +5,30 @@ import { useDatos } from "../context/DatoContext";
 import { Link } from "react-router-dom";
 
 function SimuladorPage() {
-  const [Tservicio, setTservicio] = useState("");
-  const [Mprods, setMprods] = useState("");
-  const [HSimular, setHSimular] = useState("");
-  const [tablaDatos, setTablaDatos] = useState([]);
-  const [camposLlenos, setCamposLlenos] = useState(false); // Estado para verificar si todos los campos están llenos
+  const [Tservicio, setTservicio] = useState(localStorage.getItem("Tservicio") || "");
+  const [Mprods, setMprods] = useState(localStorage.getItem("Mprods") || "");
+  const [HSimular, setHSimular] = useState(localStorage.getItem("HSimular") || "");
+  const [tablaDatos, setTablaDatos] = useState(JSON.parse(localStorage.getItem("tablaDatos")) || []);
+  const [datosOriginales, setDatosOriginales] = useState(JSON.parse(localStorage.getItem("datosOriginales")) || []);
   const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
   const { getProducts, products } = useProducts();
   const { getGastos } = useGastos();
-  const { createDato, deleteDato, getDatos, datos } = useDatos();
+  const { createDato, deleteDato, getDatos } = useDatos();
 
   useEffect(() => {
     getProducts();
     getGastos();
     getDatos();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("Tservicio", Tservicio);
+    localStorage.setItem("Mprods", Mprods);
+    localStorage.setItem("HSimular", HSimular);
+    localStorage.setItem("tablaDatos", JSON.stringify(tablaDatos));
+    localStorage.setItem("datosOriginales", JSON.stringify(datosOriginales));
+  }, [Tservicio, Mprods, HSimular, tablaDatos, datosOriginales]);
 
   const handleSimulate = async () => {
     // Verificar si la tabla está vacía
@@ -34,6 +42,7 @@ function SimuladorPage() {
         try {
           // Aquí llamamos a la función asincrónica y esperamos su finalización
 
+          const total = 3;
           const numFilas = parseInt(HSimular);
           const tiemposLlegada = [];
 
@@ -84,17 +93,23 @@ function SimuladorPage() {
 
           // Generar datos simulados según el valor de HSimular y Tservicio
           const datosSimulados = [];
-          for (let i = 1; i <= numFilas; i++) {
-            // Agregar el dato simulado a la tabla de datos
-            datosSimulados.push({
-              hora: i,
-              tiempoLlegada: tiemposLlegada[i - 1],
-              tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
-            });
+          let contador = 0;
+          for (let j = 1; j <= total; j++) {
+            for (let i = 1; i <= numFilas; i++) {
+              // Agregar el dato simulado a la tabla de datos
+              datosSimulados.push({
+                caso: j,
+                hora: i,
+                tiempoLlegada: tiemposLlegada[contador],
+                tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
+              });
+              contador++; // Incrementar contador en 1
+            }
           }
 
           // Actualizar el estado de la tabla con los datos simulados
           setTablaDatos(datosSimulados);
+          setDatosOriginales(datosSimulados); // Guardar una copia de respaldo de los datos originales
         } catch (error) {
           console.error("Error al crear el rol:", error);
         }
@@ -115,13 +130,25 @@ function SimuladorPage() {
       deleteDato();
       // Limpiar la tabla de datos
       setTablaDatos([]);
+      setDatosOriginales([]); // Limpiar la copia de respaldo de los datos originales
       // Limpiar los estados de los campos de entrada
       setTservicio("");
       setMprods("");
       setHSimular("");
+
+      // Limpiar el almacenamiento local
+      localStorage.removeItem("tablaDatos");
     } catch (error) {
       console.error("Error al limpiar los datos:", error);
     }
+  };
+
+  // Función para mostrar solo los datos del caso indicado
+  const handleMostrarCaso = (caso) => {
+    // Filtrar los datos originales para mostrar solo los datos del caso indicado
+    const datosCaso = datosOriginales.filter((dato) => dato.caso === caso);
+    // Establecer la tabla con los datos filtrados
+    setTablaDatos(datosCaso);
   };
 
   // Verificar si la tabla está vacía y habilitar o deshabilitar el botón de Simular
@@ -187,11 +214,34 @@ function SimuladorPage() {
           </button>
         </div>
 
+        {/* Botones para mostrar datos por caso */}
+        <div className="flex justify-center my-4">
+          <button
+            onClick={() => handleMostrarCaso(1)}
+            className="bg-green-500 text-white font-bold hover:bg-green-400 py-2 px-4 rounded-lg mr-2"
+          >
+            Mostrar Caso 1
+          </button>
+          <button
+            onClick={() => handleMostrarCaso(2)}
+            className="bg-green-500 text-white font-bold hover:bg-green-400 py-2 px-4 rounded-lg mr-2"
+          >
+            Mostrar Caso 2
+          </button>
+          <button
+            onClick={() => handleMostrarCaso(3)}
+            className="bg-green-500 text-white font-bold hover:bg-green-400 py-2 px-4 rounded-lg"
+          >
+            Mostrar Caso 3
+          </button>
+        </div>
+
         {/* Tabla */}
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
               <tr className="bg-blue-900 text-white">
+                <th className="py-2 text-center">Caso</th>
                 <th className="py-2 text-center">Hora</th>
                 <th className="py-2 text-center">Clientes que llegaron</th>
                 <th className="py-2 text-center">Tiempo Servicio</th>
@@ -203,6 +253,9 @@ function SimuladorPage() {
               {tablaDatos.map((dato, index) => (
                 <tr key={index}>
                   <td className="text-center border border-blue-100">
+                    {dato.caso}
+                  </td>
+                  <td className="text-center border border-blue-100">
                     {dato.hora}
                   </td>
                   <td className="text-center border border-blue-100">
@@ -213,10 +266,10 @@ function SimuladorPage() {
                   </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link
-                      to={``}
+                      to={"/simulador/hora"}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
-                      Ver Detalles
+                      Ver Hora
                     </Link>
                   </td>
                 </tr>

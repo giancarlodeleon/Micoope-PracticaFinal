@@ -8,6 +8,7 @@ import ProductosFormPage from "./pages/ProductosFormPage";
 import GastosPage from "./pages/GastosPage";
 import GastosFormPage from "./pages/GastosFormPage";
 import SimuladorPage from "./pages/SimuladorPage";
+import DatosHora from "./pages/DatosHora";
 
 import Navbar from "./components/Navbar";
 
@@ -28,6 +29,7 @@ function App() {
               <Route path="/add-gasto" element={<GastosFormPage />} />
               <Route path="/gastos/:id" element={<GastosFormPage />} />
               <Route path="/simulador" element={<SimuladorPage />} />
+              <Route path="/simulador/hora" element={<DatosHora />} />
             </Routes>
           </main>
         </BrowserRouter>
