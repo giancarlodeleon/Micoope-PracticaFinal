@@ -15,17 +15,17 @@ function MovimientoFormPage() {
     getMovimiento,
     updateMovimiento,
     errors: MovimientoErrors,
+    movimiento
   } = useMovimientos();
 
   const navigate = useNavigate();
-  const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
+  const [movimientoToShow, setMovimientoToShow] = useState(null);
   const params = useParams();
 
   useEffect(() => {
     async function loadMovimiento() {
       if (params.id) {
         const movimiento = await getMovimiento(params.id);
-        console.log(movimiento);
         setValue("tipo", movimiento.tipo);
         setValue("agencia", movimiento.agencia);
         setValue("serie", movimiento.serie);
@@ -37,6 +37,13 @@ function MovimientoFormPage() {
     }
     loadMovimiento();
   }, []);
+
+  useEffect(() => {
+    if (params.id) {
+      const movi = movimiento.find((movi) => movi.id === params._id);
+      setMovimientoToShow(movi);
+    }
+  },[]);
 
   const onSubmit = handleSubmit(async (data) => {
     // Verificar que los valores de "De" y "Hasta" no sean negativos
@@ -60,22 +67,19 @@ function MovimientoFormPage() {
       data.total = parseInt(data.total);
       data.saldo = data.hasta - data.de + 1;
       await updateMovimiento(params.id, data);
-      setRedirectOnSuccess(true);
-      setTimeout(() => {
-        setRedirectOnSuccess(false);
-      }, 4000);
+      if (movimientoToShow && movimientoToShow.tipo === "Aportaciones") {
+        navigate("/aportacionesIngresado");
+      }
     }
   });
 
-  useEffect(() => {
-    if (redirectOnSuccess && MovimientoErrors.length === 0) {
-      navigate("/aportacionesIngresado");
-    }
-  }, [redirectOnSuccess, MovimientoErrors, navigate]);
+
 
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
+         {/* Mostrar el tipo del movimientoToShow si existe */}
+  
         <h1 className="text-2xl text-white font-bold">Movimiento</h1>
         <form onSubmit={onSubmit}>
           <input
