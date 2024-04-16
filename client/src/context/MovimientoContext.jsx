@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import {
   createMovimientoRequest,
   getMovimientosRequest,
@@ -20,6 +20,7 @@ export const useMovimientos = () => {
 
 export function MovimientoProvider({ children }) {
   const [movimiento, setMovimientos] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   const getMovimientos = async () => {
     try {
@@ -61,8 +62,18 @@ export function MovimientoProvider({ children }) {
       await updateMovimientoRequest(id, movimiento);
     } catch (error) {
       console.error(error);
+      setErrors(error.response.data);
     }
   };
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {
+        setErrors([]);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  },);
 
   return (
     <MovimientoContext.Provider
@@ -73,6 +84,7 @@ export function MovimientoProvider({ children }) {
         deleteMovimiento,
         getMovimiento,
         updateMovimiento,
+        errors
       }}
     >
       {children}

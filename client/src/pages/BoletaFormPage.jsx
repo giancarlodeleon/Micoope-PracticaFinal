@@ -12,7 +12,12 @@ function BoletaFormPage() {
     formState: { errors },
   } = useForm();
 
-  const { createBoleta, getBoleta, updateBoleta, errors: BoletaErrors } = useBoletas();
+  const {
+    createBoleta,
+    getBoleta,
+    updateBoleta,
+    errors: BoletaErrors,
+  } = useBoletas();
 
   const { getAgencias, agencias } = useAgencias();
 
@@ -43,13 +48,13 @@ function BoletaFormPage() {
       alert('Los valores de "De" y "Hasta" no pueden ser negativos');
       return;
     }
-  
+
     // Verificar que el valor de "De" no sea mayor que el valor de "Hasta"
     if (parseInt(data.de) > parseInt(data.hasta)) {
       alert('El valor de "De" no puede ser mayor que el valor de "Hasta"');
       return;
     }
-  
+
     if (params.id) {
       data.de = parseInt(data.de);
       data.hasta = parseInt(data.hasta);
@@ -66,7 +71,6 @@ function BoletaFormPage() {
       setRedirectOnSuccess(false);
     }, 4000);
   });
-
 
   useEffect(() => {
     if (redirectOnSuccess && BoletaErrors.length === 0) {
