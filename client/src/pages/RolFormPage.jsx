@@ -31,6 +31,7 @@ function RolFormPage() {
         setValue("permission_Warehouse", rol.permission_Warehouse);
         setValue("permission_Summary", rol.permission_Summary);
         setValue("permission_of_Office", rol.permission_of_Office);
+        setValue("permission_of_all_Agencys", rol.permission_of_all_Agencys);
       }
     }
     loadRol();
@@ -89,6 +90,14 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_of_Office", { value: true })}
+              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso a Todas las Agencias</label>
+            <input
+              type="checkbox"
+              {...register("permission_of_all_Agencys", { value: true })}
               className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

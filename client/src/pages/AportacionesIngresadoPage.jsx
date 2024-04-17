@@ -2,16 +2,38 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMovimientos } from "../context/MovimientoContext";
 import { useAuth } from "../context/AuthContext";
+import { useAgencias } from "../context/AgenciaContext";
+import { useRols } from "../context/RolContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 function AportacionesPage() {
   const { getMovimientos, movimiento, deleteMovimiento } = useMovimientos();
+  const [Setpermiso, setPermisoToShow] = useState(null);
   const { user } = useAuth();
+  const { getAgencias, agencias } = useAgencias();
+  const { getRols, rol } = useRols();
+  const [selectedAgencia, setSelectedAgencia] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const movimientosPerPage = 10;
+
+  const handleSelectChange = (event) => {
+    const selectedAgencia = event.target.value;
+    setSelectedAgencia(selectedAgencia);
+    onChange(selectedAgencia);
+  };
+
+  useEffect(() => {
+    getAgencias();
+    getRols();
+  }, []);
+
+  useEffect(() => {
+    const permiso = rol.find((permiso) => permiso.name === user.rol);
+    setPermisoToShow(permiso.permission_of_all_Agencys);
+  }, []);
 
   useEffect(() => {
     getMovimientos();
@@ -50,9 +72,13 @@ function AportacionesPage() {
   });
 
   const combinedMovimientos = filteredMovimientos.filter((movimiento) => {
-    return (
-      movimiento.tipo === "Aportaciones" && movimiento.agencia === user.agencia
-    );
+    if (Setpermiso) {
+      // Mostrar todos los movimientos de la agencia si Setpermiso es true
+      return movimiento.tipo === "Aportaciones" && movimiento.agencia === selectedAgencia;
+    } else {
+      // Mostrar los movimientos filtrados según el usuario si Setpermiso es false
+      return movimiento.tipo === "Aportaciones" && movimiento.agencia === user.agencia;
+    }
   });
 
   // Suma total de los saldos después de aplicar los filtros
@@ -102,6 +128,7 @@ function AportacionesPage() {
               className="border-blue-500 border-2 rounded p-1"
               popperPlacement="bottom-end"
             />
+
             <h1 className=" rounded p-2 font-bold px-4">Hasta</h1>
             <DatePicker
               selected={endDate}
@@ -110,6 +137,24 @@ function AportacionesPage() {
               className="border-blue-500 border-2 rounded p-1"
               popperPlacement="bottom-end"
             />
+
+            {Setpermiso && (
+              <>
+                <h1 className=" rounded p-2 font-bold px-4">Agencia</h1>
+                <select
+                  className="border-blue-500 border-2 rounded p-1"
+                  value={selectedAgencia}
+                  onChange={handleSelectChange}
+                >
+                  <option value="">Selecciona una agencia</option>
+                  {agencias.map((agencia) => (
+                    <option key={agencia.id} value={agencia.name}>
+                      {agencia.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
           </div>
           <table className="w-full border-collapse rounded-lg mt-2">
             <thead>

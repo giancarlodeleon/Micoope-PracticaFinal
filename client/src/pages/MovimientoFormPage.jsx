@@ -15,7 +15,7 @@ function MovimientoFormPage() {
     getMovimiento,
     updateMovimiento,
     errors: MovimientoErrors,
-    movimiento
+    movimiento,
   } = useMovimientos();
 
   const navigate = useNavigate();
@@ -40,10 +40,10 @@ function MovimientoFormPage() {
 
   useEffect(() => {
     if (params.id) {
-      const movi = movimiento.find((movi) => movi.id === params._id);
-      setMovimientoToShow(movi);
+      const movi = movimiento.find((movi) => movi._id === params.id);
+      setMovimientoToShow(movi.tipo);
     }
-  },[]);
+  }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     // Verificar que los valores de "De" y "Hasta" no sean negativos
@@ -67,19 +67,36 @@ function MovimientoFormPage() {
       data.total = parseInt(data.total);
       data.saldo = data.hasta - data.de + 1;
       await updateMovimiento(params.id, data);
-      if (movimientoToShow && movimientoToShow.tipo === "Aportaciones") {
+      console.log(movimientoToShow.tipo);
+      if (movimientoToShow && movimientoToShow === "Aportaciones") {
         navigate("/aportacionesIngresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Ahorro Disponible") {
+        navigate("/ahorro-ingresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Infanto Juvenil") {
+        navigate("/infanto-ingresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Plazo Fijo") {
+        navigate("/plazo-ingresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Programado") {
+        navigate("/programado-ingresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Boletas TRX") {
+        navigate("/boletasTRX-ingresado");
+      }
+      if (movimientoToShow && movimientoToShow === "Vales de Efectivo") {
+        navigate("/vales-ingresado");
       }
     }
   });
 
-
-
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
-         {/* Mostrar el tipo del movimientoToShow si existe */}
-  
+        {/* Mostrar el tipo del movimientoToShow si existe */}
+
         <h1 className="text-2xl text-white font-bold">Movimiento</h1>
         <form onSubmit={onSubmit}>
           <input
@@ -128,12 +145,62 @@ function MovimientoFormPage() {
             Guardar
           </button>
         </form>
-        <Link
-          to="/aportacionesIngresado"
-          className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
-        >
-          Regresar
-        </Link>
+        {movimientoToShow && movimientoToShow === "Aportaciones" && (
+          <Link
+            to="/aportacionesIngresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+         {movimientoToShow && movimientoToShow === "Ahorro Disponible" && (
+          <Link
+            to="/ahorro-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+        {movimientoToShow && movimientoToShow === "Infanto Juvenil" && (
+          <Link
+            to="/infanto-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+        {movimientoToShow && movimientoToShow === "Plazo Fijo" && (
+          <Link
+            to="/plazo-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+        {movimientoToShow && movimientoToShow === "Programado" && (
+          <Link
+            to="/programado-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+        {movimientoToShow && movimientoToShow === "Boletas TRX" && (
+          <Link
+            to="/boletasTRX-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
+         {movimientoToShow && movimientoToShow === "Vales de Efectivo" && (
+          <Link
+            to="/vales-ingresado"
+            className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+          >
+            Regresar
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -30,6 +30,12 @@ const rolSchema = new mongoose.Schema(
         default: true,
         required: true,
     },
+    permission_of_all_Agencys: {
+      type: Boolean,
+      default: true,
+      required: true,
+  },
+
 
     date: {
       type: Date,
