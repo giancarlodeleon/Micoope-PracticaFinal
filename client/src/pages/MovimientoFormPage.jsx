@@ -84,7 +84,7 @@ function MovimientoFormPage() {
         navigate("/programado-ingresado");
       }
       if (movimientoToShow && movimientoToShow === "Boletas TRX") {
-        navigate("/boletasTRX-ingresado");
+        navigate("/TRX-ingresado");
       }
       if (movimientoToShow && movimientoToShow === "Vales de Efectivo") {
         navigate("/vales-ingresado");
@@ -187,7 +187,7 @@ function MovimientoFormPage() {
         )}
         {movimientoToShow && movimientoToShow === "Boletas TRX" && (
           <Link
-            to="/boletasTRX-ingresado"
+            to="/TRX-ingresado"
             className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
           >
             Regresar

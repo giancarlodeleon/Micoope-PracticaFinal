@@ -111,7 +111,7 @@ function BoletasTRXIngresadoPage() {
             </div>
             <div className="flex-1 " style={{ marginRight: "50px" }}>
               <Link
-                to="/boletasTRX-entregado"
+                to="/TRX-entregado"
                 className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
               >
                 Correlativo Entregado Asociados

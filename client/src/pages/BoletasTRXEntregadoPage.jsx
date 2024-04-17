@@ -14,7 +14,7 @@ function BoletasTRXEntregadoPage() {
               <div className="flex justify-between">
                 {/* Botones que están pegados mutuamente y abarcan el ancho de la tabla */}
                 <div class="flex-1 " style={{ marginLeft: '50px' }}>
-                <Link to="/boletasTRX-ingresado" className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-bl-lg rounded-tl-lg px-6 py-2 text-center block">Correlativo Ingresado Agencia</Link>
+                <Link to="/TRX-ingresado" className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-bl-lg rounded-tl-lg px-6 py-2 text-center block">Correlativo Ingresado Agencia</Link>
                 </div>
                 <div className="flex-1" style={{ marginRight: '50px' }}>
                 <Link to="" className="bg-blue-900 font-bold text-blue-50  hover:text-blue-50 border-2 border-blue-300 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block">Correlativo Entregado Asociados</Link>

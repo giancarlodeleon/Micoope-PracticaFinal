@@ -96,8 +96,8 @@ function App() {
                       <Route path="/plazo-entregado" element={<MiPlazoEntregado />} />
                       <Route path="/programado-ingresado" element={<ProgramadoIngresado />} />
                       <Route path="/programado-entregado" element={<ProgramadoEntregado />} />
-                      <Route path="/boletasTRX-ingresado" element={<BoletasTRXIngresado />} />
-                      <Route path="/boletasTRX-entregado" element={<BoletasTRXEntregado />} />
+                      <Route path="/TRX-ingresado" element={<BoletasTRXIngresado />} />
+                      <Route path="/TRX-entregado" element={<BoletasTRXEntregado />} />
                       <Route path="/vales-ingresado" element={<ValesIngresado />} />
                       <Route path="/vales-entregado" element={<ValesEntregado />} />
                       </Route>

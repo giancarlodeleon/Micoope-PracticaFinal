@@ -231,8 +231,8 @@ function Navbar() {
                           location.pathname === "/plazo-entregado" ||
                           location.pathname === "/programado-ingresado" ||
                           location.pathname === "/programado-entregado" ||
-                          location.pathname === "/boletastrx-ingresado" ||
-                          location.pathname === "/boletastrx-entregado" ||
+                          location.pathname === "/TRX-ingresado" ||
+                          location.pathname === "/TRX-entregado" ||
                           location.pathname === "/vales-ingresado" ||
                           location.pathname === "/vales-entregado"
                             ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
@@ -351,7 +351,7 @@ function Navbar() {
                     <li>
                       <NavLink
                         onClick={handleDropdownToggleAgencia}
-                        to="/boletastrx-ingresado"
+                        to="/TRX-ingresado"
                         activeStyle={{ background: "blue", color: "white" }}
                       >
                         {rol.map((place) =>
