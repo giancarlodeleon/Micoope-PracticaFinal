@@ -22,8 +22,45 @@ function SimuladorPage() {
   const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
   const { getProducts, products } = useProducts();
-  const { getGastos } = useGastos();
-  const { createDato, deleteDato, getDatos } = useDatos();
+  const { getGastos, gastos } = useGastos();
+  const { createDato, deleteDato, getDatos, datos } = useDatos();
+  const sumaPreciosGastos = gastos.reduce(
+    (total, gasto) => total + gasto.precio,
+    0
+  );
+  const resultadoFinal = sumaPreciosGastos / 30 / 8;
+
+  const calcularCompraHora = (caso, hora) => {
+    // Filtrar los datos para obtener solo aquellos con el mismo caso y hora
+    const datosFiltrados = datos.filter(
+      (dato) => dato.caso === caso && dato.hora === hora
+    );
+
+
+    // Calcular la suma de los precios de compra de los productos
+    const CompraHora = datosFiltrados.reduce(
+      (total, dato) => total + dato.precio_compra,
+      0
+    );
+    return CompraHora;
+  };
+
+  const calcularVentaHora = (caso, hora) => {
+    // Filtrar los datos para obtener solo aquellos con el mismo caso y hora
+    const datosFiltrados = datos.filter(
+      (dato) => dato.caso === caso && dato.hora === hora
+    );
+
+
+    // Calcular la suma de los precios de compra de los productos
+    const VentaHora = datosFiltrados.reduce(
+      (total, dato) => total + dato.precio_venta,
+      0
+    );
+    return VentaHora;
+  };
+
+  
 
   useEffect(() => {
     getProducts();
@@ -50,16 +87,25 @@ function SimuladorPage() {
       ) {
         try {
           // Aquí llamamos a la función asincrónica y esperamos su finalización
-
-          const total = 3;
           const numFilas = parseInt(HSimular);
           const tiemposLlegada = [];
+          const datosSimulados = [];
 
           for (let t = 1; t <= 3; t++) {
             for (let i = 1; i <= numFilas; i++) {
               const tiempoLlegadaAleatorio =
                 Math.floor(Math.random() * parseInt(Tservicio)) + 1;
               tiemposLlegada.push(tiempoLlegadaAleatorio);
+
+
+              datosSimulados.push({
+                caso: t,
+                hora: i,
+                tiempoLlegada: tiempoLlegadaAleatorio,
+                tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
+              });
+
+
               for (let j = 1; j <= tiempoLlegadaAleatorio; j++) {
                 const productoAleatorio =
                   Math.floor(Math.random() * parseInt(Mprods)) + 1;
@@ -101,21 +147,7 @@ function SimuladorPage() {
             return;
           }
 
-          // Generar datos simulados según el valor de HSimular y Tservicio
-          const datosSimulados = [];
-          let contador = 0;
-          for (let j = 1; j <= total; j++) {
-            for (let i = 1; i <= numFilas; i++) {
-              // Agregar el dato simulado a la tabla de datos
-              datosSimulados.push({
-                caso: j,
-                hora: i,
-                tiempoLlegada: tiemposLlegada[contador],
-                tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
-              });
-              contador++; // Incrementar contador en 1
-            }
-          }
+          
 
           // Actualizar el estado de la tabla con los datos simulados
           setTablaDatos(datosSimulados);
@@ -206,7 +238,7 @@ function SimuladorPage() {
 
         {/* Campos de ingreso de datos */}
         <div className="flex justify-center p-4">
-        <h1 className=" rounded p-2 font-bold">Tiempo de servicio</h1>
+          <h1 className=" rounded p-2 font-bold">Tiempo de servicio</h1>
           <input
             type="text"
             value={Tservicio}
@@ -222,7 +254,7 @@ function SimuladorPage() {
             placeholder="Media Productos"
             className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
-           <h1 className=" rounded p-2 font-bold">Horas a Simular</h1>
+          <h1 className=" rounded p-2 font-bold">Horas a Simular</h1>
           <input
             type="text"
             value={HSimular}
@@ -279,6 +311,13 @@ function SimuladorPage() {
           </button>
         </div>
 
+        <h1
+          className="text-center rounded-lg bg-purple-900 font-bold text-white py-2 relative"
+          style={{ fontSize: "18px" }}
+        >
+          Gasto por Hora: Q.{resultadoFinal}
+        </h1>
+
         {/* Tabla */}
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
@@ -288,6 +327,8 @@ function SimuladorPage() {
                 <th className="py-2 text-center">Hora</th>
                 <th className="py-2 text-center">Clientes que llegaron</th>
                 <th className="py-2 text-center">Tiempo Servicio</th>
+                <th className="py-2 text-center">Ganancia Hora</th>
+                <th className="py-2 text-center">Cumplimiento</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -307,6 +348,55 @@ function SimuladorPage() {
                   </td>
                   <td className="text-center border border-blue-100">
                     {dato.tiempoServicio}
+                  </td>
+                  <td className="text-center border border-blue-100">
+                    Q.
+                    {calcularVentaHora(dato.caso, dato.hora) -
+                      calcularCompraHora(dato.caso, dato.hora)}
+                  </td>
+                  <td className="text-center border border-blue-100">
+                    {/* Condición para mostrar icono verde o rojo */}
+                    <span className="text-center">
+                      {calcularVentaHora(dato.caso, dato.hora) -
+                        calcularCompraHora(dato.caso, dato.hora) >
+                      resultadoFinal ? (
+                        <span className="text-green-500">
+                          {/* Icono verde */}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 inline-block"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </span>
+                      ) : (
+                        <span className="text-red-500">
+                          {/* Icono rojo */}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 inline-block"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </span>
+                      )}
+                    </span>
                   </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link

@@ -110,7 +110,7 @@ function DatosHora() {
                       to={`/simulador/cliente/?caso=${caso}&hora=${hora}&cliente=${place.cliente}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
-                      Ver Producto
+                      Ver Productos
                     </Link>
                   </td>
                 </tr>
@@ -122,10 +122,10 @@ function DatosHora() {
                   <strong>Total de Productos Comprados: {totalProductos}</strong>
                 </td>
                 <td className="text-center border border-blue-100">
-                  <strong>Suma Compra total: {totalCompra}</strong>
+                  <strong>Suma Compra total: Q.{totalCompra}</strong>
                 </td>
                 <td className="text-center border rounded-br-lg border-blue-100">
-                  <strong>Suma Venta total: {totalVenta}</strong>
+                  <strong>Suma Venta total: Q.{totalVenta}</strong>
                 </td>
               </tr>
             </tbody>
