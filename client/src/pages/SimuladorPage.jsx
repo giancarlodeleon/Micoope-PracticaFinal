@@ -205,7 +205,8 @@ function SimuladorPage() {
         </h1>
 
         {/* Campos de ingreso de datos */}
-        <div className="flex flex-col md:flex-row justify-between my-4">
+        <div className="flex justify-center p-4">
+        <h1 className=" rounded p-2 font-bold">Tiempo de servicio</h1>
           <input
             type="text"
             value={Tservicio}
@@ -213,6 +214,7 @@ function SimuladorPage() {
             placeholder="Tiempo Servicio"
             className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
+          <h1 className=" rounded p-2 font-bold">Media de Productos</h1>
           <input
             type="text"
             value={Mprods}
@@ -220,6 +222,7 @@ function SimuladorPage() {
             placeholder="Media Productos"
             className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
+           <h1 className=" rounded p-2 font-bold">Horas a Simular</h1>
           <input
             type="text"
             value={HSimular}
