@@ -37,10 +37,11 @@ export const getGasto = async (req, res) => {
 
 export const deleteGasto = async (req, res) => {
   try {
-    await Gasto.deleteMany({});
+    const gasto = await Gasto.findByIdAndDelete(req.params.id);
+    if (!gasto) return res.status(404).json({ message: "Gasto not found" });
     return res.sendStatus(204);
   } catch (error) {
-    return res.status(500).json({ message: "Error deleting gastos" });
+    return res.status(404).json({ message: "Gasto not found" });
   }
 };
 

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
 import { useGastos } from "../context/GastoContext";
 import { useDatos } from "../context/DatoContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 function SimuladorPage() {
+  const navigate = useNavigate();
   const [Tservicio, setTservicio] = useState(
     localStorage.getItem("Tservicio") || ""
   );
@@ -36,7 +37,6 @@ function SimuladorPage() {
       (dato) => dato.caso === caso && dato.hora === hora
     );
 
-
     // Calcular la suma de los precios de compra de los productos
     const CompraHora = datosFiltrados.reduce(
       (total, dato) => total + dato.precio_compra,
@@ -51,7 +51,6 @@ function SimuladorPage() {
       (dato) => dato.caso === caso && dato.hora === hora
     );
 
-
     // Calcular la suma de los precios de compra de los productos
     const VentaHora = datosFiltrados.reduce(
       (total, dato) => total + dato.precio_venta,
@@ -59,8 +58,6 @@ function SimuladorPage() {
     );
     return VentaHora;
   };
-
-  
 
   useEffect(() => {
     getProducts();
@@ -97,14 +94,12 @@ function SimuladorPage() {
                 Math.floor(Math.random() * parseInt(Tservicio)) + 1;
               tiemposLlegada.push(tiempoLlegadaAleatorio);
 
-
               datosSimulados.push({
                 caso: t,
                 hora: i,
                 tiempoLlegada: tiempoLlegadaAleatorio,
                 tiempoServicio: parseInt(Tservicio), // Utilizamos el valor de Tservicio introducido manualmente
               });
-
 
               for (let j = 1; j <= tiempoLlegadaAleatorio; j++) {
                 const productoAleatorio =
@@ -147,8 +142,6 @@ function SimuladorPage() {
             return;
           }
 
-          
-
           // Actualizar el estado de la tabla con los datos simulados
           setTablaDatos(datosSimulados);
           setDatosOriginales(datosSimulados); // Guardar una copia de respaldo de los datos originales
@@ -164,6 +157,10 @@ function SimuladorPage() {
         "La tabla no está vacía. Por favor, limpie los datos antes de simular."
       );
     }
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   // Función para limpiar los campos de entrada y la tabla
