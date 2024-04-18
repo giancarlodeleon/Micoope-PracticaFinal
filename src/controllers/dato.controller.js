@@ -29,6 +29,16 @@ export const createDato = async (req, res) => {
   }
 };
 
+export const getDato = async (req, res) => {
+  try {
+    const dato = await Dato.findById(req.params.id);
+    if (!dato) return res.status(404).json({ message: "Dato not found" });
+    res.json(dato);
+  } catch (error) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+};
+
 export const deleteDato = async (req, res) => {
   try {
     await Dato.deleteMany({});

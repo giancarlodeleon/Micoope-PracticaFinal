@@ -7,3 +7,5 @@ export const createDatoRequest = (dato) => axios.post('/dato',dato)
 
 
 export const deleteDatoRequest = () => axios.delete('/dato')
+
+export const getDatoRequest = (id) => axios.get(`/dato/${id}`)

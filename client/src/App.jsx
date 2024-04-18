@@ -9,6 +9,7 @@ import GastosPage from "./pages/GastosPage";
 import GastosFormPage from "./pages/GastosFormPage";
 import SimuladorPage from "./pages/SimuladorPage";
 import DatosHora from "./pages/DatosHora";
+import DatosCliente from "./pages/DatosCliente"
 
 import Navbar from "./components/Navbar";
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/gastos/:id" element={<GastosFormPage />} />
               <Route path="/simulador" element={<SimuladorPage />} />
               <Route path="/simulador/hora" element={<DatosHora />} />
+              <Route path="/simulador/cliente" element={<DatosCliente />} />
             </Routes>
           </main>
         </BrowserRouter>

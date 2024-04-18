@@ -3,13 +3,22 @@ import { useProducts } from "../context/ProductContext";
 import { useGastos } from "../context/GastoContext";
 import { useDatos } from "../context/DatoContext";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 function SimuladorPage() {
-  const [Tservicio, setTservicio] = useState(localStorage.getItem("Tservicio") || "");
+  const [Tservicio, setTservicio] = useState(
+    localStorage.getItem("Tservicio") || ""
+  );
   const [Mprods, setMprods] = useState(localStorage.getItem("Mprods") || "");
-  const [HSimular, setHSimular] = useState(localStorage.getItem("HSimular") || "");
-  const [tablaDatos, setTablaDatos] = useState(JSON.parse(localStorage.getItem("tablaDatos")) || []);
-  const [datosOriginales, setDatosOriginales] = useState(JSON.parse(localStorage.getItem("datosOriginales")) || []);
+  const [HSimular, setHSimular] = useState(
+    localStorage.getItem("HSimular") || ""
+  );
+  const [tablaDatos, setTablaDatos] = useState(
+    JSON.parse(localStorage.getItem("tablaDatos")) || []
+  );
+  const [datosOriginales, setDatosOriginales] = useState(
+    JSON.parse(localStorage.getItem("datosOriginales")) || []
+  );
   const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
   const { getProducts, products } = useProducts();
@@ -67,6 +76,7 @@ function SimuladorPage() {
                   const precio_venta = productoSeleccionado.precio_venta;
 
                   await createDato({
+                    _id: uuidv4(),
                     caso,
                     hora,
                     cliente,
@@ -143,6 +153,30 @@ function SimuladorPage() {
     }
   };
 
+  // Calcula la suma total de clientes que llegaron
+  const totalClientesLlegaron = tablaDatos.reduce(
+    (total, dato) => total + dato.tiempoLlegada,
+    0
+  );
+
+  // Añade una fila adicional en la tabla para mostrar la suma total
+  const mostrarSumaTotal = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Total Clientes que Llegaron:</strong>
+      </td>
+      <td className="text-center border rounded-br-lg border-blue-100">
+        <strong>{totalClientesLlegaron}</strong>
+      </td>
+    </tr>
+  );
+
+  // Función para mostrar los datos originales en la tabla
+  const handleMostrarOriginales = () => {
+    // Establecer la tabla con los datos originales
+    setTablaDatos(datosOriginales);
+  };
+
   // Función para mostrar solo los datos del caso indicado
   const handleMostrarCaso = (caso) => {
     // Filtrar los datos originales para mostrar solo los datos del caso indicado
@@ -217,6 +251,12 @@ function SimuladorPage() {
         {/* Botones para mostrar datos por caso */}
         <div className="flex justify-center my-4">
           <button
+            onClick={handleMostrarOriginales}
+            className="bg-red-500 text-white font-bold hover:bg-red-400 py-2 px-4 rounded-lg mr-2"
+          >
+            Mostrar Todos
+          </button>
+          <button
             onClick={() => handleMostrarCaso(1)}
             className="bg-green-500 text-white font-bold hover:bg-green-400 py-2 px-4 rounded-lg mr-2"
           >
@@ -252,6 +292,7 @@ function SimuladorPage() {
               {/* Mapea los datos de la tabla */}
               {tablaDatos.map((dato, index) => (
                 <tr key={index}>
+                  {console.log(dato)}
                   <td className="text-center border border-blue-100">
                     {dato.caso}
                   </td>
@@ -266,7 +307,7 @@ function SimuladorPage() {
                   </td>
                   <td className="flex justify-center items-center border border-blue-100">
                     <Link
-                      to={"/simulador/hora"}
+                      to={`/simulador/hora/?caso=${dato.caso}&hora=${dato.hora}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
                       Ver Hora
@@ -274,6 +315,8 @@ function SimuladorPage() {
                   </td>
                 </tr>
               ))}
+              {/* Muestra la suma total de clientes que llegaron */}
+              {mostrarSumaTotal}
             </tbody>
           </table>
         </div>

@@ -3,6 +3,7 @@ import {
   createDatoRequest,
   getDatosRequest,
   deleteDatoRequest,
+  getDatoRequest,
 } from "../api/dato";
 
 const DatoContext = createContext();
@@ -45,12 +46,23 @@ export function DatoProvider({ children }) {
     }
   };
 
+  const getDato = async (id) => {
+    try {
+      const res = await getDatoRequest(id);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   
   return (
     <DatoContext.Provider
       value={{
         datos,
         createDato,
+        getDato,
         getDatos,
         deleteDato,
       }}
