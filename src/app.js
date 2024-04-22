@@ -9,6 +9,7 @@ import agenciasRoutes from './routes/agencia.routes.js'
 import rolRoutes from './routes/rol.routes.js'
 import boletaRoutes from './routes/boleta.routes.js'
 import movimientoRoutes from './routes/movimiento.routes.js'
+import salidaRoutes from './routes/salida.routes.js'
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api',agenciasRoutes);
 app.use('/api',rolRoutes);
 app.use('/api',boletaRoutes);
 app.use('/api',movimientoRoutes);
+app.use('/api',salidaRoutes);
 
 
 

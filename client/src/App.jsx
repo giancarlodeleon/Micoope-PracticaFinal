@@ -3,7 +3,6 @@ import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-
 import Almacen from "./pages/Almacen";
 import BoletaFormPage from "./pages/BoletaFormPage";
 import BoletaIngresoPage from "./pages/BoletaIngresoPage";
@@ -42,6 +41,7 @@ import { AgenciaProvider } from "./context/AgenciaContext";
 import { RolProvider } from "./context/RolContext";
 import { BoletaProvider } from "./context/BoletaContext";
 import { MovimientoProvider} from "./context/MovimientoContext"
+import { SalidaProvider } from "./context/SalidaContext";
 
 function App() {
   return (
@@ -52,6 +52,7 @@ function App() {
             <RolProvider>
             <BoletaProvider>
               <MovimientoProvider>
+              <SalidaProvider>
               <BrowserRouter>
                 <main className="">
                   <Navbar />
@@ -108,6 +109,7 @@ function App() {
                   </Routes>
                 </main>
               </BrowserRouter>
+              </SalidaProvider>
               </MovimientoProvider>
               </BoletaProvider>
             </RolProvider>
