@@ -53,10 +53,6 @@ function BoletasTRXIngresadoPage() {
     return new Date(dateString).toLocaleDateString("es-ES", options);
   }
 
-  const indexOfLastMovimiento = currentPage * movimientosPerPage;
-  const indexOfFirstMovimiento = indexOfLastMovimiento - movimientosPerPage;
-
-  const totalPages = Math.ceil(movimiento.length / movimientosPerPage);
 
   const filteredMovimientos = movimiento.filter((movimiento) => {
     if (startDate && endDate) {
@@ -85,11 +81,19 @@ function BoletasTRXIngresadoPage() {
   const totalSaldo = combinedMovimientos.reduce((acc, movimiento) => {
     return acc + movimiento.saldo;
   }, 0);
+ // Calcula el número total de páginas basado en los movimientos filtrados
+ const totalPages = Math.ceil(combinedMovimientos.length / movimientosPerPage);
 
-  const currentMovimientos = combinedMovimientos.slice(
-    indexOfFirstMovimiento,
-    indexOfLastMovimiento
-  );
+ // Calcula el índice del último movimiento basado en la página actual y la cantidad de movimientos por página
+ const indexOfLastMovimiento = currentPage * movimientosPerPage;
+ // Calcula el índice del primer movimiento basado en el índice del último movimiento y la cantidad de movimientos por página
+ const indexOfFirstMovimiento = indexOfLastMovimiento - movimientosPerPage;
+
+ // Obtiene solo los movimientos para la página actual
+ const currentMovimientos = combinedMovimientos.slice(
+   indexOfFirstMovimiento,
+   indexOfLastMovimiento
+ );
   return (
     <div className="flex justify-center p-4">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
@@ -159,7 +163,7 @@ function BoletasTRXIngresadoPage() {
             <thead>
               <tr>
                 <th
-                  colSpan="7"
+                  colSpan="8"
                   className="py-3 text-center bg-blue-900 text-white rounded-t-lg"
                 >
                   Correlativo Ingresado Agencia
@@ -174,6 +178,7 @@ function BoletasTRXIngresadoPage() {
                   Cantidad Ultimo Ingreso
                 </th>
                 <th className="py-3 text-center px-8 ">Saldo</th>
+                <th className="py-3 text-center px-8 ">Usado</th>
                 <th className="py-3 text-center px-8 ">Acciones</th>
               </tr>
             </thead>
@@ -198,12 +203,21 @@ function BoletasTRXIngresadoPage() {
                   <td className="text-center border border-blue-100">
                     {movimiento.saldo}
                   </td>
+                  <td className="text-center border border-blue-100">
+                    {movimiento.usado}
+                  </td>
                   <td className="flex justify-center border border-blue-100">
                     <Link
                       to={`/movimientos/${movimiento._id}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
                       Editar
+                    </Link>
+                    <Link
+                      to={`/entregar/${movimiento._id}`}
+                      className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
+                    >
+                      Usar
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
@@ -241,14 +255,15 @@ function BoletasTRXIngresadoPage() {
               Anterior
             </button>
           )}
-          {indexOfLastMovimiento < movimiento.length && (
-            <button
-              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Siguiente
-            </button>
-          )}
+          {currentPage < totalPages &&
+            indexOfLastMovimiento < movimiento.length && (
+              <button
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Siguiente
+              </button>
+            )}
         </div>
         <p className="text-center text-sm text-gray-500 mt-2">
           Página {currentPage} de {totalPages}

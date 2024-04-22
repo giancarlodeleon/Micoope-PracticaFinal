@@ -33,8 +33,8 @@ function HomePage() {
       >
         <h1 className="text-3xl  mb-6 font-semibold"></h1>
         <h1
-          className="text-3xl mb-6 font-semibold"
-          style={{ textShadow: "0 0 5px white" }}
+          className="text-5xl mb-6 font-semibold text-center"
+          style={{ textShadow: "0 0 8px white" }}
         >
           COOPERATIVA COBAN
         </h1>

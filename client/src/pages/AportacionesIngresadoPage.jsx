@@ -30,6 +30,7 @@ function AportacionesPage() {
     getRols();
   }, []);
 
+
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
     setPermisoToShow(permiso.permission_of_all_Agencys);
@@ -53,11 +54,6 @@ function AportacionesPage() {
     return new Date(dateString).toLocaleDateString("es-ES", options);
   }
 
-  const indexOfLastMovimiento = currentPage * movimientosPerPage;
-  const indexOfFirstMovimiento = indexOfLastMovimiento - movimientosPerPage;
-
-  const totalPages = Math.ceil(movimiento.length / movimientosPerPage);
-
   const filteredMovimientos = movimiento.filter((movimiento) => {
     if (startDate && endDate) {
       // Clonamos la fecha de endDate para evitar modificar la fecha original
@@ -74,10 +70,16 @@ function AportacionesPage() {
   const combinedMovimientos = filteredMovimientos.filter((movimiento) => {
     if (Setpermiso) {
       // Mostrar todos los movimientos de la agencia si Setpermiso es true
-      return movimiento.tipo === "Aportaciones" && movimiento.agencia === selectedAgencia;
+      return (
+        movimiento.tipo === "Aportaciones" &&
+        movimiento.agencia === selectedAgencia
+      );
     } else {
       // Mostrar los movimientos filtrados según el usuario si Setpermiso es false
-      return movimiento.tipo === "Aportaciones" && movimiento.agencia === user.agencia;
+      return (
+        movimiento.tipo === "Aportaciones" &&
+        movimiento.agencia === user.agencia
+      );
     }
   });
 
@@ -86,10 +88,29 @@ function AportacionesPage() {
     return acc + movimiento.saldo;
   }, 0);
 
+  // Calcula el número total de páginas basado en los movimientos filtrados
+  const totalPages = Math.ceil(combinedMovimientos.length / movimientosPerPage);
+
+  // Calcula el índice del último movimiento basado en la página actual y la cantidad de movimientos por página
+  const indexOfLastMovimiento = currentPage * movimientosPerPage;
+  // Calcula el índice del primer movimiento basado en el índice del último movimiento y la cantidad de movimientos por página
+  const indexOfFirstMovimiento = indexOfLastMovimiento - movimientosPerPage;
+
+  // Obtiene solo los movimientos para la página actual
   const currentMovimientos = combinedMovimientos.slice(
     indexOfFirstMovimiento,
     indexOfLastMovimiento
   );
+
+  
+  useEffect(() => {
+    // Verificar si la cantidad usada es igual al saldo y eliminar el movimiento si es así
+    combinedMovimientos.forEach(movimiento => {
+      if (movimiento.usado === movimiento.saldo) {
+        deleteMovimiento(movimiento._id);
+      }
+    });
+  }, [combinedMovimientos]);
 
   return (
     <div className="flex justify-center p-4">
@@ -160,7 +181,7 @@ function AportacionesPage() {
             <thead>
               <tr>
                 <th
-                  colSpan="7"
+                  colSpan="8"
                   className="py-3 text-center bg-blue-900 text-white rounded-t-lg"
                 >
                   Correlativo Ingresado Agencia
@@ -175,6 +196,7 @@ function AportacionesPage() {
                   Cantidad Ultimo Ingreso
                 </th>
                 <th className="py-3 text-center px-8 ">Saldo</th>
+                <th className="py-3 text-center px-8 ">Usado</th>
                 <th className="py-3 text-center px-8 ">Acciones</th>
               </tr>
             </thead>
@@ -199,12 +221,23 @@ function AportacionesPage() {
                   <td className="text-center border border-blue-100">
                     {movimiento.saldo}
                   </td>
+
+                  <td className="text-center border border-blue-100">
+                    {movimiento.usado}
+                  </td>
                   <td className="flex justify-center border border-blue-100">
                     <Link
                       to={`/movimientos/${movimiento._id}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
                       Editar
+                    </Link>
+
+                    <Link
+                      to={`/entregar/${movimiento._id}`}
+                      className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
+                    >
+                      Usar
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
@@ -242,14 +275,15 @@ function AportacionesPage() {
               Anterior
             </button>
           )}
-          {indexOfLastMovimiento < movimiento.length && (
-            <button
-              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Siguiente
-            </button>
-          )}
+          {currentPage < totalPages &&
+            indexOfLastMovimiento < movimiento.length && (
+              <button
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Siguiente
+              </button>
+            )}
         </div>
         <p className="text-center text-sm text-gray-500 mt-2">
           Página {currentPage} de {totalPages}

@@ -22,6 +22,9 @@ export const MovimientoSchema = z.object({
     saldo: z.number ({
         required_error: "Saldo is required"
     }),
+    usado: z.number ({
+        required_error: "Usado is required"
+    }),
 
     date: z.string().datetime().optional(),
 })

@@ -11,7 +11,7 @@ export const getMovimientos = async (req, res) => {
 
 export const createMovimiento = async (req, res) => {
   try {
-    const { date, tipo, serie, de, hasta, total, saldo,agencia } = req.body;
+    const { date, tipo, serie, de, hasta, total, saldo,agencia , usado} = req.body;
   const newMovimiento = new Movimiento({
     date,
     tipo,
@@ -20,7 +20,8 @@ export const createMovimiento = async (req, res) => {
     hasta,
     total,
     saldo,
-    agencia
+    agencia,
+    usado
 
   });
   const savedMovimiento = await newMovimiento.save();

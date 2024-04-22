@@ -41,7 +41,13 @@ const movimientoSchema = new mongoose.Schema(
     saldo: {
         type: Number,
         required: true,
-    }
+    },
+
+    usado: {
+      type: Number,
+      required: true,
+      default: 0
+  }
 
   },
   {

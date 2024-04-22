@@ -220,6 +220,7 @@ function Navbar() {
                         key={place.id} // Asegúrate de incluir la clave única para cada elemento
                         style={{ fontSize: "20px" }}
                         className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          location.pathname.startsWith("/entregar") ||
                           location.pathname.startsWith("/movimientos") ||
                           location.pathname === "/aportacionesIngresado" ||
                           location.pathname === "/aportacionesEntregado" ||

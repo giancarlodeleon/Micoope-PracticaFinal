@@ -34,8 +34,9 @@ import ManejoInformacionRoute from "./ManejoInformacionRoute";
 import ResumenRoute from "./ResumenRoute";
 import AlmacenRoute from "./AlmacenRoute";
 import AgenciaRoute from "./AgenciaRoute";
-import { ProductProvider } from "./context/ProductContext";
 import Navbar from "./components/Navbar";
+import EntregadoFormPage from "./pages/EntregadoFormPage";
+import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { AgenciaProvider } from "./context/AgenciaContext";
 import { RolProvider } from "./context/RolContext";
@@ -85,6 +86,7 @@ function App() {
                       <Route path="/resumen" element={<Resumen />} />
                       </Route>
                       <Route element={<AgenciaRoute />}>
+                      <Route path="/entregar/:id" element={<EntregadoFormPage />} />
                       <Route path="/movimientos/:id" element={<MovimientoFormPage />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
