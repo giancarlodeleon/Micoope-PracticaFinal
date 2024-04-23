@@ -23,6 +23,7 @@ function SimuladorPage() {
   const [tablaVacia, setTablaVacia] = useState(true); // Estado para verificar si la tabla está vacía
 
   const { getProducts, products } = useProducts();
+ 
   const { getGastos, gastos } = useGastos();
   const { createDato, deleteDato, getDatos, datos } = useDatos();
   const sumaPreciosGastos = gastos.reduce(
@@ -192,7 +193,7 @@ function SimuladorPage() {
   const mostrarSumaTotal = tablaDatos.length > 0 && (
     <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
       <td colSpan="2">
-        <strong>Total Clientes que Llegaron:</strong>
+        <strong>Promedio Clientes que Llegaron:</strong>
       </td>
       <td className="text-center border rounded-br-lg border-blue-100">
         <strong>{totalClientesLlegaron}</strong>
@@ -200,6 +201,70 @@ function SimuladorPage() {
     </tr>
   );
 
+  const promedioClientesLlegaron = totalClientesLlegaron / tablaDatos.length;
+
+  const mostrarPromedio = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Promedio Clientes que Llegaron (λ):</strong>
+      </td>
+      <td className="text-center border  border-blue-100">
+        <strong>{promedioClientesLlegaron}</strong>
+      </td>
+    </tr>
+  );
+
+  const esperaEnLaCola = promedioClientesLlegaron/(Mprods*(Mprods-promedioClientesLlegaron));
+
+  const EsperaCola = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Tiempo de espera en la cola (Wq):</strong>
+      </td>
+      <td className="text-center border  border-blue-100">
+        <strong>{esperaEnLaCola}</strong>
+      </td>
+    </tr>
+  );
+
+  const esperaEnSistema = esperaEnLaCola+(1/Mprods);
+
+  const EsperaSistema = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Tiempo de espera en el Sistema (Ws):</strong>
+      </td>
+      <td className="text-center border  border-blue-100">
+        <strong>{esperaEnSistema}</strong>
+      </td>
+    </tr>
+  );
+
+  const numeroPersonasCola = promedioClientesLlegaron*esperaEnLaCola;
+
+  const NumeroPersonasCola = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Numero de personas en cola (Lq):</strong>
+      </td>
+      <td className="text-center border  border-blue-100">
+        <strong>{numeroPersonasCola}</strong>
+      </td>
+    </tr>
+  );
+
+  const numeroPersonasSistema = promedioClientesLlegaron*esperaEnSistema;
+
+  const NumeroPersonasSistema = tablaDatos.length > 0 && (
+    <tr className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative">
+      <td colSpan="2">
+        <strong>Numero de personas en el Sistema (Ls):</strong>
+      </td>
+      <td className="text-center border rounded-br-lg border-blue-100">
+        <strong>{numeroPersonasSistema}</strong>
+      </td>
+    </tr>
+  );
   // Función para mostrar los datos originales en la tabla
   const handleMostrarOriginales = () => {
     // Establecer la tabla con los datos originales
@@ -251,7 +316,7 @@ function SimuladorPage() {
             placeholder="Media Productos"
             className="px-3 py-2 border border-gray-300 rounded-lg mb-2 md:mb-0 md:mr-4"
           />
-          <h1 className=" rounded p-2 font-bold">Horas a Simular</h1>
+          <h1 className=" rounded p-2 font-bold">Horas a Simular (μ)</h1>
           <input
             type="text"
             value={HSimular}
@@ -404,9 +469,14 @@ function SimuladorPage() {
                     </Link>
                   </td>
                 </tr>
+               
               ))}
               {/* Muestra la suma total de clientes que llegaron */}
-              {mostrarSumaTotal}
+              {mostrarPromedio}
+             {EsperaCola}
+             {EsperaSistema}
+             {NumeroPersonasCola}
+             {NumeroPersonasSistema}
             </tbody>
           </table>
         </div>
