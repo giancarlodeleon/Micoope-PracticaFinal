@@ -4,6 +4,8 @@ import { useGastos } from "../context/GastoContext";
 import { useDatos } from "../context/DatoContext";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import Chart from "chart.js/auto";
+
 
 function SimuladorPage() {
   const navigate = useNavigate();
@@ -175,6 +177,7 @@ function SimuladorPage() {
       setTservicio("");
       setMprods("");
       setHSimular("");
+      borrarGrafica();
 
       // Limpiar el almacenamiento local
       localStorage.removeItem("tablaDatos");
@@ -277,6 +280,7 @@ function SimuladorPage() {
     const datosCaso = datosOriginales.filter((dato) => dato.caso === caso);
     // Establecer la tabla con los datos filtrados
     setTablaDatos(datosCaso);
+
   };
 
   // Verificar si la tabla está vacía y habilitar o deshabilitar el botón de Simular
@@ -288,6 +292,129 @@ function SimuladorPage() {
     }
   }, [tablaDatos]);
 
+
+  const horas = tablaDatos.map(dato => dato.hora);
+  const clientesPorHora = tablaDatos.map(dato => dato.tiempoLlegada);
+
+    
+
+
+
+  useEffect(() => {
+    const ctx = document.getElementById('graficoGananciaPorHora');
+    if (ctx) {
+      // Obtener referencia al gráfico existente
+      const existingChart = Chart.getChart(ctx);
+  
+      // Destruir el gráfico existente si hay uno
+      if (existingChart) {
+        existingChart.destroy();
+      }
+  
+      // Array de colores para la línea
+      const colors = [];
+      let rep =0;
+      for (let i = 0; i < clientesPorHora.length; i++) {
+        if ((rep+1) <= Mprods) {
+          colors.push('rgba(255, 99, 132, 0.2)'); // Color rojo
+        } else {
+          colors.push('rgba(75, 192, 192, 0.2)'); // Color original
+        }
+        rep++;
+        if((rep)==(Mprods*2)){
+          rep=0;
+        }
+      }
+  
+      // Datos para la nueva gráfica
+      const gananciaPorHora = tablaDatos.map(dato => {
+        return calcularVentaHora(dato.caso, dato.hora) - calcularCompraHora(dato.caso, dato.hora);
+      });
+  
+      // Inicializar un nuevo gráfico con los nuevos datos y colores
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: horas,
+          datasets: [{
+            label: 'Ganancia por hora',
+            data: gananciaPorHora,
+            fill: true,
+            borderColor: colors,
+            backgroundColor: colors,
+            borderWidth: 2
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+  }, [tablaDatos, horas, Mprods]);
+  // Configurar el gráfico de barras
+  useEffect(() => {
+    const ctx = document.getElementById('graficoClientesPorHora');
+    if (ctx) {
+      // Obtener referencia al gráfico existente
+      const existingChart = Chart.getChart(ctx);
+  
+      // Destruir el gráfico existente si hay uno
+      if (existingChart) {
+        existingChart.destroy();
+      }
+  
+      // Array de colores para las barras
+      const colors = [];
+      let rep =0;
+      for (let i = 0; i < clientesPorHora.length; i++) {
+        if ((rep+1) <= Mprods) {
+          colors.push('rgba(255, 99, 132, 0.2)'); // Color rojo
+        } else {
+          colors.push('rgba(75, 192, 192, 0.2)'); // Color original
+        }
+        rep++;
+        if((rep)==(Mprods*2)){
+          rep=0;
+        }
+      }
+  
+      // Inicializar un nuevo gráfico con los nuevos datos y colores
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: horas,
+          datasets: [{
+            label: 'Clientes por hora',
+            data: clientesPorHora,
+            backgroundColor: colors,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+  }, [tablaDatos]);
+
+  const borrarGrafica = () => {
+    const canvas = document.getElementById('graficoClientesPorHora');
+    if (canvas) {
+      canvas.remove();
+    }
+  };
+  
+ 
+  
   return (
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
@@ -479,6 +606,19 @@ function SimuladorPage() {
              {NumeroPersonasSistema}
             </tbody>
           </table>
+          <div>
+      {/* Resto del código... */}
+
+      {/* Componente de gráfico de barras */}
+      <div className="my-4">
+        <h2 className="text-center mb-2 font-bold">Clientes por Hora</h2>
+        <canvas id="graficoClientesPorHora" width="400" height="200"></canvas>
+      </div>
+      <div className="my-4">
+  <h2 className="text-center mb-2 font-bold">Ganancia por Hora</h2>
+  <canvas id="graficoGananciaPorHora" width="400" height="200"></canvas>
+</div>
+    </div>
         </div>
       </div>
     </div>
