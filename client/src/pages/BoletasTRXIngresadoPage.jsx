@@ -81,6 +81,11 @@ function BoletasTRXIngresadoPage() {
   const totalSaldo = combinedMovimientos.reduce((acc, movimiento) => {
     return acc + movimiento.saldo;
   }, 0);
+
+  const totalUsado = combinedMovimientos.reduce((acc, movimiento) => {
+    return acc + movimiento.usado;
+  }, 0);
+
  // Calcula el número total de páginas basado en los movimientos filtrados
  const totalPages = Math.ceil(combinedMovimientos.length / movimientosPerPage);
 
@@ -94,6 +99,15 @@ function BoletasTRXIngresadoPage() {
    indexOfFirstMovimiento,
    indexOfLastMovimiento
  );
+
+ useEffect(() => {
+  // Verificar si la cantidad usada es igual al saldo y eliminar el movimiento si es así
+  combinedMovimientos.forEach(movimiento => {
+    if (movimiento.usado === movimiento.saldo) {
+      deleteMovimiento(movimiento._id);
+    }
+  });
+}, [combinedMovimientos]);
   return (
     <div className="flex justify-center p-4">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
@@ -234,7 +248,7 @@ function BoletasTRXIngresadoPage() {
 
         <div className="flex justify-center items-center mt-4">
           <p className="text-lg font-semibold text-blue-900">
-            Total de Saldos: {totalSaldo}
+            Total de Saldos Disponibles: {totalSaldo-totalUsado}
           </p>
           {totalSaldo <= 50 && (
             <span

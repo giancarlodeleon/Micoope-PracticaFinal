@@ -12,23 +12,20 @@ function EntregadoFormPage() {
     formState: { errors },
   } = useForm();
 
-  const {
-    getMovimiento,
-    updateMovimiento,
-    errors: MovimientoErrors,
-    movimiento,
-  } = useMovimientos();
+  const { getMovimiento, updateMovimiento, movimiento } = useMovimientos();
 
   const { createSalida } = useSalidas();
 
   const navigate = useNavigate();
   const [movimientoToShow, setMovimientoToShow] = useState(null);
   const params = useParams();
+  const [movimientoData, setMovimientoData] = useState(null);
 
   useEffect(() => {
     async function loadMovimiento() {
       if (params.id) {
         const movimiento = await getMovimiento(params.id);
+        setMovimientoData(movimiento);
         setValue("tipoM", movimiento.tipo);
         setValue("agenciaM", movimiento.agencia);
         setValue("serieM", movimiento.serie);
@@ -36,6 +33,7 @@ function EntregadoFormPage() {
         setValue("hastaM", movimiento.hasta);
         setValue("totalM", movimiento.total);
         setValue("saldoM", movimiento.saldo);
+        setValue("usadoM", movimiento.usado);
       }
     }
     loadMovimiento();
@@ -49,7 +47,64 @@ function EntregadoFormPage() {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
+    if (
+      parseInt(data.de) < 0 ||
+      parseInt(data.hasta) < 0 ||
+      parseInt(data.cantidad) < 0
+    ) {
+      alert("No pueden haber numeros negativos");
+      return;
+    }
+
+    // Verificar que el valor de "De" no sea mayor que el valor de "Hasta"
+    if (parseInt(data.de) > parseInt(data.hasta)) {
+      alert('El valor de "De" no puede ser mayor que el valor de "Hasta"');
+      return;
+    }
+
+     if (parseInt(data.de) < parseInt(movimientoData.de) ||parseInt(data.de) > parseInt(movimientoData.hasta)) {
+      alert('"De" fuera del rango de los correlativos');
+      return;
+    }
+
+    if (parseInt(data.hasta) < parseInt(movimientoData.de) ||parseInt(data.hasta) > parseInt(movimientoData.hasta)) {
+      alert('"Hasta" fuera del rango de los correlativos');
+      return;
+    }
+
+    if (
+      parseInt(data.cantidad) >
+      parseInt(movimientoData.saldo - movimientoData.usado)
+    ) {
+      alert("No hay suficiente cantidad en stock");
+      return;
+    }
+
     if (params.id) {
+      data.agencia = movimientoData.agencia;
+      data.tipo = movimientoData.tipo;
+      data.serie = movimientoData.serie;
+      data.cantidad = parseInt(data.cantidad);
+      data.de = parseInt(data.de);
+      data.hasta = parseInt(data.hasta);
+      await createSalida(data);
+
+      const nuevoUsado = parseInt(movimientoData.usado) + data.cantidad;
+
+      // Crear objeto con los datos actualizados
+      const newData = {
+        ...data,
+        agencia: movimientoData.agencia,
+        tipo: movimientoData.tipo,
+        serie: movimientoData.serie,
+        de: parseInt(movimientoData.de),
+        hasta: parseInt(movimientoData.hasta),
+        total:parseInt(movimientoData.total),
+        saldo:parseInt(movimientoData.saldo),
+        usado: nuevoUsado,
+      };
+      await updateMovimiento(params.id, newData);
+
       if (movimientoToShow && movimientoToShow === "Aportaciones") {
         navigate("/aportacionesIngresado");
       }
@@ -84,7 +139,7 @@ function EntregadoFormPage() {
             <label className="text-white font "></label>
             <input
               type="number"
-              placeholder="Comentario"
+              placeholder="Cantidad"
               {...register("cantidad", { required: true })}
               className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
             />
@@ -94,27 +149,29 @@ function EntregadoFormPage() {
           )}
 
           <div className="flex items-center py-2">
-            <label className="text-white font "></label>
-            <input
-              type="number"
-              placeholder="De"
-              {...register("de", { required: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
-            />
+            <div className="flex-1">
+              <label className="text-white font "></label>
+              <input
+                type="number"
+                placeholder="De"
+                {...register("de", { required: true })}
+                className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2 w-full"
+              />
+              {errors.de && <p className="text-red-500">De Requerido</p>}
+            </div>
+            <div className="mx-2"></div>{" "}
+            {/* Aquí agregamos un pequeño espacio */}
+            <div className="flex-1">
+              <label className="text-white font "></label>
+              <input
+                type="number"
+                placeholder="Hasta"
+                {...register("hasta", { required: true })}
+                className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2 w-full"
+              />
+              {errors.hasta && <p className="text-red-500">Hasta Requerido</p>}
+            </div>
           </div>
-          {errors.de && <p className="text-red-500">De Requerido</p>}
-
-          <div className="flex items-center py-2">
-            <label className="text-white font "></label>
-            <input
-              type="number"
-              placeholder="Hasta"
-              {...register("hasta", { required: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          {errors.hasta && <p className="text-red-500">De Requerido</p>}
-
           <div className="flex items-center py-2">
             <label className="text-white font "></label>
             <textarea
