@@ -84,12 +84,12 @@ function EntregadoFormPage() {
       data.agencia = movimientoData.agencia;
       data.tipo = movimientoData.tipo;
       data.serie = movimientoData.serie;
-      data.cantidad = parseInt(data.cantidad);
+      data.cantidad = (parseInt(data.hasta)-parseInt(data.de)+1);
       data.de = parseInt(data.de);
       data.hasta = parseInt(data.hasta);
       await createSalida(data);
 
-      const nuevoUsado = parseInt(movimientoData.usado) + data.cantidad;
+      const nuevoUsado = parseInt(movimientoData.usado) + (parseInt(data.hasta)-parseInt(data.de)+1);
 
       // Crear objeto con los datos actualizados
       const newData = {
@@ -135,18 +135,7 @@ function EntregadoFormPage() {
 
         <h1 className="text-2xl text-white font-bold">Usar Boleta</h1>
         <form onSubmit={onSubmit}>
-          <div className="flex items-center py-2">
-            <label className="text-white font "></label>
-            <input
-              type="number"
-              placeholder="Cantidad"
-              {...register("cantidad", { required: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          {errors.cantidad && (
-            <p className="text-red-500">Cantidad Requerido</p>
-          )}
+         
 
           <div className="flex items-center py-2">
             <div className="flex-1">
