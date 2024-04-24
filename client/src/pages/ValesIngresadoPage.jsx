@@ -13,7 +13,7 @@ function ValesIngresadoPage() {
   const { user } = useAuth();
   const { getAgencias, agencias } = useAgencias();
   const { getRols, rol } = useRols();
-  const [selectedAgencia, setSelectedAgencia] = useState("");
+  const [selectedAgencia, setSelectedAgencia] = useState(localStorage.getItem("selectedAgencia") || "");
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -105,6 +105,11 @@ function ValesIngresadoPage() {
     indexOfFirstMovimiento,
     indexOfLastMovimiento
   );
+
+  useEffect(() => {
+    localStorage.setItem("selectedAgencia", selectedAgencia);
+  }, [selectedAgencia]);
+
 
   useEffect(() => {
     // Verificar si la cantidad usada es igual al saldo y eliminar el movimiento si es así

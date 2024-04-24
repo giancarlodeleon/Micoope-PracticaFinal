@@ -13,7 +13,7 @@ function InfantoIngresadoPage() {
   const { user } = useAuth();
   const { getAgencias, agencias } = useAgencias();
   const { getRols, rol } = useRols();
-  const [selectedAgencia, setSelectedAgencia] = useState("");
+  const [selectedAgencia, setSelectedAgencia] = useState(localStorage.getItem("selectedAgencia") || "");
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -24,6 +24,12 @@ function InfantoIngresadoPage() {
     setSelectedAgencia(selectedAgencia);
     onChange(selectedAgencia);
   };
+
+  useEffect(() => {
+    localStorage.setItem("selectedAgencia", selectedAgencia);
+  }, [selectedAgencia]);
+
+
 
   useEffect(() => {
     getAgencias();

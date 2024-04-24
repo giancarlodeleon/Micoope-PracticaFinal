@@ -109,7 +109,7 @@ function BoletaEgresoPage() {
       });
     } else {
 
-    await createMovimiento({ ...data, hasta: data.de + existencia - 1 });
+    await createMovimiento({ ...data, hasta: data.de + existencia - 1 ,usado:0});
     }
 
     setRedirectOnSuccess(true);

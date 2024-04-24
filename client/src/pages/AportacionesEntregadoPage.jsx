@@ -15,8 +15,10 @@ function AportacionesEntregadoPage() {
   const [endDate, setEndDate] = useState(null);
   const { getRols, rol } = useRols();
   const [Setpermiso, setPermisoToShow] = useState(null);
-  const [selectedAgency, setSelectedAgency] = useState(null);
+  const [selectedAgency, setSelectedAgency] = useState(localStorage.getItem("selectedAgency") || "");
   const { getAgencias, agencias } = useAgencias();
+  const [currentPage, setCurrentPage] = useState(1); // Estado para almacenar la página actual
+  const salidasPerPage = 10; // Número de salidas por página
 
   useEffect(() => {
     getSalidas();
@@ -25,17 +27,9 @@ function AportacionesEntregadoPage() {
   }, []);
 
   useEffect(() => {
-    const modifiedEndDate = new Date(endDate);
-    modifiedEndDate.setDate(modifiedEndDate.getDate() + 1);
-    const filtered = salidas.filter(
-      (salida) =>
-        salida.agencia === user.agencia &&
-        salida.tipo === "Aportaciones" &&
-        (!startDate || new Date(salida.fecha) >= startDate) &&
-        (!endDate || new Date(salida.fecha) <= modifiedEndDate)
-    );
-    setFilteredSalidas(filtered);
-  }, [salidas, user.agencia, startDate, endDate]);
+    localStorage.setItem("selectedAgency", selectedAgency);
+  }, [selectedAgency]);
+
 
   function formatDate(dateString) {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -55,6 +49,35 @@ function AportacionesEntregadoPage() {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
     setPermisoToShow(permiso.permission_of_all_Agencys);
   }, []);
+
+  useEffect(() => {
+    const modifiedEndDate = endDate ? new Date(endDate) : null;
+    if (modifiedEndDate) modifiedEndDate.setDate(modifiedEndDate.getDate() + 1);
+  
+    const filteredSalidas = salidas.filter((salida) => {
+      const salidaDate = new Date(salida.fecha);
+      const isAfterStartDate = !startDate || salidaDate >= startDate;
+      const isBeforeEndDate = !endDate || salidaDate <= modifiedEndDate;
+  
+      if (!isAfterStartDate || !isBeforeEndDate) return false;
+  
+      if (selectedAgency) {
+        return salida.agencia === selectedAgency && salida.tipo === "Aportaciones";
+      } else {
+        return (!Setpermiso && salida.agencia === user.agencia && salida.tipo === "Aportaciones");
+      }
+    });
+  
+    setFilteredSalidas(filteredSalidas);
+  }, [salidas, selectedAgency, startDate, endDate, user.agencia, Setpermiso]);
+
+  const indexOfLastSalida = currentPage * salidasPerPage;
+  const indexOfFirstSalida = indexOfLastSalida - salidasPerPage;
+  const currentSalidas = filteredSalidas.slice(indexOfFirstSalida, indexOfLastSalida);
+  const totalPages = Math.ceil(filteredSalidas.length / salidasPerPage);
+
+  // Calcula la suma total de todas las cantidades
+  const totalCantidad = filteredSalidas.reduce((total, salida) => total + salida.cantidad, 0);
 
   return (
     <div className="flex justify-center p-4 ">
@@ -101,7 +124,7 @@ function AportacionesEntregadoPage() {
             />
             {Setpermiso && (
               <>
-              <h1 className=" rounded p-2 font-bold px-4">Agencia</h1>
+                <h1 className=" rounded p-2 font-bold px-4">Agencia</h1>
                 <select
                   className="border-blue-500 border-2 rounded p-1"
                   onChange={(e) => setSelectedAgency(e.target.value)}
@@ -139,7 +162,7 @@ function AportacionesEntregadoPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredSalidas.map((salida) => (
+              {currentSalidas.map((salida) => (
                 <tr key={salida.id}>
                   <td className="text-center border border-blue-100">
                     {formatDate(salida.fecha)}
@@ -160,6 +183,12 @@ function AportacionesEntregadoPage() {
                     {salida.comentario}
                   </td>
                   <td className="text-center border border-blue-100 flex justify-center items-center">
+                  <Link
+                      to={`/aportacionesEntregado/${salida._id}`}
+                      className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
+                    >
+                      Editar
+                    </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
                       onClick={() => handleDeleteClick(salida._id)}
@@ -172,6 +201,35 @@ function AportacionesEntregadoPage() {
             </tbody>
           </table>
         </div>
+        <div className="flex justify-center items-center mt-4">
+          <p className="text-lg font-semibold text-blue-900">
+           Cantidad Total: {totalCantidad}
+          </p>
+
+        </div>
+        {/* Controles de paginación */}
+        <div className="flex justify-center mt-4">
+          {currentPage !== 1 && (
+            <button
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Anterior
+            </button>
+          )}
+          {indexOfLastSalida < filteredSalidas.length && (
+            <button
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Siguiente
+            </button>
+          )}
+        </div>
+        {/* Mostrar el total de páginas */}
+        <p className="text-center text-sm text-gray-500 mt-2">
+          Página {currentPage} de {totalPages}
+        </p>
       </div>
     </div>
   );

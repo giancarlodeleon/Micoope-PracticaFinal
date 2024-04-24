@@ -35,6 +35,7 @@ import AlmacenRoute from "./AlmacenRoute";
 import AgenciaRoute from "./AgenciaRoute";
 import Navbar from "./components/Navbar";
 import EntregadoFormPage from "./pages/EntregadoFormPage";
+import SalidaFormPage from "./pages/SalidaFormPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { AgenciaProvider } from "./context/AgenciaContext";
@@ -88,6 +89,7 @@ function App() {
                       </Route>
                       <Route element={<AgenciaRoute />}>
                       <Route path="/entregar/:id" element={<EntregadoFormPage />} />
+                      <Route path="/aportacionesEntregado/:id" element={<SalidaFormPage />} />
                       <Route path="/movimientos/:id" element={<MovimientoFormPage />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
