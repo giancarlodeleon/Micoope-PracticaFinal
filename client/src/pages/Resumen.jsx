@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAgencias } from "../context/AgenciaContext";
 import DatePicker from "react-datepicker"; // Importa react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Importa los estilos de react-datepicker
@@ -31,53 +31,40 @@ function Resumen() {
             Saldos en formas en Blanco Agencia
           </h1>
 
-          <table className="mt-4">
-            <thead>
-              <tr>
-                <th className="py-1 px-2 text-center bg-blue-900 text-white rounded-lg">
-                  Jefe de Agencia Responsable:
-                </th>
-                <td className="px-4">
-                  <div className="font-bold" style={{ marginRight: "60px" }}>{user.username}</div>
-                </td>
-                <td className="py-1 text-center font-bold">
-                  Fecha de Realización:
-                </td>
-                <td className="">{user.createdAt}</td>
-                <td className="px-4">
-                  {" "}
-                  {/* Nueva columna para el selector de fecha */}
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    className="border-blue-500 border-2 rounded p-1"
-                    popperPlacement="bottom-end"
-                  />
-                </td>
-                <td className="px-14"> <select 
-                    className="border-blue-500 border-2 rounded p-1"
-                    value={selectedAgencia}
-                    onChange={(e) => setSelectedAgencia(e.target.value)}
-                  >
-                    <option value="">Selecciona una agencia</option>
-                    {agencias.map((agencia) => (
-                      <option key={agencia.id} value={agencia.id}>
-                        {agencia.name}
-                      </option>
-                    ))}
-                  </select></td>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-
+          <table className="mt-4 mx-auto">
+  <thead>
+    <tr>
+      
+      <td className="py-1 text-center font-bold">
+        <div className="flex justify-center">Agencia:</div>
+      </td>
+      <td className="px-4">
+        <div className="flex justify-center">
+          <select
+            className="border-blue-500 border-2 rounded p-1"
+            value={selectedAgencia}
+            onChange={(e) => setSelectedAgencia(e.target.value)}
+          >
+            <option value="">Selecciona una agencia</option>
+            {agencias.map((agencia) => (
+              <option key={agencia.id} value={agencia.id}>
+                {agencia.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </td>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
           <table className="w-full border-collapse rounded-lg mt-20">
             <thead>
               <tr>
-                <th className="py-1 text-center bg-white text-white rounded-lg"></th>
+            
                 <th
                   className="py-1 text-center bg-blue-900 text-white rounded-lg"
-                  colSpan="4"
+                  colSpan="5"
                 >
                   Inventario Final
                 </th>

@@ -254,7 +254,7 @@ function BoletasTRXIngresadoPage() {
           <p className="text-lg font-semibold text-blue-900">
             Total de Saldos Disponibles: {totalSaldo-totalUsado}
           </p>
-          {totalSaldo <= 50 && (
+          {totalSaldo <= 2000 && (
             <span
               className="text-red-500 ml-2"
               title="No quedan muchas boletas"

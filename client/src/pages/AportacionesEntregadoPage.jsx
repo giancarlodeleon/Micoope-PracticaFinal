@@ -8,7 +8,7 @@ import { useRols } from "../context/RolContext";
 import { useAgencias } from "../context/AgenciaContext";
 
 function AportacionesEntregadoPage() {
-  const { getSalidas, salidas, deleteSalida } = useSalidas();
+  const { getSalidas, salidas } = useSalidas();
   const { user } = useAuth();
   const [filteredSalidas, setFilteredSalidas] = useState([]);
   const [startDate, setStartDate] = useState(null);
@@ -35,15 +35,6 @@ function AportacionesEntregadoPage() {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
   }
-
-  const handleDeleteClick = (salidaId) => {
-    const confirmDelete = window.confirm(
-      "¿Estás seguro de que quieres eliminar?"
-    );
-    if (confirmDelete) {
-      deleteSalida(salidaId);
-    }
-  };
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -184,17 +175,12 @@ function AportacionesEntregadoPage() {
                   </td>
                   <td className="text-center border border-blue-100 flex justify-center items-center">
                   <Link
-                      to={`/aportacionesEntregado/${salida._id}`}
+                      to={`/salida/${salida._id}`}
                       className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
                       Editar
                     </Link>
-                    <button
-                      className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(salida._id)}
-                    >
-                      Eliminar
-                    </button>
+                   
                   </td>
                 </tr>
               ))}

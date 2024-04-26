@@ -89,7 +89,7 @@ function App() {
                       </Route>
                       <Route element={<AgenciaRoute />}>
                       <Route path="/entregar/:id" element={<EntregadoFormPage />} />
-                      <Route path="/aportacionesEntregado/:id" element={<SalidaFormPage />} />
+                      <Route path="/salida/:id" element={<SalidaFormPage />} />
                       <Route path="/movimientos/:id" element={<MovimientoFormPage />} />
                       <Route path="/aportacionesIngresado" element={<AportacionesIngresadoPage />} />
                       <Route path="/aportacionesEntregado" element={<AportacionesEntregadoPage />} />
