@@ -88,22 +88,7 @@ function HomePage() {
         </div>
 
         {/* Nuevo apartado centrado horizontal y verticalmente */}
-        <div
-          className="text-container bg-gray-200 rounded-lg p-6 text-center z-10"
-          style={{
-            marginLeft: expanded ? "-30%" : "0",
-            transition: "margin-left 2s ease",
-          }}
-          onMouseEnter={toggleExpansion}
-          onMouseLeave={toggleExpansion}
-        >
-          <h2 className="text-2xl text-gray-800 mb-6">
-            {expanded ? "Nosotros" : "Contactanos"}
-          </h2>
-          <p className="text-lg text-gray-700 mb-6">
-            {expanded ? "Somos Cooperativa Cobán" : "PBX 7929-7600 "}
-          </p>
-        </div>
+    
       </div>
     </div>
   );

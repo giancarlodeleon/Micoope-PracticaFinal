@@ -12,6 +12,7 @@ function Navbar() {
   // Estado para controlar la visibilidad del menú desplegable
   const [dropdownOpenManejo, setDropdownOpenManejo] = useState(false);
   const [dropdownOpenAgencia, setDropdownOpenAgencia] = useState(false);
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   // Función para manejar el clic en el botón de desplegar
   const handleDropdownToggleManejo = () => {
@@ -46,8 +47,28 @@ function Navbar() {
     getRols();
   });
 
+ 
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
+
+  const [subMenuVisible1, setSubMenuVisible1] = useState(false);
+  
+  const toggleSubMenu1 = () => {
+    setSubMenuVisible1(!subMenuVisible1);
+  };
+
+  const [subMenuVisible2, setSubMenuVisible2] = useState(false);
+  
+  const toggleSubMenu2 = () => {
+    setSubMenuVisible2(!subMenuVisible2);
+  };
   return (
     <>
+
+    
       <nav className="bg-white my-1 flex justify-between items-center px-10 rounded-lg relative z-50">
         <Link to="/home">
           <img
@@ -58,7 +79,67 @@ function Navbar() {
           />
         </Link>
 
-        <ul className="flex gap-x-10 items-center">
+
+        {isMobile && isAuthenticated ? (
+          // Display mobile menu button
+          <>
+          <div className="relative">
+          <button
+            className="block md:hidden text-3xl focus:outline-none"
+            onClick={toggleMenu}
+          >
+            ☰
+          </button>
+
+              {/* Menú desplegable */}
+              {menuVisible && (
+            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+              <div className="py-1 font-bold" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                   {/* Elemento con submenú */}
+                   <button
+                  className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
+                  onClick={toggleSubMenu1}
+                >
+                  Manejo de Informacion
+                </button>
+                {/* Submenú */}
+                {subMenuVisible1 && (
+                  <div className="pl-4">
+                    <a href="/users" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Usuario</a>
+                    <a href="/roles" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Roles</a>
+                    <a href="/agencias" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Agencias</a>
+                  </div>
+                )}
+              
+                <a href="/boletas" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Almacen</a>
+                <a href="/resumen" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Resumen</a>
+                <button
+                  className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
+                  onClick={toggleSubMenu2}
+                >
+                  Manejo de Agencia
+                </button>
+                {/* Submenú */}
+                {subMenuVisible2 && (
+                  <div className="pl-4">
+                    <a href="/aportacionesIngresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Aportaciones</a>
+                    <a href="/ahorro-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Ahorro Disponible</a>
+                    <a href="/infanto-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Infanto Juvenil</a>
+                    <a href="/plazo-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Plazo Fijo</a>
+                    <a href="/programado-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Programado</a>
+                    <a href="/TRX-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Boletas TRX</a>
+                    <a href="/vales-ingresado" className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100" role="menuitem">Vales de Efectivo</a>
+                  </div>
+                )}
+             
+              </div>
+            </div>
+          )}
+          </div>
+          </>
+        ) : (
+          // Display desktop menu
+          <ul className="flex gap-x-10 items-center">
           {isAuthenticated && (
             <>
               <li>
@@ -409,6 +490,17 @@ function Navbar() {
             </>
           )}
         </ul>
+        )}
+    
+
+
+
+
+
+
+
+
+       
       </nav>
       <hr className="border-gray-300 w-full" />
     </>
