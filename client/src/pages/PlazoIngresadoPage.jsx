@@ -132,7 +132,7 @@ function PlazoIngresadoPage() {
                 to=""
                 className="bg-blue-900 font-bold text-blue-50  hover:text-blue-50 border-2  border-blue-300  w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
               >
-                Correlativo Ingresado Agencia
+                Correlativo Ingresado
               </Link>
             </div>
             <div className="flex-1 " style={{ marginRight: "50px" }}>
@@ -140,12 +140,12 @@ function PlazoIngresadoPage() {
                 to="/plazo-entregado"
                 className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
               >
-                Correlativo Entregado Asociados
+                Correlativo Entregado
               </Link>
             </div>
           </div>
-          <div className="flex justify-center p-4">
-            <h1 className=" rounded p-2 font-bold px-4">De</h1>
+          <div className="flex justify-between p-4">
+            <h1 className=" rounded p-2 font-bold">De</h1>
             <DatePicker
               selected={startDate}
               placeholderText="mm/dd/aa"
@@ -154,7 +154,7 @@ function PlazoIngresadoPage() {
               popperPlacement="bottom-end"
             />
 
-            <h1 className=" rounded p-2 font-bold px-4">Hasta</h1>
+            <h1 className=" rounded p-2 font-bold">Hasta</h1>
             <DatePicker
               selected={endDate}
               placeholderText="mm/dd/aa"
@@ -165,7 +165,7 @@ function PlazoIngresadoPage() {
 
             {Setpermiso && (
               <>
-                <h1 className=" rounded p-2 font-bold px-4">Agencia</h1>
+                <h1 className=" rounded p-2 font-bold">Agencia</h1>
                 <select
                   className="border-blue-500 border-2 rounded p-1"
                   value={selectedAgencia}

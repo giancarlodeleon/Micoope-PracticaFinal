@@ -95,7 +95,7 @@ function SalidaFormPage() {
           <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
             {/* Mostrar el tipo del movimientoToShow si existe */}
     
-            <h1 className="text-2xl text-white font-bold">Usar Boleta</h1>
+            <h1 className="text-2xl text-white font-bold">Editar Boleta</h1>
             <form onSubmit={onSubmit}>
              
     

@@ -87,7 +87,7 @@ function AhorroEntregadoPage() {
                 to="/ahorro-ingresado"
                 className="bg-white font-bold text-blue-900 border-2 border-blue-900  hover:bg-blue-500 hover:text-blue-50 w-full rounded-bl-lg rounded-tl-lg px-6 py-2 text-center block"
               >
-                Correlativo Ingresado Agencia
+                Correlativo Ingresado
               </Link>
             </div>
             <div className="flex-1" style={{ marginRight: "50px" }}>
@@ -95,19 +95,19 @@ function AhorroEntregadoPage() {
                 to=""
                 className="bg-blue-900 font-bold text-blue-50  hover:text-blue-50 border-2 border-blue-300 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
               >
-                Correlativo Entregado Asociados
+                Correlativo Entregado
               </Link>
             </div>
           </div>
-          <div className="flex justify-center p-4">
-            <h1 className=" rounded p-2 font-bold px-4">De</h1>
+          <div className="flex justify-between p-4">
+            <h1 className=" rounded p-2 font-bold ">De</h1>
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               placeholderText="mm/dd/aa"
               className="border-blue-500 border-2 rounded p-1"
             />
-            <h1 className=" rounded p-2 font-bold px-4">Hasta</h1>
+            <h1 className=" rounded p-2 font-bold ">Hasta</h1>
             <DatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
@@ -116,7 +116,7 @@ function AhorroEntregadoPage() {
             />
             {Setpermiso && (
               <>
-                <h1 className=" rounded p-2 font-bold px-4">Agencia</h1>
+                <h1 className=" rounded p-2 font-bold ">Agencia</h1>
                 <select
                   className="border-blue-500 border-2 rounded p-1"
                   onChange={(e) => setSelectedAgency(e.target.value)}

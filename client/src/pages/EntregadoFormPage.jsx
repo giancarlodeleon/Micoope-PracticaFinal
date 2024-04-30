@@ -178,7 +178,7 @@ function EntregadoFormPage() {
             type="submit"
             className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
           >
-            Guardar
+            Usar
           </button>
         </form>
         {movimientoToShow && movimientoToShow === "Aportaciones" && (
