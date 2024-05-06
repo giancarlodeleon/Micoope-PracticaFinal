@@ -586,7 +586,7 @@ function Navbar() {
                     }}
                     activeStyle={{ background: "blue", color: "white" }}
                   >
-                    Cerrar Sesión
+                   <p className="justify-between">Cerrar Sesión</p>
                   </NavLink>
                 </li>
               </>
