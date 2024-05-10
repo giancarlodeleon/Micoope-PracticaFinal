@@ -46,7 +46,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  });
+  },[]);
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
