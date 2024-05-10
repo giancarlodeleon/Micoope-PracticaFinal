@@ -43,7 +43,7 @@ function InfantoIngresadoPage() {
 
   useEffect(() => {
     getMovimientos();
-  }, [getMovimientos]);
+  }, []);
 
   const handleDeleteClick = (movimientoId) => {
     const confirmDelete = window.confirm(

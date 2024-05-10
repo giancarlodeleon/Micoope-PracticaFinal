@@ -42,7 +42,7 @@ function AportacionesPage() {
 
   useEffect(() => {
     getMovimientos();
-  }, [getMovimientos]);
+  }, []);
 
   const handleDeleteClick = (movimientoId) => {
     const confirmDelete = window.confirm(

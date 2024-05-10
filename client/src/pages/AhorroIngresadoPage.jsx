@@ -44,7 +44,7 @@ function AhorroIngresadoPage() {
 
   useEffect(() => {
     getMovimientos();
-  }, [getMovimientos]);
+  }, []);
 
   const handleDeleteClick = (movimientoId) => {
     const confirmDelete = window.confirm(

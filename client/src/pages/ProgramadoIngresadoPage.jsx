@@ -41,7 +41,7 @@ function ProgramadoIngresadoPage() {
 
   useEffect(() => {
     getMovimientos();
-  }, [getMovimientos]);
+  }, []);
 
   const handleDeleteClick = (movimientoId) => {
     const confirmDelete = window.confirm(
