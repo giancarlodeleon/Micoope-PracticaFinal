@@ -58,8 +58,8 @@ function Almacen() {
     <div className="flex justify-center p-4">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
         <h1 className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative" style={{ fontSize: "30px" }}>
-          Almacen
-          <Link to="/add-boleta" className="bg-blue-400 text-white hover:bg-blue-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center" style={{ width: "36px", height: "36px" }}>
+          Inventario
+          <Link to="/add-inventario" className="bg-blue-400 text-white hover:bg-blue-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center" style={{ width: "36px", height: "36px" }}>
             +
           </Link>
         </h1>
@@ -116,9 +116,9 @@ function Almacen() {
       </div>
     </td>
     <td className="flex justify-center items-center border border-blue-100">
-      <Link to={`/boletas/${boleta._id}`} className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2">Editar</Link>
-      <Link to={`/boletas/ingreso/${boleta._id}`} className="bg-green-600 font-bold hover:bg-green-500 text-white py-1 px-2 rounded-lg mr-2">Ingresar</Link>
-      <Link to={`/boletas/egreso/${boleta._id}`} className="bg-green-600 font-bold hover:bg-green-500 text-white py-1 px-2 rounded-lg mr-2">Enviar</Link>
+      <Link to={`/inventario/${boleta._id}`} className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-1 px-2 rounded-lg mr-2">Editar</Link>
+      <Link to={`/inventario/ingreso/${boleta._id}`} className="bg-green-600 font-bold hover:bg-green-500 text-white py-1 px-2 rounded-lg mr-2">Ingresar</Link>
+      <Link to={`/inventario/egreso/${boleta._id}`} className="bg-green-600 font-bold hover:bg-green-500 text-white py-1 px-2 rounded-lg mr-2">Enviar</Link>
       <button className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg" onClick={() => handleDeleteClick(boleta._id)}>Eliminar</button>
     </td>
   </tr>

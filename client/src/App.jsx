@@ -78,11 +78,11 @@ function App() {
                         <Route path="/rols/:id" element={<RolFormPage />} />
                       </Route>
                       <Route element={<AlmacenRoute />}>
-                      <Route path="/boletas" element={<Almacen />} />
-                      <Route path="/boletas/:id" element={<BoletaFormPage />} />
-                      <Route path="/boletas/ingreso/:id" element={<BoletaIngresoPage />} />
-                      <Route path="/boletas/egreso/:id" element={<BoletaEgresoPage />} />
-                      <Route path="/add-boleta" element={<BoletaFormPage />} />
+                      <Route path="/inventario" element={<Almacen />} />
+                      <Route path="/inventario/:id" element={<BoletaFormPage />} />
+                      <Route path="/inventario/ingreso/:id" element={<BoletaIngresoPage />} />
+                      <Route path="/inventario/egreso/:id" element={<BoletaEgresoPage />} />
+                      <Route path="/add-inventario" element={<BoletaFormPage />} />
                       </Route>
                       <Route element={<ResumenRoute />}>
                       <Route path="/resumen" element={<Resumen />} />

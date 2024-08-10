@@ -36,7 +36,7 @@ function HomePage() {
           className="text-5xl mb-6 font-semibold text-center"
           style={{ textShadow: "0 0 8px white" }}
         >
-          COOPERATIVA COBAN
+          CINAGRO
         </h1>
         <p className="text-lg text-left mb-6">
           ofrecemos una plataforma segura y eficiente para el seguimiento de

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
-import Logo from "../assets/descarga.png";
+import Logo from "../assets/cinagro.jpg";
 
 function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -46,7 +46,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  },[]);
+  },);
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -257,7 +257,7 @@ function Navbar() {
                         <option
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "20px" }}
-                          className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname.startsWith("/users") ||
                             location.pathname.startsWith("/agencias") ||
                             location.pathname.startsWith("/rols") ||
@@ -266,7 +266,7 @@ function Navbar() {
                             location.pathname === "/add-rol" ||
                             location.pathname === "/agencias" ||
                             location.pathname === "/roles"
-                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -284,7 +284,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleManejo}
                           to="/users"
-                          activeStyle={{ background: "blue", color: "white" }}
+                          activeStyle={{ background: "green", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -292,7 +292,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Usuarios
                               </option>
@@ -304,7 +304,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleManejo}
                           to="/roles"
-                          activeStyle={{ background: "blue", color: "white" }}
+                          activeStyle={{ background: "green", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -312,7 +312,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Roles
                               </option>
@@ -324,7 +324,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleManejo}
                           to="/agencias"
-                          activeStyle={{ background: "blue", color: "white" }}
+                          activeStyle={{ background: "green", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -332,7 +332,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Agencias
                               </option>
@@ -345,8 +345,8 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
-                    to="/boletas"
-                    activeStyle={{ background: "blue", color: "white" }}
+                    to="/inventario"
+                    activeStyle={{ background: "green", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -354,15 +354,15 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "20px" }}
-                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                            location.pathname === "/boletas" ||
-                            location.pathname.startsWith("/boletas") ||
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/inventario" ||
+                            location.pathname.startsWith("/inventario") ||
                             location.pathname === "/add-boleta"
-                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
                               : ""
                           }`}
                         >
-                          Almacen
+                          Inventario
                         </option>
                       )
                     )}
@@ -371,7 +371,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/resumen"
-                    activeStyle={{ background: "blue", color: "white" }}
+                    activeStyle={{ background: "green", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -379,9 +379,9 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "20px" }}
-                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/resumen"
-                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
                               : ""
                           }`}
                         >
@@ -402,7 +402,7 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "20px" }}
-                          className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname.startsWith("/salida") ||
                             location.pathname.startsWith("/entregar") ||
                             location.pathname.startsWith("/movimientos") ||
@@ -420,7 +420,7 @@ function Navbar() {
                             location.pathname === "/TRX-entregado" ||
                             location.pathname === "/vales-ingresado" ||
                             location.pathname === "/vales-entregado"
-                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
                               : ""
                           }`}
                         >

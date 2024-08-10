@@ -120,7 +120,7 @@ function BoletaEgresoPage() {
 
   useEffect(() => {
     if (redirectOnSuccess && BoletaErrors.length === 0) {
-      navigate("/boletas");
+      navigate("/inventario");
     }
   }, [redirectOnSuccess, BoletaErrors, navigate]);
 
@@ -167,7 +167,7 @@ function BoletaEgresoPage() {
           </button>
         </form>
         <Link
-          to="/boletas"
+          to="/inventario"
           className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
         >
           Regresar
