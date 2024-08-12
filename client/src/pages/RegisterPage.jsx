@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useUsers } from "../context/UserContext";
-import { useAgencias } from "../context/AgenciaContext";
 import {useRols} from "../context/RolContext";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -17,7 +16,6 @@ function RegisterPage() {
 
   const { getUser, updateUser, errors: UpdateErrors } = useUsers();
   const { signup, errors: RegisterErrors } = useAuth();
-  const { getAgencias, agencias } = useAgencias();
   const { getRols, rol } = useRols();
   const params = useParams();
   const navigate = useNavigate();
@@ -27,7 +25,6 @@ function RegisterPage() {
   const password = watch("password", ""); // Observa el campo de contraseña
 
   useEffect(() => {
-    getAgencias();
     getRols();
   },[]);
 
@@ -84,7 +81,7 @@ function RegisterPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
+      <div className="bg-green-900 max-w-md p-10 rounded-md mx-auto relative">
         {UpdateErrors.map((error, i) => (
           <div
             className="bg-red-500 p-2 my-1 text-white rounded-md text-center"
@@ -107,7 +104,7 @@ function RegisterPage() {
           <input
             type="text"
             {...register("username", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Nombre de usuario"
           />
           {errors.username && (
@@ -117,7 +114,7 @@ function RegisterPage() {
           <input
             type="email"
             {...register("email", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Correo electronico"
           />
           {errors.email && (
@@ -127,7 +124,7 @@ function RegisterPage() {
           <input
             type="password"
             {...register("password", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Contrasena"
           />
           {errors.password && (
@@ -141,7 +138,7 @@ function RegisterPage() {
               validate: (value) =>
                 value === password || "Las contraseñas no coinciden",
             })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Confirmar Contrasena"
           />
           {errors.confirmPassword && (
@@ -149,23 +146,11 @@ function RegisterPage() {
           )}
 
           
-          <select
-            {...register("agencia", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
-          >
-            <option value="">Seleccione una Agencia</option>
-            {agencias.map((place) => (
-              <option value={place.name}>{place.name}</option>
-            ))}
-          </select>
-
-          {errors.agencia && (
-            <p className="text-red-500">Debe seleccionar una agencia</p>
-          )}
+      
 
           <select
             {...register("rol", { required: true })}
-            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
           >
             <option value="">Seleccione un rol</option>
             {rol.map((place) => (
@@ -181,14 +166,14 @@ function RegisterPage() {
             <input
               type="checkbox"
               {...register("estado", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
             
           </div>
 
           <button
             type="submit"
-            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
+            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mr-auto"
           >
             Guardar
           </button>

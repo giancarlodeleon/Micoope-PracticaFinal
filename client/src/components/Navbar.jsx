@@ -76,7 +76,7 @@ function Navbar() {
         <Link to="/home">
           <img
             src={Logo}
-            alt="Imagen Cooperativa"
+            alt="Cinagro"
             className="rounded-lg"
             style={{ maxWidth: "200px" }}
           />
@@ -132,13 +132,7 @@ function Navbar() {
                         >
                           Roles
                         </a>
-                        <a
-                          href="/agencias"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Agencias
-                        </a>
+                       
                       </div>
                     )}
 
@@ -159,81 +153,15 @@ function Navbar() {
                       place.name !== user.rol ||
                       !place.permission_Summary ? null : (
                         <a
-                          href="/resumen"
+                          href="/reporte"
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          Resumen
+                          reporte
                         </a>
                       )
                     )}
 
-                    {rol.map((place) =>
-                      place.name !== user.rol ||
-                      !place.permission_of_Office ? null : (
-                        <button
-                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
-                          onClick={toggleSubMenu2}
-                        >
-                          Manejo de Agencia
-                        </button>
-                      )
-                    )}
-
-                    {/* Submenú */}
-                    {subMenuVisible2 && (
-                      <div className="pl-4 bg-gray-200">
-                        <a
-                          href="/aportacionesIngresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Aportaciones
-                        </a>
-                        <a
-                          href="/ahorro-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Ahorro Disponible
-                        </a>
-                        <a
-                          href="/infanto-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Infanto Juvenil
-                        </a>
-                        <a
-                          href="/plazo-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Plazo Fijo
-                        </a>
-                        <a
-                          href="/programado-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Programado
-                        </a>
-                        <a
-                          href="/TRX-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Boletas TRX
-                        </a>
-                        <a
-                          href="/vales-ingresado"
-                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          Vales de Efectivo
-                        </a>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -258,13 +186,10 @@ function Navbar() {
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "20px" }}
                           className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                            location.pathname.startsWith("/users") ||
-                            location.pathname.startsWith("/agencias") ||
+                            location.pathname.startsWith("/users") || 
                             location.pathname.startsWith("/rols") ||
                             location.pathname === "/register" ||
-                            location.pathname === "/add-agencia" ||
                             location.pathname === "/add-rol" ||
-                            location.pathname === "/agencias" ||
                             location.pathname === "/roles"
                               ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""
@@ -320,28 +245,34 @@ function Navbar() {
                           )}
                         </NavLink>
                       </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleManejo}
-                          to="/agencias"
-                          activeStyle={{ background: "green", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_information ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Agencias
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
+                     
                     </ul>
                   )}
+                </li>
+                <li>
+                  <NavLink
+                    to="/clientes"
+                    activeStyle={{ background: "green", color: "white" }}
+                  >
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Warehouse ? null : (
+                        <option
+                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                          style={{ fontSize: "20px" }}
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/clientes" ||
+                            location.pathname.startsWith("/clientes") ||
+                            location.pathname === "/add-boleta"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              : ""
+                          }`}
+                        >
+                          Clientes
+                        </option>
+                      )
+                    )}
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink
@@ -370,7 +301,7 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
-                    to="/resumen"
+                    to="/reporte"
                     activeStyle={{ background: "green", color: "white" }}
                   >
                     {rol.map((place) =>
@@ -380,12 +311,12 @@ function Navbar() {
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "20px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
-                            location.pathname === "/resumen"
+                            location.pathname === "/reporte"
                               ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
                               : ""
                           }`}
                         >
-                          Resumen
+                          Reporte
                         </option>
                       )
                     )}
@@ -396,185 +327,10 @@ function Navbar() {
                     style={{ fontSize: "20px" }}
                     onClick={handleDropdownToggleAgencia}
                   >
-                    {rol.map((place) =>
-                      place.name !== user.rol ||
-                      !place.permission_of_Office ? null : (
-                        <option
-                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
-                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                            location.pathname.startsWith("/salida") ||
-                            location.pathname.startsWith("/entregar") ||
-                            location.pathname.startsWith("/movimientos") ||
-                            location.pathname === "/aportacionesIngresado" ||
-                            location.pathname === "/aportacionesEntregado" ||
-                            location.pathname === "/ahorro-ingresado" ||
-                            location.pathname === "/ahorro-entregado" ||
-                            location.pathname === "/infanto-ingresado" ||
-                            location.pathname === "/infanto-entregado" ||
-                            location.pathname === "/plazo-ingresado" ||
-                            location.pathname === "/plazo-entregado" ||
-                            location.pathname === "/programado-ingresado" ||
-                            location.pathname === "/programado-entregado" ||
-                            location.pathname === "/TRX-ingresado" ||
-                            location.pathname === "/TRX-entregado" ||
-                            location.pathname === "/vales-ingresado" ||
-                            location.pathname === "/vales-entregado"
-                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
-                              : ""
-                          }`}
-                        >
-                          Manejo de Agencia
-                        </option>
-                      )
-                    )}
+                   
                   </NavLink>
                   {/* Contenido del menú desplegable */}
-                  {dropdownOpenAgencia && (
-                    <ul className="absolute bg-white shadow-md rounded-lg mt-1 z-50 flex flex-col justify-center items-center">
-                      {/* Opciones del menú desplegable */}
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/aportacionesIngresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Aportaciones
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/ahorro-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Ahorro Disponible
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/infanto-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Infanto Juvenil
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/plazo-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Plazo Fijo
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/programado-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Programado
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/TRX-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Boletas TRX
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleDropdownToggleAgencia}
-                          to="/vales-ingresado"
-                          activeStyle={{ background: "blue", color: "white" }}
-                        >
-                          {rol.map((place) =>
-                            place.name !== user.rol ||
-                            !place.permission_of_Office ? null : (
-                              <option
-                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
-                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
-                              >
-                                Vales de Efectivo
-                              </option>
-                            )
-                          )}
-                        </NavLink>
-                      </li>
-                    </ul>
-                  )}
+                 
                 </li>
                 <li>
                   <NavLink

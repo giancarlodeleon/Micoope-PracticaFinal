@@ -50,14 +50,14 @@ function RolFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
+      <div className="bg-green-900 max-w-md p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold">Rol</h1>
         <form onSubmit={onSubmit}>
           <input
             type="text"
             placeholder="Nombre"
             {...register("name", { required: true })}
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             autoFocus
           />
           {errors.name && <p className="text-red-500">Nombre Requerido</p>}
@@ -66,7 +66,7 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_of_information", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <div className="flex items-center py-2">
@@ -74,7 +74,7 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_Warehouse", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <div className="flex items-center py-2">
@@ -82,7 +82,7 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_Summary", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <div className="flex items-center py-2">
@@ -90,7 +90,7 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_of_Office", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <div className="flex items-center py-2">
@@ -98,12 +98,12 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_of_all_Agencys", { value: true })}
-              className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <button
             type="submit"
-            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
+            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mr-auto"
           >
             Guardar
           </button>
