@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useUsers } from "../context/UserContext";
-import {useRols} from "../context/RolContext";
+import { useRols } from "../context/RolContext";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,7 @@ function RegisterPage() {
 
   useEffect(() => {
     getRols();
-  },[]);
+  }, []);
 
   useEffect(() => {
     async function loadUser() {
@@ -36,8 +36,14 @@ function RegisterPage() {
         setValue("username", user.username);
         setValue("email", user.email);
         setValue("rol", user.rol);
-        setValue("agencia",user.agencia);
-        setValue("estado",user.estado)
+        setValue("telefono", user.telefono);
+        setValue("placa", user.placa);
+        setValue("nit", user.nit);
+        setValue("aplicable_comision", user.aplicable_comision);
+        setValue("sueldo_base", user.sueldo_base);
+        setValue("bono", user.bono);
+        setValue("kilometraje", user.kilometraje);
+        setValue("estado", user.estado);
       }
     }
     loadUser();
@@ -52,6 +58,8 @@ function RegisterPage() {
   const onSubmit = handleSubmit(async (values) => {
     if (params.id) {
       try {
+        values.sueldo_base = parseFloat(values.sueldo_base);
+        values.kilometraje = parseFloat(values.kilometraje);
         await updateUser(params.id, values);
         setUpdateRedirect(true);
         setTimeout(() => {
@@ -62,6 +70,8 @@ function RegisterPage() {
       }
     } else {
       try {
+        values.sueldo_base = parseFloat(values.sueldo_base);
+        values.kilometraje = parseFloat(values.kilometraje);
         await signup(values);
         setRedirectOnSuccess(true);
         setTimeout(() => {
@@ -145,9 +155,6 @@ function RegisterPage() {
             <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
 
-          
-      
-
           <select
             {...register("rol", { required: true })}
             className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
@@ -160,7 +167,72 @@ function RegisterPage() {
           {errors.rol && (
             <p className="text-red-500">Debe seleccionar un rol</p>
           )}
+          <input
+            type="text"
+            {...register("telefono", { required: true })}
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Telefono"
+          />
+          {errors.telefono && (
+            <p className="text-red-500">Telefono de usuario requerido</p>
+          )}
 
+          <input
+            type="text"
+            {...register("placa", { required: true })}
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Placa"
+          />
+          {errors.placa && (
+            <p className="text-red-500">Placa de usuario requerido</p>
+          )}
+
+          <input
+            type="text"
+            {...register("nit", { required: true })}
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Nit"
+          />
+          {errors.nit && (
+            <p className="text-red-500">Nit de usuario requerido</p>
+          )}
+
+          <input
+            type="number"
+            {...register("sueldo_base", { required: true })}
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Sueldo Base"
+          />
+          {errors.sueldo_base && (
+            <p className="text-red-500">Sueldo base de usuario requerido</p>
+          )}
+
+          <input
+            type="number"
+            {...register("kilometraje", { required: true })}
+            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            placeholder="Kilometraje"
+          />
+          {errors.kilometraje && (
+            <p className="text-red-500">Kilometraje de usuario requerido</p>
+          )}
+
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Aplicable Comision</label>
+            <input
+              type="checkbox"
+              {...register("aplicable_comision", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Bono </label>
+            <input
+              type="checkbox"
+              {...register("bono", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
           <div className="flex items-center py-2">
             <label className="text-white font ">Estado</label>
             <input
@@ -168,7 +240,6 @@ function RegisterPage() {
               {...register("estado", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
-            
           </div>
 
           <button

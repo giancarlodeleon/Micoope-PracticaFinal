@@ -66,9 +66,11 @@ function Roles() {
               <tr className="bg-green-900 text-white">
                 <th className="py-2 text-center">Nombre</th>
                 <th className="py-2 text-center">Manejo de informacion</th>
-                <th className="py-2 text-center">Almacen</th>
-                <th className="py-2 text-center">Resumen</th>
-                <th className="py-2 text-center">Agencia</th>
+                <th className="py-2 text-center">Inventario</th>
+                <th className="py-2 text-center">Reporte</th>
+                <th className="py-2 text-center">Clientes</th>
+                <th className="py-2 text-center">Agregar Clientes</th>
+                <th className="py-2 text-center">Agregar Productos</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -88,7 +90,13 @@ function Roles() {
                     {place.permission_Summary ? "Activo" : "Desactivo"}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_of_Office ? "Activo" : "Desactivo"}
+                    {place.permission_of_Client ? "Activo" : "Desactivo"}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.permission_of_add_Client ? "Activo" : "Desactivo"}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.permission_of_add_Product ? "Activo" : "Desactivo"}
                   </td>
                   <td className="flex justify-center items-center border border-green-100">
                     <Link

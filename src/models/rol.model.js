@@ -14,28 +14,33 @@ const rolSchema = new mongoose.Schema(
     },
 
     permission_Warehouse: {
-        type: Boolean,
-        default: true,
-        required: true,
-    },
-
-    permission_Summary: {
-        type: Boolean,
-        default: true,
-        required: true,
-    },
-
-    permission_of_Office: {
-        type: Boolean,
-        default: true,
-        required: true,
-    },
-    permission_of_all_Agencys: {
       type: Boolean,
       default: true,
       required: true,
-  },
+    },
 
+    permission_Summary: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
+    permission_of_Client: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
+    permission_of_add_Client: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_of_add_Product: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
 
     date: {
       type: Date,
@@ -44,14 +49,13 @@ const rolSchema = new mongoose.Schema(
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      red:'User',
-      required: true
+      red: "User",
+      required: true,
     },
-
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("Rol",rolSchema);
+export default mongoose.model("Rol", rolSchema);

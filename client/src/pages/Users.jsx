@@ -100,6 +100,13 @@ function Users() {
                 <th className="py-2 text-center">Username</th>
                 <th className="py-2 text-center">Correo electronico</th>
                 <th className="py-2 text-center">Rol</th>
+                <th className="py-2 text-center">Telefono</th>
+                <th className="py-2 text-center">Placa</th>
+                <th className="py-2 text-center">Nit</th>
+                <th className="py-2 text-center">Sueldo</th>
+                <th className="py-2 text-center">Kilometraje</th>
+                <th className="py-2 text-center">Comision</th>
+                <th className="py-2 text-center">Bono</th>
                 <th className="py-2 text-center">Estado</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
@@ -116,6 +123,27 @@ function Users() {
                   </td>
                   <td className="text-center border border-green-100">
                     {place.rol}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.telefono}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.placa}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.nit}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.sueldo_base}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.kilometraje}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.bono === true ? "Activo" : "Desactivo"}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.estado === true ? "Activo" : "Desactivo"}
                   </td>
 
                   <td className="text-center border border-green-100">

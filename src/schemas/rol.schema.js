@@ -13,11 +13,14 @@ export const RolSchema = z.object({
     permission_Summary: z.boolean({
         required_error: "Permission Summary is required"
     }),
-    permission_of_Office: z.boolean({
-        required_error: "Permission of office is required"
+    permission_of_Client: z.boolean({
+        required_error: "Permission of client is required"
     }),
-    permission_of_all_Agencys: z.boolean({
-        required_error: "Permission of all Agencys is required"
+    permission_of_add_Client: z.boolean({
+        required_error: "Permission of add client is required"
+    }),
+    permission_of_add_Product: z.boolean({
+        required_error: "Permission of add Product is required"
     }),
 
 

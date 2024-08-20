@@ -19,8 +19,26 @@ export const registerSchema = z.object({
   rol: z.string({
     required_error: "El rol es requerido",
   }),
-  agencia: z.string({
-    required_error: "La agencia es requerida",
+  telefono: z.string({
+    required_error: "El telefono es requerido",
+  }),
+  placa: z.string({
+    required_error: "La placa es requerida",
+  }),
+  nit: z.string({
+    required_error: "El nit es requerido",
+  }),
+  aplicable_comision: z.boolean({
+    required_error: "El aplicable es requerido",
+  }),
+  sueldo_base: z.number({
+    required_error: "El sueldo es requerido",
+  }),
+  bono: z.boolean({
+    required_error: "El bono es requerido",
+  }),
+  kilometraje: z.number({
+    required_error: "El kilometraje es requerido",
   }),
   estado: z.boolean({
     required_error: "El estado es requerido",

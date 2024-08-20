@@ -39,15 +39,18 @@ function HomePage() {
           CINAGRO
         </h1>
         <p className="text-lg text-left mb-6">
-          ofrecemos una plataforma segura y eficiente para el seguimiento de
-          activos y productos. Los usuarios deben registrarse para acceder,
-          garantizando la privacidad y seguridad de los datos. Permite gestionar
-          inventarios, realizar seguimiento de entradas y salidas, así como
-          generar informes detallados sobre el estado de los recursos. Facilita
-          la navegación y el manejo de la información, optimizando la gestión de
-          inventarios y promoviendo una administración transparente y efectiva.
-          Con este sistema, la cooperativa puede mantener un control preciso de
-          sus recursos y mejorar su eficiencia operativa.
+        CINAGRO S.A Nace el 15 de marzo del 2023, después de varios intentos y experiencias vividas en la región,
+        se hace urgente la necesidad de realizarla y es así como es fundada por tres socios cofundadores: Rene Patzán Reyes.
+        Milton Josué Patzán León, Denis René Patzán León. Con el objetivo de ser proveedores de insumos a los agricultores de
+        la región con productos básicos, para una diversidad de cultivos con calidez, calidad y precio competitivo a través de
+        surtir los diferentes Agro servicios de la región Nororiental del pais. Teniendo con sede el municipio de Salamá, del
+        departamento de Baja Verapaz. El objetivo principal de la sociedad lo constituye compra venta, almacenamiento,
+        importación, exportación fabricación, transporte y comercialización de productos agroquímicos agropecuarios
+        y veterinarios. Gestionar y llevar acabo cualquier tipo de negocio comercial industrial, agropecuario tales 
+        como: agricultura, avícola, pecuaria apicultura, porcinocultura, veterinarios. Así como Promover o realizar
+        cualquier actividad agrícola, ganadera, industrial, agrícola, comercial y sus derivados. Así también importación
+        de toda clase de vehículos maquinaria para uso agrícola, avícola e industrial y propiedad intelectual. Con mucha
+        claridad en convertirse en ser unos de los mejores servicios a los agricultores de la región nor-oriental.
         </p>
 
         {/* Contenido */}
@@ -67,19 +70,10 @@ function HomePage() {
         </h2>
 
         <p className="text-lg text-gray-700  mb-6">
-          ¡ CAMINAMOS JUNTOS PARA MEJORAR LA CALIDAD DE VIDA DE LOS ASOCIADOS !
+          ¡ TRABAJANDO POR UN MEJOR FUTURO AGRICOLA !
         </p>
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {/* Contenedor para la primera imagen */}
-          <div style={{ marginRight: "80px" }}>
-            <img src={COPE} alt="Visión" style={{ width: "90%" }} />
-          </div>
-          {/* Contenedor para la segunda imagen */}
-          <div>
-            <img src={mimarket} alt="Segunda imagen" style={{ width: "90%" }} />
-          </div>
-        </div>
+      
 
         {/* Contenido */}
         <div className="z-10 w-3/4 text-center font-semibold text-borde text-blue-950">

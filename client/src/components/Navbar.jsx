@@ -46,7 +46,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  },);
+  });
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -132,7 +132,6 @@ function Navbar() {
                         >
                           Roles
                         </a>
-                       
                       </div>
                     )}
 
@@ -144,7 +143,20 @@ function Navbar() {
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          Almacen
+                          Inventario
+                        </a>
+                      )
+                    )}
+
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Client ? null : (
+                        <a
+                          href=""
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Clientes
                         </a>
                       )
                     )}
@@ -157,11 +169,10 @@ function Navbar() {
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          reporte
+                          Reporte
                         </a>
                       )
                     )}
-
                   </div>
                 </div>
               )}
@@ -186,7 +197,7 @@ function Navbar() {
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "20px" }}
                           className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
-                            location.pathname.startsWith("/users") || 
+                            location.pathname.startsWith("/users") ||
                             location.pathname.startsWith("/rols") ||
                             location.pathname === "/register" ||
                             location.pathname === "/add-rol" ||
@@ -245,7 +256,6 @@ function Navbar() {
                           )}
                         </NavLink>
                       </li>
-                     
                     </ul>
                   )}
                 </li>
@@ -256,7 +266,7 @@ function Navbar() {
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
-                      !place.permission_Warehouse ? null : (
+                      !place.permission_of_Client ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "20px" }}
@@ -326,11 +336,8 @@ function Navbar() {
                   <NavLink
                     style={{ fontSize: "20px" }}
                     onClick={handleDropdownToggleAgencia}
-                  >
-                   
-                  </NavLink>
+                  ></NavLink>
                   {/* Contenido del menú desplegable */}
-                 
                 </li>
                 <li>
                   <NavLink
@@ -342,7 +349,7 @@ function Navbar() {
                     }}
                     activeStyle={{ background: "blue", color: "white" }}
                   >
-                   <p className="justify-between">Cerrar Sesión</p>
+                    <p className="justify-between">Cerrar Sesión</p>
                   </NavLink>
                 </li>
               </>

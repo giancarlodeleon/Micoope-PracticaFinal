@@ -5,7 +5,7 @@ import  jwt  from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.js";
 
 export const register = async (req, res) => {
-  const { email, password, username, rol, agencia, estado } = req.body;
+  const { email, password, username, rol, telefono,placa,nit,aplicable_comision,sueldo_base,bono,kilometraje, estado } = req.body;
 
   try {
     const userFound = await User.findOne({ email });
@@ -18,7 +18,13 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       rol,
-      agencia,
+      telefono,
+      placa,
+      nit,
+      aplicable_comision,
+      sueldo_base,
+      bono,
+      kilometraje,
       estado
     });
 
@@ -31,7 +37,13 @@ export const register = async (req, res) => {
       username: userSaved.username,
       email: userSaved.email,
       rol:userSaved.rol,
-      agencia:userSaved.agencia,
+      telefono:userSaved.telefono,
+      placa:userSaved.placa,
+      nit:userSaved.nit,
+      aplicable_comision:userSaved.aplicable_comision,
+      sueldo_base:userSaved.sueldo_base,
+      bono:userSaved.bono,
+      kilometraje:userSaved.kilometraje,
       estado:userSaved.estado,
       createdAt: userSaved.createdAt,
       updatedAt: userSaved.updatedAt,
@@ -57,9 +69,15 @@ export const login = async (req, res) => {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
-      rol: userFound.rol,
-      agencia: userFound.agencia,
-      estado: userFound.estado,
+      rol:userFound.rol,
+      telefono:userFound.telefono,
+      placa:userFound.placa,
+      nit:userFound.nit,
+      aplicable_comision:userFound.aplicable_comision,
+      sueldo_base:userFound.sueldo_base,
+      bono:userFound.bono,
+      kilometraje:userFound.kilometraje,
+      estado:userFound.estado,
       createdAt: userFound.createdAt,
       updatedAt: userFound.updatedAt,
     });
@@ -80,13 +98,19 @@ export const profile = async (req, res) => {
   if (!userFound) return res.status(400).json(["Usuario no encontrado"]);
   return res.json({
     id: userFound._id,
-    username: userFound.username,
-    email: userFound.email,
-    rol:userFound.rol,
-    agencia: userFound.agencia,
-    estado: userFound.estado,
-    createdAt: userFound.createdAt,
-    updatedAt: userFound.updatedAt,
+      username: userFound.username,
+      email: userFound.email,
+      rol:userFound.rol,
+      telefono:userFound.telefono,
+      placa:userFound.placa,
+      nit:userFound.nit,
+      aplicable_comision:userFound.aplicable_comision,
+      sueldo_base:userFound.sueldo_base,
+      bono:userFound.bono,
+      kilometraje:userFound.kilometraje,
+      estado:userFound.estado,
+      createdAt: userFound.createdAt,
+      updatedAt: userFound.updatedAt,
   });
 };
 
@@ -104,10 +128,16 @@ export const verifyToken = async (req, res) => {
     return res.json({
       id: userFound._id,
       username: userFound.username,
-      agencia:userFound.agencia,
       email: userFound.email,
       rol:userFound.rol,
-      estado:userFound.estado
+      telefono:userFound.telefono,
+      placa:userFound.placa,
+      nit:userFound.nit,
+      aplicable_comision:userFound.aplicable_comision,
+      sueldo_base:userFound.sueldo_base,
+      bono:userFound.bono,
+      kilometraje:userFound.kilometraje,
+      estado:userFound.estado,
     });
   });
 };

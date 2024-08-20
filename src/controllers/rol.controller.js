@@ -11,14 +11,15 @@ export const getRols = async (req, res) => {
 
 export const createRols = async (req, res) => {
   try {
-    const { name, permission_of_information, permission_Warehouse, permission_Summary, permission_of_Office,permission_of_all_Agencys, date } = req.body;
+    const { name, permission_of_information, permission_Warehouse, permission_Summary, permission_of_Client,permission_of_add_Client,permission_of_add_Product, date } = req.body;
   const newRol = new Rol({
     name,
     permission_of_information,
     permission_Warehouse,
     permission_Summary,
-    permission_of_Office,
-    permission_of_all_Agencys,
+    permission_of_Client,
+    permission_of_add_Client,
+    permission_of_add_Product,
     date,
     user: req.user.id,
   });

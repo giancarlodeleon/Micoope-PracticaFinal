@@ -30,8 +30,9 @@ function RolFormPage() {
         setValue("permission_of_information", rol.permission_of_information);
         setValue("permission_Warehouse", rol.permission_Warehouse);
         setValue("permission_Summary", rol.permission_Summary);
-        setValue("permission_of_Office", rol.permission_of_Office);
-        setValue("permission_of_all_Agencys", rol.permission_of_all_Agencys);
+        setValue("permission_of_Client", rol.permission_of_Client);
+        setValue("permission_of_add_Client", rol.permission_of_add_Client);
+        setValue("permission_of_add_Product", rol.permission_of_add_Product);
       }
     }
     loadRol();
@@ -86,18 +87,26 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al la Agencia</label>
+            <label className="text-white font ">Permiso al los Clientes</label>
             <input
               type="checkbox"
-              {...register("permission_of_Office", { value: true })}
+              {...register("permission_of_Client", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso a Todas las Agencias</label>
+            <label className="text-white font ">Permiso para agregar Clientes</label>
             <input
               type="checkbox"
-              {...register("permission_of_all_Agencys", { value: true })}
+              {...register("permission_of_add_Client", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para agregar Productos</label>
+            <input
+              type="checkbox"
+              {...register("permission_of_add_Product", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

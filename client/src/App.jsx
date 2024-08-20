@@ -26,17 +26,21 @@ function App() {
                   <Navbar />
                   <Routes>
                     <Route path="/" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/users" element={<Users />} />
+                        <Route path="/users/:id" element={<RegisterPage />} />
+                    <Route path="/add-rol" element={<RolFormPage />} /> 
+                    <Route path="/rols/:id" element={<RolFormPage />} /> 
+                    <Route path="/roles" element={<Roles />} />
                     <Route element={<ProtectedRoute />}>
                       <Route element={<ManejoInformacionRoute />}>
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/users" element={<Users />} />
-                        <Route path="/users/:id" element={<RegisterPage />} />
-                        <Route path="/roles" element={<Roles />} />
-                        <Route path="/add-rol" element={<RolFormPage />} />
-                        <Route path="/rols/:id" element={<RolFormPage />} />
+                        
+                        
+                        
+                        
                       </Route>
-
-                      <Route path="/home" element={<HomePage />} />               
+                      <Route path="/home" element={<HomePage />} /> 
+                                  
                     </Route>
                   </Routes>
                 </main>
