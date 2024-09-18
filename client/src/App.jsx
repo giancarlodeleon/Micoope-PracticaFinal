@@ -12,41 +12,38 @@ import ManejoInformacionRoute from "./ManejoInformacionRoute";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
+import { ClientProvider } from "./context/ClientContext";
 
 function App() {
   return (
     <AuthProvider>
       <UserProvider>
+        <ProductProvider>
+          <ClientProvider>
+          <RolProvider>
+            <BrowserRouter>
+              <main className="">
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<LoginPage />} />
 
-          <ProductProvider>
-            <RolProvider>
-
-              <BrowserRouter>
-                <main className="">
-                  <Navbar />
-                  <Routes>
-                    <Route path="/" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/users" element={<Users />} />
-                        <Route path="/users/:id" element={<RegisterPage />} />
-                    <Route path="/add-rol" element={<RolFormPage />} /> 
-                    <Route path="/rols/:id" element={<RolFormPage />} /> 
-                    <Route path="/roles" element={<Roles />} />
-                    <Route element={<ProtectedRoute />}>
-                      <Route element={<ManejoInformacionRoute />}>
-                        
-                        
-                        
-                        
-                      </Route>
-                      <Route path="/home" element={<HomePage />} /> 
-                                  
+                  <Route element={<ProtectedRoute />}>
+                    <Route element={<ManejoInformacionRoute />}>
+                      <Route path="/register" element={<RegisterPage />} />
+                      <Route path="/users" element={<Users />} />
+                      <Route path="/users/:id" element={<RegisterPage />} />
+                      <Route path="/add-rol" element={<RolFormPage />} />
+                      <Route path="/rols/:id" element={<RolFormPage />} />
+                      <Route path="/roles" element={<Roles />} />
                     </Route>
-                  </Routes>
-                </main>
-              </BrowserRouter>
-            </RolProvider>
-          </ProductProvider>
+                    <Route path="/home" element={<HomePage />} />
+                  </Route>
+                </Routes>
+              </main>
+            </BrowserRouter>
+          </RolProvider>
+          </ClientProvider>
+        </ProductProvider>
       </UserProvider>
     </AuthProvider>
   );

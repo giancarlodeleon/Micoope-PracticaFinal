@@ -17,9 +17,7 @@ function AdminRoute() {
       return role.name === user.rol && role.permission_of_information === true;
       
     });
-  }
-
-  
+  } 
 
   if (hasAllowedRole) {
     return <Outlet />;

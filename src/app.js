@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import authRoutes from './routes/auth.routes.js'
 import productsRoutes from './routes/products.routes.js'
+import clientRoutes from './routes/client.routes.js'
 import usersRoutes from './routes/user.routes.js'
 import rolRoutes from './routes/rol.routes.js'
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api',authRoutes);
+app.use('/api',clientRoutes);
 app.use('/api',productsRoutes);
 app.use('/api',usersRoutes);
 app.use('/api',rolRoutes);
