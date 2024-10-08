@@ -46,6 +46,16 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
+    stock: {
+      type: Number,
+      required: true,
+    },
+
+    comision: {
+      type: Boolean,
+      required: true,
+    },
+
     date: {
       type: Date,
       default: Date.now,

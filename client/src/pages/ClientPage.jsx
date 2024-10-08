@@ -1,54 +1,73 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useClients } from "../context/ClientContext";
+import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
 
-function Roles() {
-  const { getRols, rol, deleteRol } = useRols();
-  const [currentPage, setCurrentPage] = useState(1); // Estado para almacenar la página actual
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para almacenar el término de búsqueda
-  const rolsPerPage = 10; // Número de roles por página
+
+function ClientPage() {
+  const {  user } = useAuth();
+    const { getClients, client, deleteClient } = useClients();
+    const { getRols, rol } = useRols();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const clientsPerPage = 10; 
+  const [Setpermiso, setPermisoToShow] = useState(null);
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   useEffect(() => {
     getRols();
+  },[]);
+
+  useEffect(() => {
+    const permiso = rol.find((permiso) => permiso.name === user.rol);
+    setPermisoToShow(permiso.permission_of_add_Client);
   }, []);
 
-  const handleDeleteClick = (roleId) => {
+
+  const handleDeleteClick = (clientId) => {
     const confirmDelete = window.confirm(
-      "¿Estás seguro de que quieres eliminar este rol?"
+      "¿Estás seguro de que quieres eliminar este Cliente?"
     );
     if (confirmDelete) {
-      deleteRol(roleId);
+      deleteClient(clientId);
     }
   };
 
-  // Filtrar roles según el término de búsqueda
-  const filteredRols = rol.filter((place) =>
+   // Filtrar roles según el término de búsqueda
+   const filteredClients = client.filter((place) =>
     place.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Calcular el total de páginas para los roles filtrados
-  const totalPages = Math.ceil(filteredRols.length / rolsPerPage);
+  const totalPages = Math.ceil(filteredClients.length / clientsPerPage);
 
   // Lógica para calcular los índices de inicio y fin de los roles en la página actual
-  const indexOfLastRol = currentPage * rolsPerPage;
-  const indexOfFirstRol = indexOfLastRol - rolsPerPage;
-  const currentRols = filteredRols.slice(indexOfFirstRol, indexOfLastRol);
+  const indexOfLastClient = currentPage * clientsPerPage;
+  const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+  const currentClients = filteredClients.slice(indexOfFirstClient, indexOfLastClient);
 
   return (
+    
     <div className="flex justify-center p-4 ">
+      
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
         <h1
           className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
-          Roles
-          <Link
-            to="/add-rol"
+          Clientes
+          {Setpermiso && <Link
+            to="/add-client"
             className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
             style={{ width: "36px", height: "36px" }}
           >
             +
-          </Link>
+          </Link>}
+          
         </h1>
         {/* Campo de búsqueda */}
         <div className="p-4">
@@ -64,59 +83,71 @@ function Roles() {
           <table className="w-full border-collapse rounded-lg">
             <thead>
               <tr className="bg-green-900 text-white">
+                <th className="py-2 text-center">Codigo</th>
+                <th className="py-2 text-center">Nit</th>
                 <th className="py-2 text-center">Nombre</th>
-                <th className="py-2 text-center">Manejo de informacion</th>
-                <th className="py-2 text-center">Inventario</th>
-                <th className="py-2 text-center">Reporte</th>
-                <th className="py-2 text-center">Clientes</th>
-                <th className="py-2 text-center">Agregar Clientes</th>
-                <th className="py-2 text-center">Agregar Productos</th>
-                <th className="py-2 text-center">Agregar Stock</th>
-                <th className="py-2 text-center">Quitar Stock</th>
-                <th className="py-2 text-center">Solicitudes</th>
-                <th className="py-2 text-center">Historial</th>
+                <th className="py-2 text-center">Tipo</th>
+                <th className="py-2 text-center">Correo</th>
+                <th className="py-2 text-center">Razon Social</th>
+                <th className="py-2 text-center">Departamento</th>
+                <th className="py-2 text-center">Municipio</th>
+                <th className="py-2 text-center">Direccion</th>
+                <th className="py-2 text-center">Referencia</th>
+                <th className="py-2 text-center">Telefono</th>
+                <th className="py-2 text-center">Plazo Creditos</th>
+                <th className="py-2 text-center">Precio para facturar</th>
+                <th className="py-2 text-center">Nota</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {currentRols.map((place) => (
+              {currentClients.map((place) => (
                 <tr key={place._id}>
+                  <td className="text-center border border-green-100">
+                    {place.code}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.nit}
+                  </td>
                   <td className="text-center border border-green-100">
                     {place.name}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_of_information ? "Activo" : "Desactivo"}
+                    {place.type}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_Warehouse ? "Activo" : "Desactivo"}
+                    {place.email}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_Summary ? "Activo" : "Desactivo"}
+                    {place.social}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_of_Client ? "Activo" : "Desactivo"}
+                    {place.department}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_of_add_Client ? "Activo" : "Desactivo"}
+                    {place.municipio}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_of_add_Product ? "Activo" : "Desactivo"}
+                    {place.direction}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_add_stock ? "Activo" : "Desactivo"}
+                    {place.reference}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_takeout_stock ? "Activo" : "Desactivo"}
+                    {place.phone}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_Request ? "Activo" : "Desactivo"}
+                    {place.plazo_credito}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.permission_Historial ? "Activo" : "Desactivo"}
+                    {place.factura}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.nota}
                   </td>
                   <td className="flex justify-center items-center border border-green-100">
                     <Link
-                      to={`/rols/${place._id}`}
+                      to={`/clients/${place._id}`}
                       className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
                       Editar
@@ -144,7 +175,7 @@ function Roles() {
               </button>
             )}
             {/* Botón para ir a la página siguiente (solo se muestra si no está en la última página) */}
-            {indexOfLastRol < filteredRols.length && (
+            {indexOfLastClient < filteredClients.length && (
               <button
                 className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
                 onClick={() => setCurrentPage(currentPage + 1)}
@@ -163,4 +194,4 @@ function Roles() {
   );
 }
 
-export default Roles;
+export default ClientPage;

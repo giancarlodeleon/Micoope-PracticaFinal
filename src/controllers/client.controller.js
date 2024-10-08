@@ -30,7 +30,7 @@ export const createClients = async (req, res) => {
       nota,
       date,
     } = req.body;
-    const newProduct = new Product({
+    const newClient = new Client({
       code,
       nit,
       name,
@@ -84,5 +84,14 @@ export const updateClients = async (req, res) => {
     res.json(client);
   } catch (error) {
     return res.status(404).json({ message: "Client not found" });
+  }
+};
+
+export const countAllClients = async (req, res) => {
+  try {
+    const count = await Client.countDocuments();
+    res.json({ count }); // Devolver el conteo en la respuesta
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };

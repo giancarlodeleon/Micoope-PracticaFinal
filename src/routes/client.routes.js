@@ -6,6 +6,7 @@ import {
   getClient,
   updateClients,
   deleteClients,
+  countAllClients,
 } from "../controllers/client.controller.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { ClientSchema } from "../schemas/client.schema.js";
@@ -13,6 +14,7 @@ import { ClientSchema } from "../schemas/client.schema.js";
 const router = Router();
 
 router.get("/clients", authRequired, getClients);
+router.get("/clientsCount", authRequired, countAllClients);
 router.get("/clients/:id", authRequired, getClient);
 router.post("/clients", authRequired,validateSchema(ClientSchema), createClients);
 router.delete("/clients/:id", authRequired, deleteClients);

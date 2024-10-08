@@ -13,10 +13,11 @@ export const getProducts = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { code,name, presentation, cost_price,selling_price_1,selling_price_2,selling_price_3,gravamen,minimum_stock, date } = req.body;
+    const { code,name, comision,stock,presentation, cost_price,selling_price_1,selling_price_2,selling_price_3,gravamen,minimum_stock, date } = req.body;
   const newProduct = new Product({
     code,
     name,
+    comision,
     presentation,
     cost_price,
     selling_price_1,
@@ -24,6 +25,7 @@ export const createProducts = async (req, res) => {
     selling_price_3,
     gravamen,
     minimum_stock,
+    stock,
     date,
     user: req.user.id,
   });

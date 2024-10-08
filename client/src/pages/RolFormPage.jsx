@@ -33,6 +33,10 @@ function RolFormPage() {
         setValue("permission_of_Client", rol.permission_of_Client);
         setValue("permission_of_add_Client", rol.permission_of_add_Client);
         setValue("permission_of_add_Product", rol.permission_of_add_Product);
+        setValue("permission_add_stock", rol.permission_add_stock);
+        setValue("permission_takeout_stock", rol.permission_takeout_stock);
+        setValue("permission_Request", rol.permission_Request);
+        setValue("permission_Historial", rol.permission_Historial);
       }
     }
     loadRol();
@@ -71,7 +75,7 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al Almacen</label>
+            <label className="text-white font ">Permiso al Inventario</label>
             <input
               type="checkbox"
               {...register("permission_Warehouse", { value: true })}
@@ -79,7 +83,7 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al Resumen</label>
+            <label className="text-white font ">Permiso al Reporte</label>
             <input
               type="checkbox"
               {...register("permission_Summary", { value: true })}
@@ -107,6 +111,38 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_of_add_Product", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para agregar a Stock</label>
+            <input
+              type="checkbox"
+              {...register("permission_add_stock", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para quitar a Stock</label>
+            <input
+              type="checkbox"
+              {...register("permission_takeout_stock", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para Solicitudes</label>
+            <input
+              type="checkbox"
+              {...register("permission_Request", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para Historial</label>
+            <input
+              type="checkbox"
+              {...register("permission_Historial", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

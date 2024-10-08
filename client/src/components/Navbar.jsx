@@ -46,7 +46,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -137,26 +137,26 @@ function Navbar() {
 
                     {rol.map((place) =>
                       place.name !== user.rol ||
-                      !place.permission_Warehouse ? null : (
+                      !place.permission_of_Client ? null : (
                         <a
-                          href="/boletas"
+                          href="/clientes"
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          Inventario
+                          Clientes
                         </a>
                       )
                     )}
 
                     {rol.map((place) =>
                       place.name !== user.rol ||
-                      !place.permission_Client ? null : (
+                      !place.permission_Warehouse ? null : (
                         <a
-                          href=""
+                          href="/inventario"
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          Clientes
+                          Inventario
                         </a>
                       )
                     )}
@@ -170,6 +170,31 @@ function Navbar() {
                           role="menuitem"
                         >
                           Reporte
+                        </a>
+                      )
+                    )}
+
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Request ? null : (
+                        <a
+                          href="/requests"
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Solicitudes
+                        </a>
+                      )
+                    )}
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Historial ? null : (
+                        <a
+                          href="/historial"
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Historial
                         </a>
                       )
                     )}
@@ -311,6 +336,55 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
+                    to="/requests"
+                    activeStyle={{ background: "green", color: "white" }}
+                  >
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Request ? null : (
+                        <option
+                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                          style={{ fontSize: "20px" }}
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/requests" ||
+                            location.pathname.startsWith("/requests") ||
+                            location.pathname === "/add-request"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              : ""
+                          }`}
+                        >
+                          Solicitudes
+                        </option>
+                      )
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/historial"
+                    activeStyle={{ background: "green", color: "white" }}
+                  >
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Historial ? null : (
+                        <option
+                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                          style={{ fontSize: "20px" }}
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/historial" ||
+                            location.pathname.startsWith("/historial") 
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              : ""
+                          }`}
+                        >
+                          Historial
+                        </option>
+                      )
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="/reporte"
                     activeStyle={{ background: "green", color: "white" }}
                   >
@@ -334,13 +408,6 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
-                    style={{ fontSize: "20px" }}
-                    onClick={handleDropdownToggleAgencia}
-                  ></NavLink>
-                  {/* Contenido del menú desplegable */}
-                </li>
-                <li>
-                  <NavLink
                     to="/"
                     style={{ fontSize: "20px", marginLeft: "30px" }}
                     className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
@@ -352,6 +419,14 @@ function Navbar() {
                     <p className="justify-between">Cerrar Sesión</p>
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    style={{ fontSize: "20px" }}
+                    onClick={handleDropdownToggleAgencia}
+                  ></NavLink>
+                  {/* Contenido del menú desplegable */}
+                </li>
+               
               </>
             )}
           </ul>

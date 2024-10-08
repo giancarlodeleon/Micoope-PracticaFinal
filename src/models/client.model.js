@@ -27,27 +27,26 @@ const clientSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
 
     social: {
       type: String,
-      required: false,
+      required: true,
     },
 
     department: {
       type: String,
-      required: false,
+      required: true,
     },
 
     municipio: {
       type: String,
-      required: false,
+      required: true,
     },
 
     direction: {
       type: String,
-      required: false,
+      required: true,
     },
 
     reference: {
@@ -57,17 +56,17 @@ const clientSchema = new mongoose.Schema(
 
     phone: {
       type: Number,
-      required: false,
+      required: true,
     },
 
     plazo_credito: {
       type: String,
-      required: false,
+      required: true,
     },
 
     factura: {
       type: String,
-      required: false,
+      required: true,
     },
 
     nota: {

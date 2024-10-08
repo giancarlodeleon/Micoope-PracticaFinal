@@ -41,6 +41,27 @@ const rolSchema = new mongoose.Schema(
       default: true,
       required: true,
     },
+    permission_add_stock: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_takeout_stock: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_Request: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_Historial: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
 
     date: {
       type: Date,

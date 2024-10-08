@@ -28,6 +28,12 @@ export const ProductSchema = z.object({
     minimum_stock: z.number({
         required_error: "Minimum stock is required"
     }),
+    comision: z.boolean({
+        required_error: "Comision stock is required"
+    }),
+    stock: z.number({
+        required_error: "Stock is required"
+    }),
     
     date: z.string().datetime().optional(),
 })

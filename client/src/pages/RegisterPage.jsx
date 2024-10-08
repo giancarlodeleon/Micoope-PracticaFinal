@@ -108,9 +108,10 @@ function RegisterPage() {
             {error}
           </div>
         ))}
-
+  
         <h1 className="text-2xl text-white font-bold">Usuario</h1>
         <form onSubmit={onSubmit}>
+          <label className="text-white">Nombre de usuario</label>
           <input
             type="text"
             {...register("username", { required: true })}
@@ -120,7 +121,8 @@ function RegisterPage() {
           {errors.username && (
             <p className="text-red-500">Nombre de usuario requerido</p>
           )}
-
+  
+          <label className="text-white">Correo electronico</label>
           <input
             type="email"
             {...register("email", { required: true })}
@@ -130,7 +132,8 @@ function RegisterPage() {
           {errors.email && (
             <p className="text-red-500">Correo electronico requerido</p>
           )}
-
+  
+          <label className="text-white">Contrasena</label>
           <input
             type="password"
             {...register("password", { required: true })}
@@ -140,7 +143,8 @@ function RegisterPage() {
           {errors.password && (
             <p className="text-red-500">Contrasena requerida</p>
           )}
-
+  
+          <label className="text-white">Confirmar Contrasena</label>
           <input
             type="password"
             {...register("confirmPassword", {
@@ -154,19 +158,22 @@ function RegisterPage() {
           {errors.confirmPassword && (
             <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
-
+  
+          <label className="text-white">Seleccione un rol</label>
           <select
             {...register("rol", { required: true })}
             className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
           >
             <option value="">Seleccione un rol</option>
-            {rol.map((place) => (
-              <option value={place.name}>{place.name}</option>
+            {rol.map((place, i) => (
+              <option key={i} value={place.name}>{place.name}</option>
             ))}
           </select>
           {errors.rol && (
             <p className="text-red-500">Debe seleccionar un rol</p>
           )}
+  
+          <label className="text-white">Telefono</label>
           <input
             type="text"
             {...register("telefono", { required: true })}
@@ -176,7 +183,8 @@ function RegisterPage() {
           {errors.telefono && (
             <p className="text-red-500">Telefono de usuario requerido</p>
           )}
-
+  
+          <label className="text-white">Placa</label>
           <input
             type="text"
             {...register("placa", { required: true })}
@@ -186,7 +194,8 @@ function RegisterPage() {
           {errors.placa && (
             <p className="text-red-500">Placa de usuario requerido</p>
           )}
-
+  
+          <label className="text-white">Nit</label>
           <input
             type="text"
             {...register("nit", { required: true })}
@@ -196,7 +205,8 @@ function RegisterPage() {
           {errors.nit && (
             <p className="text-red-500">Nit de usuario requerido</p>
           )}
-
+  
+          <label className="text-white">Sueldo Base</label>
           <input
             type="number"
             {...register("sueldo_base", { required: true })}
@@ -206,7 +216,8 @@ function RegisterPage() {
           {errors.sueldo_base && (
             <p className="text-red-500">Sueldo base de usuario requerido</p>
           )}
-
+  
+          <label className="text-white">Kilometraje</label>
           <input
             type="number"
             {...register("kilometraje", { required: true })}
@@ -216,32 +227,32 @@ function RegisterPage() {
           {errors.kilometraje && (
             <p className="text-red-500">Kilometraje de usuario requerido</p>
           )}
-
+  
           <div className="flex items-center py-2">
-            <label className="text-white font ">Aplicable Comision</label>
+            <label className="text-white">Aplicable Comision</label>
             <input
               type="checkbox"
               {...register("aplicable_comision", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+              className="ml-2"
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Bono </label>
+            <label className="text-white">Bono</label>
             <input
               type="checkbox"
               {...register("bono", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+              className="ml-2"
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Estado</label>
+            <label className="text-white">Estado</label>
             <input
               type="checkbox"
               {...register("estado", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+              className="ml-2"
             />
           </div>
-
+  
           <button
             type="submit"
             className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mr-auto"
@@ -258,6 +269,7 @@ function RegisterPage() {
       </div>
     </div>
   );
+  
 }
 
 export default RegisterPage;

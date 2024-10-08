@@ -5,6 +5,7 @@ import {
   deleteClientRequest,
   getClientRequest,
   updateClientRequest,
+  getAllClientsRequest,
 } from "../api/client";
 
 const ClientContext = createContext();
@@ -19,7 +20,16 @@ export const useClients = () => {
 };
 
 export function ClientProvider({ children }) {
-  const [clients, setClients] = useState([]);
+  const [client, setClients] = useState([]);
+
+  const getAllClients = async () => {
+    try {
+      const res = await getAllClientsRequest(); // Asegúrate de tener esta función para hacer la solicitud
+      setClients(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getClients = async () => {
     try {
@@ -39,7 +49,7 @@ export function ClientProvider({ children }) {
     try {
       const res = await deleteClientRequest(id);
       if (res.status == 204)
-        setClients(clients.filter((clients) => clients._id !== id));
+        setClients(client.filter((client) => client._id !== id));
     } catch (error) {
       console.log(res);
     }
@@ -65,12 +75,13 @@ export function ClientProvider({ children }) {
   return (
     <ClientContext.Provider
       value={{
-        clients,
+        client,
         createClient,
         getClients,
         deleteClient,
         getClient,
         updateClient,
+        getAllClients,
       }}
     >
       {children}

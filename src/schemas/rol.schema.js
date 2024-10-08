@@ -22,6 +22,19 @@ export const RolSchema = z.object({
     permission_of_add_Product: z.boolean({
         required_error: "Permission of add Product is required"
     }),
+    permission_add_stock: z.boolean({
+        required_error: "Permission of add Stock is required"
+    }),
+
+    permission_takeout_stock: z.boolean({
+        required_error: "Permission of takeout Stock is required"
+    }),
+    permission_Request: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
+    permission_Historial: z.boolean({
+        required_error: "Permission of Historial is required"
+    }),
 
 
     date: z.string().datetime().optional(),
