@@ -7,6 +7,7 @@ import productsRoutes from './routes/products.routes.js'
 import clientRoutes from './routes/client.routes.js'
 import usersRoutes from './routes/user.routes.js'
 import rolRoutes from './routes/rol.routes.js'
+import historialRoutes from './routes/historial.routes.js'
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/api',clientRoutes);
 app.use('/api',productsRoutes);
 app.use('/api',usersRoutes);
 app.use('/api',rolRoutes);
+app.use('/api',historialRoutes);
 
 
 export default app;
