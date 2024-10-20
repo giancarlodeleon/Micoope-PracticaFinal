@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 function ClientFormPage() {
   const departamentosMunicipios = {
     "Alta Verapaz": ["Cobán", "San Pedro Carchá", "Tactic"],
-    "Baja Verapaz": ["Salamá", "San Miguel Chicaj", "San Jeronimo", "Purulha"],
+    "Baja Verapaz": ["Salamá", "San Miguel Chicaj", "San Jeronimo", "Purulha","Granados","Santa Cruz El Chol", "Cubulco", "Rabinal"],
     Chimaltenango: ["Chimaltenango", "San Juan Comalapa"],
     Chiquimula: ["Chiquimula", "Jocotán"],
     "El Progreso": ["Guastatoya", "Sanarate"],
