@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useUsers } from "../context/UserContext";
 import { useRols } from "../context/RolContext";
+import { useHistorials } from "../context/HistorialContext";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -15,12 +16,15 @@ function RegisterPage() {
   } = useForm();
 
   const { getUser, updateUser, errors: UpdateErrors } = useUsers();
-  const { signup, errors: RegisterErrors } = useAuth();
+  const { signup, errors: RegisterErrors, user } = useAuth();
   const { getRols, rol } = useRols();
   const params = useParams();
   const navigate = useNavigate();
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
   const [updateRedirect, setUpdateRedirect] = useState(false);
+  const { createHistorial } = useHistorials();
+  const [agregar,Setagregar]=useState('');
+  const [accion,Setaccion]=useState('');
 
   const password = watch("password", ""); // Observa el campo de contraseña
 
@@ -51,9 +55,18 @@ function RegisterPage() {
 
   useEffect(() => {
     if (redirectOnSuccess && RegisterErrors.length === 0) {
+      const date = new Date();
+      const historialData = {
+        tipo: "Agregar",
+        descripcion: `Se ${accion} el nuevo usuario ${agregar}'`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      createHistorial(historialData);
       navigate("/users");
     }
-  }, [redirectOnSuccess, RegisterErrors, navigate]);
+  }, [redirectOnSuccess, RegisterErrors, navigate,createHistorial]);
 
   const onSubmit = handleSubmit(async (values) => {
     if (params.id) {
@@ -61,6 +74,8 @@ function RegisterPage() {
         values.sueldo_base = parseFloat(values.sueldo_base);
         values.kilometraje = parseFloat(values.kilometraje);
         await updateUser(params.id, values);
+        Setaccion('modifico')
+        Setagregar(values.username)
         setUpdateRedirect(true);
         setTimeout(() => {
           setUpdateRedirect(false);
@@ -73,6 +88,8 @@ function RegisterPage() {
         values.sueldo_base = parseFloat(values.sueldo_base);
         values.kilometraje = parseFloat(values.kilometraje);
         await signup(values);
+        Setagregar(values.username)
+        Setaccion('agrego')
         setRedirectOnSuccess(true);
         setTimeout(() => {
           setRedirectOnSuccess(false);
@@ -85,6 +102,15 @@ function RegisterPage() {
 
   useEffect(() => {
     if (UpdateErrors.length === 0 && updateRedirect) {
+      const date = new Date();
+      const historialData = {
+        tipo: "Modificar",
+        descripcion: `Se ${accion} el usuario ${agregar}'`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      createHistorial(historialData);
       navigate("/users");
     }
   }, [UpdateErrors, updateRedirect, navigate]);
@@ -108,7 +134,7 @@ function RegisterPage() {
             {error}
           </div>
         ))}
-  
+
         <h1 className="text-2xl text-white font-bold">Usuario</h1>
         <form onSubmit={onSubmit}>
           <label className="text-white">Nombre de usuario</label>
@@ -121,7 +147,7 @@ function RegisterPage() {
           {errors.username && (
             <p className="text-red-500">Nombre de usuario requerido</p>
           )}
-  
+
           <label className="text-white">Correo electronico</label>
           <input
             type="email"
@@ -132,7 +158,7 @@ function RegisterPage() {
           {errors.email && (
             <p className="text-red-500">Correo electronico requerido</p>
           )}
-  
+
           <label className="text-white">Contrasena</label>
           <input
             type="password"
@@ -143,7 +169,7 @@ function RegisterPage() {
           {errors.password && (
             <p className="text-red-500">Contrasena requerida</p>
           )}
-  
+
           <label className="text-white">Confirmar Contrasena</label>
           <input
             type="password"
@@ -158,7 +184,7 @@ function RegisterPage() {
           {errors.confirmPassword && (
             <p className="text-red-500">{errors.confirmPassword.message}</p>
           )}
-  
+
           <label className="text-white">Seleccione un rol</label>
           <select
             {...register("rol", { required: true })}
@@ -166,13 +192,15 @@ function RegisterPage() {
           >
             <option value="">Seleccione un rol</option>
             {rol.map((place, i) => (
-              <option key={i} value={place.name}>{place.name}</option>
+              <option key={i} value={place.name}>
+                {place.name}
+              </option>
             ))}
           </select>
           {errors.rol && (
             <p className="text-red-500">Debe seleccionar un rol</p>
           )}
-  
+
           <label className="text-white">Telefono</label>
           <input
             type="text"
@@ -183,7 +211,7 @@ function RegisterPage() {
           {errors.telefono && (
             <p className="text-red-500">Telefono de usuario requerido</p>
           )}
-  
+
           <label className="text-white">Placa</label>
           <input
             type="text"
@@ -194,7 +222,7 @@ function RegisterPage() {
           {errors.placa && (
             <p className="text-red-500">Placa de usuario requerido</p>
           )}
-  
+
           <label className="text-white">Nit</label>
           <input
             type="text"
@@ -205,7 +233,7 @@ function RegisterPage() {
           {errors.nit && (
             <p className="text-red-500">Nit de usuario requerido</p>
           )}
-  
+
           <label className="text-white">Sueldo Base</label>
           <input
             type="number"
@@ -216,7 +244,7 @@ function RegisterPage() {
           {errors.sueldo_base && (
             <p className="text-red-500">Sueldo base de usuario requerido</p>
           )}
-  
+
           <label className="text-white">Kilometraje</label>
           <input
             type="number"
@@ -227,7 +255,7 @@ function RegisterPage() {
           {errors.kilometraje && (
             <p className="text-red-500">Kilometraje de usuario requerido</p>
           )}
-  
+
           <div className="flex items-center py-2">
             <label className="text-white">Aplicable Comision</label>
             <input
@@ -252,7 +280,7 @@ function RegisterPage() {
               className="ml-2"
             />
           </div>
-  
+
           <button
             type="submit"
             className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mr-auto"
@@ -269,7 +297,6 @@ function RegisterPage() {
       </div>
     </div>
   );
-  
 }
 
 export default RegisterPage;

@@ -29,6 +29,7 @@ import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
 import { ClientProvider } from "./context/ClientContext";
+import { HistorialProvider } from "./context/HistorialContext";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <UserProvider>
         <ProductProvider>
           <ClientProvider>
+            <HistorialProvider>
             <RolProvider>
               <BrowserRouter>
                 <main className="">
@@ -84,6 +86,7 @@ function App() {
                 </main>
               </BrowserRouter>
             </RolProvider>
+            </HistorialProvider>
           </ClientProvider>
         </ProductProvider>
       </UserProvider>

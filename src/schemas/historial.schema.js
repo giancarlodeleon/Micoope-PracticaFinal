@@ -4,7 +4,7 @@ export const HistorialSchema = z.object({
     tipo: z.string({
         required_error: "Tipo is required"
     }),
-    decripcion: z.string({
+    descripcion: z.string({
         required_error: "Descripcion is required"
     }),
     

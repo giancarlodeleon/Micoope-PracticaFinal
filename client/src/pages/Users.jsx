@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUsers } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
+import { useHistorials } from "../context/HistorialContext";
 
 function Users() {
   const { getUsers, users, deleteUser } = useUsers();
@@ -12,32 +13,53 @@ function Users() {
   const [selectedStatus, setSelectedStatus] = useState(""); // Estado para almacenar el estado seleccionado
   const [selectedRole, setSelectedRole] = useState(""); // Estado para almacenar el rol seleccionado
   const usersPerPage = 10; // Número de usuarios por página
+  const { createHistorial } = useHistorials();
 
   useEffect(() => {
     getUsers();
   }, []);
 
-  const handleDeleteClick = (userId) => {
+  const handleDeleteClick = (userId,Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este usuario?"
     );
     if (confirmDelete) {
       if (user.id === userId) {
+        const date = new Date();
+        const historialData = {
+          tipo: "Eliminar",
+          descripcion: `Se elimino el usuario ${Nombre}'`,
+          cantidad: 0,
+          date,
+          user,
+        };
+        createHistorial(historialData);
         deleteUser(userId);
         setTimeout(() => {
           navigate("/");
           logout();
         }, 1000);
       }
+      const date = new Date();
+      const historialData = {
+        tipo: "Eliminar",
+        descripcion: `Se elimino el usuario ${Nombre}'`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      createHistorial(historialData);
       deleteUser(userId);
     }
   };
 
   // Filtrar usuarios según el término de búsqueda, agencia, estado y rol seleccionados
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (!selectedStatus || user.estado === selectedStatus) &&
-    (!selectedRole || user.rol.toLowerCase().includes(selectedRole.toLowerCase()))
+  const filteredUsers = users.filter(
+    (user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (!selectedStatus || user.estado === selectedStatus) &&
+      (!selectedRole ||
+        user.rol.toLowerCase().includes(selectedRole.toLowerCase()))
   );
 
   // Calcular el total de páginas para los usuarios filtrados
@@ -48,9 +70,8 @@ function Users() {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-
   // Obtener la lista de roles existentes para la selección
-  const roles = [...new Set(users.map(user => user.rol))];
+  const roles = [...new Set(users.map((user) => user.rol))];
 
   return (
     <div className="flex justify-center p-4 ">
@@ -77,8 +98,7 @@ function Users() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-1/3 px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg mr-2"
           />
-     
-          
+
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
@@ -158,7 +178,7 @@ function Users() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id)}
+                      onClick={() => handleDeleteClick(place._id,place.username)}
                     >
                       Eliminar
                     </button>
