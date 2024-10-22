@@ -21,7 +21,8 @@ import InventarioRoute from "./InventarioRoute";
 import AddInventarioRoute from "./AddInventarioRoute";
 import AddStockRoute from "./AddStockRoute";
 import TakeoutStockRoute from "./TakeoutStockRoute";
-import RequestPage from "./pages/RequestPage";
+import RequestPagePendiente from "./pages/RequestPagePendientes";
+import RequestPageAprobado from "./pages/RequestPageAprobado";
 import HistorialPage from "./pages/HistorialPage";
 import HistorialRoute from "./HistorialRoute";
 import RequestRoute from "./RequestRoute";
@@ -78,7 +79,8 @@ function App() {
                       <Route path="/historial" element={<HistorialPage />} />
                       </Route>
                       <Route element={<RequestRoute />}>
-                      <Route path="/requests" element={<RequestPage />} />
+                      <Route path="/requests" element={<RequestPagePendiente />} />
+                      <Route path="/requestsaprobadas" element={<RequestPageAprobado />} />
                       </Route>
                       <Route path="/home" element={<HomePage />} />
                     </Route>
