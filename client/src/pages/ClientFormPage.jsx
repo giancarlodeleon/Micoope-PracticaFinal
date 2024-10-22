@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useClients } from "../context/ClientContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useHistorials } from "../context/HistorialContext";
+import { useAuth } from "../context/AuthContext";
 
 function ClientFormPage() {
   const departamentosMunicipios = {
@@ -40,6 +42,8 @@ function ClientFormPage() {
   const navigate = useNavigate();
   const params = useParams();
   const [clientCount, setClientCount] = useState(0);
+  const { createHistorial } = useHistorials();
+  const { user} = useAuth();
 
   useEffect(() => {
     setClientCount(client.length);
@@ -82,12 +86,30 @@ function ClientFormPage() {
       data.phone = Number(data.phone);
       data.code = String(clientCount + 99);
       await updateClient(params.id, data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Modificar",
+        descripcion: `Se Modifico el cliente ${data.name}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/clientes");
     } else {
       data.nit = Number(data.nit);
       data.phone = Number(data.phone);
       data.code = String(clientCount + 100);
       await createClient(data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Agregar",
+        descripcion: `Se Agrego el cliente ${data.name}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/clientes");
     }
   });

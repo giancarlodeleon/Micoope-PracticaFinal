@@ -58,7 +58,7 @@ function RegisterPage() {
       const date = new Date();
       const historialData = {
         tipo: "Agregar",
-        descripcion: `Se ${accion} el nuevo usuario ${agregar}'`,
+        descripcion: `Se ${accion} el nuevo usuario ${agregar}`,
         cantidad: 0,
         date,
         user,
@@ -105,7 +105,7 @@ function RegisterPage() {
       const date = new Date();
       const historialData = {
         tipo: "Modificar",
-        descripcion: `Se ${accion} el usuario ${agregar}'`,
+        descripcion: `Se ${accion} el usuario ${agregar}`,
         cantidad: 0,
         date,
         user,

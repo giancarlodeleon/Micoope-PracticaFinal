@@ -22,9 +22,6 @@ export const ProductSchema = z.object({
     selling_price_3: z.number({
         required_error: "Selling Price 3 is required"
     }),
-    gravamen: z.number({
-        required_error: "Gravamen is required"
-    }),
     minimum_stock: z.number({
         required_error: "Minimum stock is required"
     }),

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
+import { useHistorials } from "../context/HistorialContext";
 
 function Inventory() {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ function Inventory() {
   const [Setpermiso, setPermisoToShow] = useState(null);
   const [Setpermiso2, setPermisoToShow2] = useState(null);
   const [Setpermiso3, setPermisoToShow3] = useState(null);
+  const { createHistorial } = useHistorials();
 
   useEffect(() => {
     getProducts();
@@ -23,11 +25,20 @@ function Inventory() {
     getRols();
   }, []);
 
-  const handleDeleteClick = (productId) => {
+  const handleDeleteClick = (productId,Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este Producto?"
     );
     if (confirmDelete) {
+      const date = new Date();
+      const historialData = {
+        tipo: "Eliminar",
+        descripcion: `Se elimino el producto/servicio ${Nombre}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      createHistorial(historialData);
       deleteProduct(productId);
     }
   };
@@ -94,7 +105,6 @@ function Inventory() {
                 <th className="py-2 text-center">Venta 1</th>
                 <th className="py-2 text-center">Venta 2</th>
                 <th className="py-2 text-center">Venta 3</th>
-                <th className="py-2 text-center">Gravamen</th>
                 <th className="py-2 text-center">Stock</th>
                 <th className="py-2 text-center">Comision</th>
                 <th className="py-2 text-center">Acciones</th>
@@ -125,9 +135,6 @@ function Inventory() {
                   <td className="text-center border border-green-100">
                     {place.selling_price_1 +
                       place.selling_price_1 * (place.selling_price_3 / 100)}
-                  </td>
-                  <td className="text-center border border-green-100">
-                    {place.gravamen}
                   </td>
                   <td className="text-center border border-green-100">
                     {place.stock}
@@ -167,7 +174,7 @@ function Inventory() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id)}
+                      onClick={() => handleDeleteClick(place._id,place.name)}
                     >
                       Eliminar
                     </button>

@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useRols } from "../context/RolContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useEffect} from "react";
+import { useEffect } from "react";
+import { useHistorials } from "../context/HistorialContext";
+import { useAuth } from "../context/AuthContext";
 
 function RolFormPage() {
-
   const {
     register,
     handleSubmit,
@@ -12,11 +13,10 @@ function RolFormPage() {
     formState: { errors },
   } = useForm();
 
-  const {
-    createRol,
-    getRol,
-    updateRol,
-  } = useRols();
+  const { createRol, getRol, updateRol } = useRols();
+
+  const { createHistorial } = useHistorials();
+  const { user } = useAuth();
 
   const navigate = useNavigate();
   const params = useParams();
@@ -42,16 +42,34 @@ function RolFormPage() {
     loadRol();
   }, []);
 
-  const onSubmit = handleSubmit(async(data) => {
+  const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
       await updateRol(params.id, data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Modificar",
+        descripcion: `Se Modifico el rol ${data.name}'`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/roles");
     } else {
       await createRol(data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Agregar",
+        descripcion: `Se Agrego el rol ${data.name}'`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
+
       navigate("/roles");
     }
   });
-
 
   return (
     <div className="items-center justify-center py-20">
@@ -67,7 +85,9 @@ function RolFormPage() {
           />
           {errors.name && <p className="text-red-500">Nombre Requerido</p>}
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al Manejo de informacion</label>
+            <label className="text-white font ">
+              Permiso al Manejo de informacion
+            </label>
             <input
               type="checkbox"
               {...register("permission_of_information", { value: true })}
@@ -99,7 +119,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para agregar Clientes</label>
+            <label className="text-white font ">
+              Permiso para agregar Clientes
+            </label>
             <input
               type="checkbox"
               {...register("permission_of_add_Client", { value: true })}
@@ -107,7 +129,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para agregar Productos</label>
+            <label className="text-white font ">
+              Permiso para agregar Productos
+            </label>
             <input
               type="checkbox"
               {...register("permission_of_add_Product", { value: true })}
@@ -115,7 +139,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para agregar a Stock</label>
+            <label className="text-white font ">
+              Permiso para agregar a Stock
+            </label>
             <input
               type="checkbox"
               {...register("permission_add_stock", { value: true })}
@@ -123,7 +149,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para quitar a Stock</label>
+            <label className="text-white font ">
+              Permiso para quitar a Stock
+            </label>
             <input
               type="checkbox"
               {...register("permission_takeout_stock", { value: true })}
@@ -161,7 +189,7 @@ function RolFormPage() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default RolFormPage
+export default RolFormPage;

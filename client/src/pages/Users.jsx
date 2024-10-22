@@ -28,7 +28,7 @@ function Users() {
         const date = new Date();
         const historialData = {
           tipo: "Eliminar",
-          descripcion: `Se elimino el usuario ${Nombre}'`,
+          descripcion: `Se elimino el usuario ${Nombre}`,
           cantidad: 0,
           date,
           user,

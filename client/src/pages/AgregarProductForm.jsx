@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useProducts } from "../context/ProductContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useHistorials } from "../context/HistorialContext";
+import { useAuth } from "../context/AuthContext";
 
 const AgregarProductForm = () => {
   const {
@@ -15,6 +17,8 @@ const AgregarProductForm = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [product, setProduct] = useState(null);
+  const { createHistorial } = useHistorials();
+  const { user } = useAuth();
 
   useEffect(() => {
     async function loadProduct() {
@@ -56,6 +60,16 @@ const AgregarProductForm = () => {
       };
 
       await updateProduct(params.id, updatedProduct);
+
+      const date = new Date();
+      const historialData = {
+        tipo: "Sumar",
+        descripcion: `Se le Sumo al producto/servicio ${data.name}`,
+        cantidad: Number(data.amountToAdd),
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/inventario");
     }
   });

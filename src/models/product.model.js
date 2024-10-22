@@ -35,12 +35,6 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-
-    gravamen: {
-      type: Number,
-      required: true,
-    },
-
     minimum_stock: {
       type: Number,
       required: true,

@@ -3,16 +3,17 @@ import { useEffect, useState } from "react";
 import { useClients } from "../context/ClientContext";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
-
+import { useHistorials } from "../context/HistorialContext";
 
 function ClientPage() {
-  const {  user } = useAuth();
-    const { getClients, client, deleteClient } = useClients();
-    const { getRols, rol } = useRols();
+  const { user } = useAuth();
+  const { getClients, client, deleteClient } = useClients();
+  const { getRols, rol } = useRols();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const clientsPerPage = 10; 
+  const clientsPerPage = 10;
   const [Setpermiso, setPermisoToShow] = useState(null);
+  const { createHistorial } = useHistorials();
 
   useEffect(() => {
     getClients();
@@ -20,25 +21,33 @@ function ClientPage() {
 
   useEffect(() => {
     getRols();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
     setPermisoToShow(permiso.permission_of_add_Client);
   }, []);
 
-
-  const handleDeleteClick = (clientId) => {
+  const handleDeleteClick = (clientId, Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este Cliente?"
     );
     if (confirmDelete) {
+      const date = new Date();
+      const historialData = {
+        tipo: "Eliminar",
+        descripcion: `Se elimino el cliente ${Nombre}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      createHistorial(historialData);
       deleteClient(clientId);
     }
   };
 
-   // Filtrar roles según el término de búsqueda
-   const filteredClients = client.filter((place) =>
+  // Filtrar roles según el término de búsqueda
+  const filteredClients = client.filter((place) =>
     place.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -48,26 +57,28 @@ function ClientPage() {
   // Lógica para calcular los índices de inicio y fin de los roles en la página actual
   const indexOfLastClient = currentPage * clientsPerPage;
   const indexOfFirstClient = indexOfLastClient - clientsPerPage;
-  const currentClients = filteredClients.slice(indexOfFirstClient, indexOfLastClient);
+  const currentClients = filteredClients.slice(
+    indexOfFirstClient,
+    indexOfLastClient
+  );
 
   return (
-    
     <div className="flex justify-center p-4 ">
-      
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
         <h1
           className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
           Clientes
-          {Setpermiso && <Link
-            to="/add-client"
-            className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
-            style={{ width: "36px", height: "36px" }}
-          >
-            +
-          </Link>}
-          
+          {Setpermiso && (
+            <Link
+              to="/add-client"
+              className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
+              style={{ width: "36px", height: "36px" }}
+            >
+              +
+            </Link>
+          )}
         </h1>
         {/* Campo de búsqueda */}
         <div className="p-4">
@@ -154,7 +165,7 @@ function ClientPage() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id)}
+                      onClick={() => handleDeleteClick(place._id, place.name)}
                     >
                       Eliminar
                     </button>

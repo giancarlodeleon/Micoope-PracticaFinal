@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useProducts } from "../context/ProductContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useHistorials } from "../context/HistorialContext";
+import { useAuth } from "../context/AuthContext";
 
 function ProductFormPage() {
   const {
@@ -15,6 +17,8 @@ function ProductFormPage() {
   const navigate = useNavigate();
   const params = useParams();
   const [productCount, setProductCount] = useState(0);
+  const { createHistorial } = useHistorials();
+  const { user } = useAuth();
 
   useEffect(() => {
     setProductCount(products.length);
@@ -48,13 +52,21 @@ function ProductFormPage() {
       data.selling_price_3 = Number(data.selling_price_3);
       data.stock = Number(data.stock);
       data.minimum_stock = Number(data.minimum_stock);
-      data.gravamen = Number(data.gravamen);
       const nameCode = data.name.substring(0, 3).toUpperCase(); // Primeras 3 letras del nombre
       const presentationCode = data.presentation
         ? `-${data.presentation.substring(0, 3).toUpperCase()}`
         : ""; // Si hay presentación, agrega las primeras 3 letras
       data.code = `${nameCode}${productCount + 0}${presentationCode}`;
       await updateProduct(params.id, data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Modificar",
+        descripcion: `Se Modifico el usuario ${data.name}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/inventario");
     } else {
       data.cost_price = Number(data.cost_price);
@@ -63,20 +75,30 @@ function ProductFormPage() {
       data.selling_price_3 = Number(data.selling_price_3);
       data.stock = Number(data.stock);
       data.minimum_stock = Number(data.minimum_stock);
-      data.gravamen = Number(data.gravamen);
       const nameCode = data.name.substring(0, 3).toUpperCase(); // Primeras 3 letras del nombre
       const presentationCode = data.presentation
         ? `-${data.presentation.substring(0, 3).toUpperCase()}`
         : ""; // Si hay presentación, agrega las primeras 3 letras
       data.code = `${nameCode}${productCount + 1}${presentationCode}`;
       await createProduct(data);
+      const date = new Date();
+      const historialData = {
+        tipo: "Agregar",
+        descripcion: `Se Agrego el usuario ${data.name}`,
+        cantidad: 0,
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/inventario");
     }
   });
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
-        <h1 className="text-2xl text-white font-bold mb-4">Producto/Servicio</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">
+          Producto/Servicio
+        </h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="text-white">Nombre</label>
@@ -88,7 +110,7 @@ function ProductFormPage() {
             />
             {errors.name && <p className="text-red-500">Nombre Requerido</p>}
           </div>
-          
+
           <div>
             <label className="text-white">Presentación</label>
             <input
@@ -98,7 +120,7 @@ function ProductFormPage() {
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
           </div>
-          
+
           <div>
             <label className="text-white">Precio Costo</label>
             <input
@@ -107,9 +129,11 @@ function ProductFormPage() {
               {...register("cost_price", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.cost_price && <p className="text-red-500">Precio Costo Requerido</p>}
+            {errors.cost_price && (
+              <p className="text-red-500">Precio Costo Requerido</p>
+            )}
           </div>
-  
+
           <div>
             <label className="text-white">Precio Base</label>
             <input
@@ -118,9 +142,11 @@ function ProductFormPage() {
               {...register("selling_price_1", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.selling_price_1 && <p className="text-red-500">Precio Base Requerido</p>}
+            {errors.selling_price_1 && (
+              <p className="text-red-500">Precio Base Requerido</p>
+            )}
           </div>
-  
+
           <div>
             <label className="text-white">Porcentaje Segundo Precio</label>
             <input
@@ -129,9 +155,11 @@ function ProductFormPage() {
               {...register("selling_price_2", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.selling_price_2 && <p className="text-red-500">Porcentaje Requerido</p>}
+            {errors.selling_price_2 && (
+              <p className="text-red-500">Porcentaje Requerido</p>
+            )}
           </div>
-  
+
           <div>
             <label className="text-white">Porcentaje Tercer Precio</label>
             <input
@@ -140,20 +168,11 @@ function ProductFormPage() {
               {...register("selling_price_3", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.selling_price_3 && <p className="text-red-500">Porcentaje Requerido</p>}
+            {errors.selling_price_3 && (
+              <p className="text-red-500">Porcentaje Requerido</p>
+            )}
           </div>
-  
-          <div>
-            <label className="text-white">Gravamen</label>
-            <input
-              type="number"
-              placeholder="Gravamen"
-              {...register("gravamen", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
-            />
-            {errors.gravamen && <p className="text-red-500">Gravamen Requerido</p>}
-          </div>
-  
+
           <div>
             <label className="text-white">Stock</label>
             <input
@@ -164,7 +183,7 @@ function ProductFormPage() {
             />
             {errors.stock && <p className="text-red-500">Stock Requerido</p>}
           </div>
-  
+
           <div>
             <label className="text-white">Stock Mínimo</label>
             <input
@@ -173,9 +192,11 @@ function ProductFormPage() {
               {...register("minimum_stock", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.minimum_stock && <p className="text-red-500">Stock Mínimo Requerido</p>}
+            {errors.minimum_stock && (
+              <p className="text-red-500">Stock Mínimo Requerido</p>
+            )}
           </div>
-  
+
           <div className="flex items-center py-2">
             <label className="text-white">Válido a Comisión</label>
             <input
@@ -184,7 +205,7 @@ function ProductFormPage() {
               className="ml-2"
             />
           </div>
-  
+
           <button
             type="submit"
             className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
@@ -201,7 +222,6 @@ function ProductFormPage() {
       </div>
     </div>
   );
-  
 }
 
 export default ProductFormPage;

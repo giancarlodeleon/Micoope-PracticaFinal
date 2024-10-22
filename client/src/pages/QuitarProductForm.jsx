@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useProducts } from "../context/ProductContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useHistorials } from "../context/HistorialContext";
+import { useAuth } from "../context/AuthContext";
 
 const QuitarProductForm = () => {
   const {
@@ -15,6 +17,8 @@ const QuitarProductForm = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [product, setProduct] = useState(null);
+  const { createHistorial } = useHistorials();
+  const { user } = useAuth();
 
   useEffect(() => {
     async function loadProduct() {
@@ -53,6 +57,16 @@ const QuitarProductForm = () => {
       };
 
       await updateProduct(params.id, updatedProduct);
+
+      const date = new Date();
+      const historialData = {
+        tipo: "Quitar",
+        descripcion: `Se le Quito al producto/servicio ${data.name}`,
+        cantidad: Number(data.amountToSubtract),
+        date,
+        user,
+      };
+      await createHistorial(historialData);
       navigate("/inventario");
     }
   });
@@ -76,7 +90,7 @@ const QuitarProductForm = () => {
               <p className="text-red-500">Ingrese una cantidad válida</p>
             )}
           </div>
-  
+
           <button
             type="submit"
             className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
@@ -93,7 +107,6 @@ const QuitarProductForm = () => {
       </div>
     </div>
   );
-  
 };
 
 export default QuitarProductForm;
