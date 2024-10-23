@@ -8,6 +8,8 @@ import clientRoutes from './routes/client.routes.js'
 import usersRoutes from './routes/user.routes.js'
 import rolRoutes from './routes/rol.routes.js'
 import historialRoutes from './routes/historial.routes.js'
+import solicitudRoutes from './routes/solicitud.routes.js'
+import pedidoRoutes from './routes/pedido.routes.js'
 
 
 const app = express();
@@ -26,6 +28,8 @@ app.use('/api',productsRoutes);
 app.use('/api',usersRoutes);
 app.use('/api',rolRoutes);
 app.use('/api',historialRoutes);
+app.use('/api',solicitudRoutes);
+app.use('/api',pedidoRoutes);
 
 
 export default app;
