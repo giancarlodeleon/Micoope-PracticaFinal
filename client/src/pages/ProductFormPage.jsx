@@ -93,6 +93,7 @@ function ProductFormPage() {
       navigate("/inventario");
     }
   });
+
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
