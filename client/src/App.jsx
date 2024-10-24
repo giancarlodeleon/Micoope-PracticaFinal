@@ -23,6 +23,7 @@ import AddStockRoute from "./AddStockRoute";
 import TakeoutStockRoute from "./TakeoutStockRoute";
 import RequestPagePendiente from "./pages/RequestPagePendientes";
 import RequestPageAprobado from "./pages/RequestPageAprobado";
+import SolicitudFormPage from "./pages/SolicitudFormPage";
 import HistorialPage from "./pages/HistorialPage";
 import HistorialRoute from "./HistorialRoute";
 import RequestRoute from "./RequestRoute";
@@ -31,6 +32,8 @@ import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
 import { ClientProvider } from "./context/ClientContext";
 import { HistorialProvider } from "./context/HistorialContext";
+import { SolicitudProvider } from "./context/SolicitudContext";
+import { PedidoProvider} from "./context/PedidoContext";
 
 function App() {
   return (
@@ -40,6 +43,8 @@ function App() {
           <ClientProvider>
             <HistorialProvider>
             <RolProvider>
+              <SolicitudProvider>
+                <PedidoProvider>
               <BrowserRouter>
                 <main className="">
                   <Navbar />
@@ -80,13 +85,16 @@ function App() {
                       </Route>
                       <Route element={<RequestRoute />}>
                       <Route path="/requests" element={<RequestPagePendiente />} />
-                      <Route path="/requestsaprobadas" element={<RequestPageAprobado />} />
+                      <Route path="/add-request" element={<SolicitudFormPage />} />
+                      <Route path="/requestsaprobadas" element={<RequestPageAprobado/>} />
                       </Route>
                       <Route path="/home" element={<HomePage />} />
                     </Route>
                   </Routes>
                 </main>
               </BrowserRouter>
+              </PedidoProvider>
+              </SolicitudProvider>
             </RolProvider>
             </HistorialProvider>
           </ClientProvider>
