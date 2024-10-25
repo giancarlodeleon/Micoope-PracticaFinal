@@ -35,6 +35,9 @@ export const RolSchema = z.object({
     permission_Historial: z.boolean({
         required_error: "Permission of Historial is required"
     }),
+    permission_See_Request: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
 
 
     date: z.string().datetime().optional(),

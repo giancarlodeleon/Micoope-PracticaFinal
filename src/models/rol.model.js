@@ -62,6 +62,12 @@ const rolSchema = new mongoose.Schema(
       required: true,
     },
 
+    permission_See_Request: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
 
     date: {
       type: Date,

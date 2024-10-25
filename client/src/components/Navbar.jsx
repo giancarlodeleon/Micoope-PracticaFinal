@@ -410,11 +410,11 @@ function Navbar() {
                   <NavLink
                     to="/"
                     style={{ fontSize: "20px", marginLeft: "30px" }}
-                    className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
+                    className="font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg"
                     onClick={() => {
                       logout();
                     }}
-                    activeStyle={{ background: "blue", color: "white" }}
+                    activeStyle={{ background: "green", color: "white" }}
                   >
                     <p className="justify-between">Cerrar Sesión</p>
                   </NavLink>

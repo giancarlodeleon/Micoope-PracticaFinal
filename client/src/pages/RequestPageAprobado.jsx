@@ -49,7 +49,7 @@ function RequestPageAprobado(){
   const filteredSolicituds = solicituds.filter(
     (place) =>
       place.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      place.estado === false // Filtra solo las solicitudes con estado true
+      place.estado === true // Filtra solo las solicitudes con estado true
   );
 
   const totalPages = Math.ceil(filteredSolicituds.length / solicitudsPerPage);

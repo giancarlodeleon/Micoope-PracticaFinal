@@ -12,7 +12,7 @@ export const getSolicituds = async (req, res) => {
 export const createSolicituds = async (req, res) => {
   try {
     const { nombre,estado,descripcion, cliente,date} = req.body;
-  const newSolicitud = new Historial({
+  const newSolicitud = new Solicitud({
     nombre,
     estado,
     descripcion,

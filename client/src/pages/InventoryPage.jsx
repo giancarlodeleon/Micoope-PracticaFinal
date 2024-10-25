@@ -123,17 +123,17 @@ function Inventory() {
                     {place.presentation}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.cost_price}
+                    Q.{place.cost_price}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.selling_price_1}
+                    Q.{place.selling_price_1}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.selling_price_1 +
+                    Q.{place.selling_price_1 +
                       place.selling_price_1 * (place.selling_price_2 / 100)}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.selling_price_1 +
+                    Q.{place.selling_price_1 +
                       place.selling_price_1 * (place.selling_price_3 / 100)}
                   </td>
                   <td className="text-center border border-green-100">

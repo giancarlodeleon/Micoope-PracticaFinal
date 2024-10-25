@@ -36,6 +36,7 @@ function RolFormPage() {
         setValue("permission_add_stock", rol.permission_add_stock);
         setValue("permission_takeout_stock", rol.permission_takeout_stock);
         setValue("permission_Request", rol.permission_Request);
+        setValue("permission_See_Request", rol.permission_See_Request);
         setValue("permission_Historial", rol.permission_Historial);
       }
     }
@@ -163,6 +164,14 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_Request", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para ver Solicitudes</label>
+            <input
+              type="checkbox"
+              {...register("permission_See_Request", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

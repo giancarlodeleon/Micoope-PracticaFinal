@@ -6,6 +6,7 @@ import { useHistorials } from "../context/HistorialContext";
 import { useClients } from "../context/ClientContext";
 import { useProducts } from "../context/ProductContext";
 import { useAuth } from "../context/AuthContext";
+import { usePedidos } from "../context/PedidoContext";
 
 function SolicitudFormPage() {
   const {
@@ -13,9 +14,11 @@ function SolicitudFormPage() {
     handleSubmit,
     setValue,
     formState: { errors },
+    getValues,
   } = useForm();
 
   const { createSolicitud, getSolicitud, updateSolicitud } = useSolicituds();
+  const { createPedido, getPedidos, pedido, deletePedido} = usePedidos();
   const { getClients, client } = useClients();
   const { getProducts, products } = useProducts();
   const navigate = useNavigate();
@@ -27,18 +30,15 @@ function SolicitudFormPage() {
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [orderItems, setOrderItems] = useState([]);
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const [selectedClient, setSelectedClient] = useState(null); // Nuevo estado para almacenar el cliente seleccionado
-  const [factura, setFactura] = useState(""); // Nuevo estado para almacenar el atributo "factura"
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [factura, setFactura] = useState("");
+  const [isNombreEditable, setIsNombreEditable] = useState(true);
+  const [errorNombre, setErrorNombre] = useState(false);
+  const [errorCliente, setErrorCliente] = useState(false);
 
   useEffect(() => {
     getClients();
-  }, []);
-
-  useEffect(() => {
     getProducts();
-  }, []);
-
-  useEffect(() => {
     async function loadSolicitud() {
       if (params.id) {
         const solicitud = await getSolicitud(params.id);
@@ -48,41 +48,128 @@ function SolicitudFormPage() {
       }
     }
     loadSolicitud();
-  }, []);
+  }, [params.id, getSolicitud, setValue]);
+ 
+  useEffect(() => {
+    getPedidos();
+  },);
 
-  // Manejar la selección de cliente
-  const handleClientChange = (e) => {
-    const selected = client.find((place) => place.name === e.target.value);
-    setSelectedClient(selected); // Almacenar el cliente seleccionado
-    setFactura(selected ? selected.factura : ""); // Extraer y almacenar el atributo "factura"
-    setValue("cliente", e.target.value); // Actualizar el formulario
+  const handleRemoveMatchingPedidos = async () => {
+    const nombreValue = getValues("nombre"); // Obtiene el nombre actual del formulario.
+  
+    for (const item of orderItems) {
+      // Busca el pedido en la base de datos que coincida con el nombre y los detalles del item.
+      const itemToRemove = pedido.find(p =>
+        p.nombre === nombreValue &&
+        p.producto === item.product &&
+        p.cantidad === Number(item.quantity) &&
+        p.total === Number(item.total)
+      );
+  
+      if (itemToRemove) {
+        await deletePedido(itemToRemove._id); // Elimina el pedido.
+      }
+    }
+    
+    navigate("/requests"); // Navega a la página de solicitudes después de eliminar.
   };
 
-  // Manejar la adición de productos
+  const handleClientChange = (e) => {
+    const selected = client.find((place) => place.name === e.target.value);
+    setSelectedClient(selected);
+    setFactura(selected ? selected.factura : "");
+    setValue("cliente", e.target.value);
+    setErrorCliente(false);  // Resetea el error si hay selección
+  };
+
   const handleAddProduct = () => {
+    const nombreValue = getValues("nombre");
+    const clienteValue = getValues("cliente");
+
+    if (!nombreValue) {
+      setErrorNombre(true);
+      return;
+    }
+    if (!clienteValue) {
+      setErrorCliente(true);
+      return;
+    }
+
+    setErrorNombre(false);
+    setErrorCliente(false);
+
     if (selectedProduct && selectedQuantity > 0) {
-      const productData = products.find((product) => product.name === selectedProduct); // Obtener el producto seleccionado
+      const productData = products.find(
+        (product) => product.name === selectedProduct
+      );
+
+      let price;
+      if (factura === "Nivel 1") {
+        price = productData.selling_price_1;
+      } else if (factura === "Nivel 2") {
+        price =
+          productData.selling_price_1 +
+          productData.selling_price_1 * (productData.selling_price_2 / 100);
+      } else if (factura === "Nivel 3") {
+        price =
+          productData.selling_price_1 +
+          productData.selling_price_1 * (productData.selling_price_3 / 100);
+      } else {
+        price = productData.selling_price_1;
+      }
+
+      const date = new Date();
+      const PedidoData = {
+        nombre: nombreValue,
+        producto: selectedProduct,
+        cantidad: Number(selectedQuantity),
+        total: Number(price * selectedQuantity),
+        date,
+        user,
+      };
+      createPedido(PedidoData);
+
+       // Log de todos los pedidos en la base de datos
+     // Muestra todos los pedidos en la consola
+
       const newItem = {
         product: selectedProduct,
-        price: productData.selling_price_1,  // Añadir el precio del producto
+        price: price,
         quantity: selectedQuantity,
-        total: productData.selling_price_1 * selectedQuantity, // Calcular el total
+        total: price * selectedQuantity,
       };
+
       setOrderItems([...orderItems, newItem]);
       setSelectedProduct("");
       setSelectedQuantity(0);
+      setIsNombreEditable(false);
     }
   };
 
   const handleSelectRow = (index) => {
-    setSelectedRowIndex(index === selectedRowIndex ? null : index); // Si se vuelve a seleccionar, se desmarca
+    setSelectedRowIndex(index === selectedRowIndex ? null : index);
   };
 
   const handleRemoveSelectedProduct = () => {
     if (selectedRowIndex !== null) {
+
+      const nombreValue = getValues("nombre");
+      const item = orderItems[selectedRowIndex];
+      const selectedProducto = item.product;
+      const selectedCantidad = item.quantity;
+      const selectedTotal = item.total;
+
+      const itemToRemove = pedido.find(item => 
+        item.nombre === nombreValue &&
+        item.producto === selectedProducto &&
+        item.cantidad === Number(selectedCantidad) &&
+        item.total === Number(selectedTotal)
+      );
+
+      deletePedido(itemToRemove._id);
       const updatedItems = orderItems.filter((_, i) => i !== selectedRowIndex);
       setOrderItems(updatedItems);
-      setSelectedRowIndex(null); // Desmarcar después de eliminar
+      setSelectedRowIndex(null);
     }
   };
 
@@ -92,7 +179,7 @@ function SolicitudFormPage() {
       const date = new Date();
       const historialData = {
         tipo: "Modificar",
-        descripcion: `Se Modificó una solicitud con nombre ${data.nombre} y factura ${factura}`, // Incluye factura
+        descripcion: `Se Modificó una solicitud con nombre ${data.nombre} y factura ${factura}`,
         cantidad: 0,
         date,
         user,
@@ -100,19 +187,26 @@ function SolicitudFormPage() {
       await createHistorial(historialData);
       navigate("/requests");
     } else {
+      const confirmDelete = window.confirm(
+        "¿Estás seguro de crear la Solicitud (No se podra modificar)?"
+      );
+      if (confirmDelete) {
+      data.estado = false;
       await createSolicitud(data);
       const date = new Date();
       const historialData = {
         tipo: "Agregar",
-        descripcion: `Se Creó una solicitud con nombre ${data.nombre} y factura ${factura}`, // Incluye factura
+        descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
         cantidad: 0,
         date,
         user,
       };
       await createHistorial(historialData);
       navigate("/requests");
-    }
+    }}
   });
+
+  const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
 
   return (
     <div className="items-center justify-center py-20">
@@ -127,14 +221,18 @@ function SolicitudFormPage() {
               placeholder="Nombre"
               {...register("nombre", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              disabled={!isNombreEditable}
             />
             {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
+            {errorNombre && (
+              <p className="text-red-500">Debe llenar el campo de Nombre antes de crear un pedido.</p>
+            )}
           </div>
 
           <div>
             <label className="text-white">Cliente</label>
             <select
-              onChange={handleClientChange} // Cambiar a la función de manejo de cambio de cliente
+              onChange={handleClientChange}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             >
               <option value="">Seleccione un cliente</option>
@@ -145,6 +243,9 @@ function SolicitudFormPage() {
               ))}
             </select>
             {errors.cliente && <p className="text-red-500">Cliente Requerido</p>}
+            {errorCliente && (
+              <p className="text-red-500">Debe seleccionar un cliente antes de crear un pedido.</p>
+            )}
           </div>
 
           <div>
@@ -155,7 +256,9 @@ function SolicitudFormPage() {
               {...register("descripcion", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.descripcion && <p className="text-red-500">Descripción Requerida</p>}
+            {errors.descripcion && (
+              <p className="text-red-500">Descripción Requerida</p>
+            )}
           </div>
 
           <h1 className="text-2xl text-white font-bold mb-4">Pedidos</h1>
@@ -170,7 +273,7 @@ function SolicitudFormPage() {
                 <option value="">Seleccione un producto</option>
                 {products.map((product, i) => (
                   <option key={i} value={product.name}>
-                    {product.name} {/* Mostrar precio en el menú */}
+                    {product.name}
                   </option>
                 ))}
               </select>
@@ -199,46 +302,49 @@ function SolicitudFormPage() {
               type="button"
               onClick={handleRemoveSelectedProduct}
               className="text-white bg-red-500 hover:bg-red-400 px-4 py-2 rounded-md"
-              disabled={selectedRowIndex === null} // Deshabilitar si no hay producto seleccionado
             >
-              Eliminar
+              Quitar
             </button>
           </div>
 
-          <table className="table-auto w-full mt-4 bg-white text-black rounded-md">
+          <table className="min-w-full mt-4 bg-white rounded-md">
             <thead>
-              <tr className="text-black">
-                <th className="px-4 py-2">Producto</th>
-                <th className="px-4 py-2">Cantidad</th>
-                <th className="px-4 py-2">Precio</th>
-                <th className="px-4 py-2">Total</th> {/* Nueva columna para el total */}
+              <tr>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Producto</th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Precio</th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Cantidad</th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Total</th>
               </tr>
             </thead>
             <tbody>
               {orderItems.map((item, index) => (
                 <tr
                   key={index}
-                  onClick={() => handleSelectRow(index)} // Manejar selección de fila
-                  className={`hover:bg-gray-200 cursor-pointer ${selectedRowIndex === index ? "bg-blue-200" : ""}`} // Cambiar color si está seleccionado
+                  onClick={() => handleSelectRow(index)}
+                  className={
+                    selectedRowIndex === index ? "bg-gray-300" : ""
+                  }
                 >
-                  <td className="border px-4 py-2">{item.product}</td>
-                  <td className="border px-4 py-2">{item.quantity}</td>
-                  <td className="border px-4 py-2">${item.price}</td>
-                  <td className="border px-4 py-2">${item.total}</td> {/* Mostrar total */}
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.product}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.price}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.quantity}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">Q.{item.total.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
+          <div className="mt-4 text-white text-xl font-bold">Total: Q.{totalAmount.toFixed(2)}</div>
+
           <button
             type="submit"
-            className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-md mt-4"
+            className="w-full text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mt-4"
           >
-            {params.id ? "Actualizar Solicitud" : "Crear Solicitud"}
+            Guardar Solicitud
           </button>
         </form>
         <Link
-          to="/requests"
+        onClick={handleRemoveMatchingPedidos}
           className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
         >
           Regresar

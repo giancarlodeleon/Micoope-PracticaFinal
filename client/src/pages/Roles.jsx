@@ -88,6 +88,7 @@ function Roles() {
                 <th className="py-2 text-center">Agregar Stock</th>
                 <th className="py-2 text-center">Quitar Stock</th>
                 <th className="py-2 text-center">Solicitudes</th>
+                <th className="py-2 text-center">Ver Solicitudes</th>
                 <th className="py-2 text-center">Historial</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
@@ -124,6 +125,9 @@ function Roles() {
                   </td>
                   <td className="text-center border border-green-100">
                     {place.permission_Request ? "Activo" : "Desactivo"}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.permission_See_Request ? "Activo" : "Desactivo"}
                   </td>
                   <td className="text-center border border-green-100">
                     {place.permission_Historial ? "Activo" : "Desactivo"}

@@ -4,6 +4,8 @@ import { useSolicituds } from "../context/SolicitudContext";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
 import { useHistorials } from "../context/HistorialContext";
+import { useUsers } from "../context/UserContext";
+import {usePedidos } from "../context/PedidoContext"
 
 function RequestPagePendientes(){
   const { user } = useAuth();
@@ -13,7 +15,11 @@ function RequestPagePendientes(){
   const [searchTerm, setSearchTerm] = useState("");
   const solicitudsPerPage = 10;
   const [Setpermiso, setPermisoToShow] = useState(null);
+  const [Setpermiso2, setPermisoToShow2] = useState(null);
   const { createHistorial } = useHistorials(); 
+  const { getUsers,users} = useUsers();
+  const { getPedidos,pedido,deletePedido} = usePedidos();
+
 
   useEffect(() => {
     getSolicituds();
@@ -24,9 +30,23 @@ function RequestPagePendientes(){
   }, []);
 
   useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    getPedidos();
+  }, []);
+
+  useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
     setPermisoToShow(permiso.permission_Request);
   }, []);
+
+  useEffect(() => {
+    const permiso = rol.find((permiso) => permiso.name === user.rol);
+    setPermisoToShow2(permiso.permission_See_Request);
+  }, []);
+
 
   const handleDeleteClick = (solicitudId, Nombre) => {
     const confirmDelete = window.confirm(
@@ -43,13 +63,24 @@ function RequestPagePendientes(){
       };
       createHistorial(historialData);
       deleteSolicitud(solicitudId);
+       // Eliminar los pedidos que tengan el mismo nombre
+    const pedidosAEliminar = pedido.filter(p => p.nombre === Nombre); // Filtrar los pedidos que coinciden
+
+    for (const pedidoToDelete of pedidosAEliminar) {
+      deletePedido(pedidoToDelete._id); // Eliminar cada pedido
     }
+    }
+  };
+
+  const getUsernameById = (userId) => {
+    const user = users.find((u) => u._id === userId); // Buscar el usuario por su id
+    return user ? user.username : "Usuario no encontrado"; // Retornar el nombre de usuario o un mensaje
   };
 
   const filteredSolicituds = solicituds.filter(
     (place) =>
       place.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      place.estado === true // Filtra solo las solicitudes con estado true
+      place.estado === false // Filtra solo las solicitudes con estado true
   );
 
   const totalPages = Math.ceil(filteredSolicituds.length / solicitudsPerPage);
@@ -126,7 +157,7 @@ function RequestPagePendientes(){
               {currentSolicituds.map((place) => (
                 <tr key={place._id}>
                   <td className="text-center border border-green-100">
-                    {place.nombre}
+                    {place.nombre} 
                   </td>
                   <td className="text-center border border-green-100">
                     {place.descripcion}
@@ -135,19 +166,21 @@ function RequestPagePendientes(){
                     {place.cliente}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.user}
+                  {getUsernameById(place.user)} 
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.date}
+                  {new Date(place.date).toLocaleDateString()}
                   </td>
                  
                   <td className="flex justify-center items-center border border-green-100">
+                  {Setpermiso2 && (
                     <Link
-                      to={`/clients/${place._id}`}
+                      to={``}
                       className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
                     >
-                      Editar
+                      Ver
                     </Link>
+                  )}
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
                       onClick={() => handleDeleteClick(place._id, place.nombre)}

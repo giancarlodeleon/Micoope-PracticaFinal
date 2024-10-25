@@ -12,7 +12,7 @@ export const getPedidos = async (req, res) => {
 export const createPedidos = async (req, res) => {
   try {
     const { nombre,producto,cantidad, total,date} = req.body;
-  const newPedido = new Historial({
+  const newPedido = new Pedido({
     nombre,
     producto,
     cantidad,
