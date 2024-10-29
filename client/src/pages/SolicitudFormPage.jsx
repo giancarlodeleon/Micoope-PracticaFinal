@@ -56,8 +56,8 @@ function SolicitudFormPage() {
 
   const handleRemoveMatchingPedidos = async () => {
     const nombreValue = getValues("nombre"); // Obtiene el nombre actual del formulario.
-  
     for (const item of orderItems) {
+      
       // Busca el pedido en la base de datos que coincida con el nombre y los detalles del item.
       const itemToRemove = pedido.find(p =>
         p.nombre === nombreValue &&
@@ -65,13 +65,12 @@ function SolicitudFormPage() {
         p.cantidad === Number(item.quantity) &&
         p.total === Number(item.total)
       );
-  
+
       if (itemToRemove) {
         await deletePedido(itemToRemove._id); // Elimina el pedido.
       }
+      
     }
-    
-    navigate("/requests"); // Navega a la página de solicitudes después de eliminar.
   };
 
   const handleClientChange = (e) => {
@@ -345,6 +344,7 @@ function SolicitudFormPage() {
         </form>
         <Link
         onClick={handleRemoveMatchingPedidos}
+        to="/requests"
           className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
         >
           Regresar
