@@ -28,6 +28,7 @@ import HistorialPage from "./pages/HistorialPage";
 import HistorialRoute from "./HistorialRoute";
 import RequestRoute from "./RequestRoute";
 import AddSolicitudRoute from "./AddSolicitudRoute";
+import VerSolicitudPage from "./pages/VerSolicitudPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -89,7 +90,7 @@ function App() {
                       <Route path="/add-request" element={<SolicitudFormPage />} />
                       <Route path="/requestsaprobadas" element={<RequestPageAprobado />} />
                       <Route element={<AddSolicitudRoute />}>
-                      
+                      <Route path="/solicitudes/:id" element={<VerSolicitudPage />} />
                       </Route>
                       </Route>
                       <Route path="/home" element={<HomePage />} />
