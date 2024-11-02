@@ -4,9 +4,11 @@ import { usePedidos } from "../context/PedidoContext";
 import { useSolicituds } from "../context/SolicitudContext";
 import { useHistorials } from "../context/HistorialContext";
 import { useAuth } from "../context/AuthContext";
+import { useProducts } from "../context/ProductContext";
 
 const VerSolicitudPage = () => {
-  const { getSolicituds, solicituds, deleteSolicitud, updateSolicitud } = useSolicituds();
+  const { getSolicituds, solicituds, deleteSolicitud, updateSolicitud } =
+    useSolicituds();
   const { getPedidos, pedido, deletePedido } = usePedidos();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ const VerSolicitudPage = () => {
   const [estadoSolicitud, setEstadoSolicitud] = useState(false);
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
+  const { getProducts, products, updateProduct } = useProducts();
 
   useEffect(() => {
     getSolicituds();
@@ -24,6 +27,10 @@ const VerSolicitudPage = () => {
 
   useEffect(() => {
     getPedidos();
+  }, []);
+
+  useEffect(() => {
+    getProducts();
   }, []);
 
   useEffect(() => {
@@ -38,13 +45,56 @@ const VerSolicitudPage = () => {
   }, [solicituds, id]);
 
   const handleAprobar = async () => {
-    const confirmAprobar = window.confirm("¿Estás seguro de que quieres aprobar esta solicitud?");
+    const confirmAprobar = window.confirm(
+      "¿Estás seguro de que quieres aprobar esta solicitud?"
+    );
     if (confirmAprobar) {
       try {
-        // Actualizar la solicitud cambiando su estado a true
-        await updateSolicitud(id, { estado: true, nombre: nombreSolicitud, cliente: clienteSolicitud, descripcion: descripcionSolicitud });
-        
-        // Registrar el historial de aprobación
+        // Verificar si todos los productos existen y tienen stock suficiente
+        const pedidosRelacionados = pedido.filter(
+          (place) => place.nombre === nombreSolicitud
+        );
+        const missingOrInsufficientProducts = pedidosRelacionados.filter(
+          (place) => {
+            const productoEncontrado = products.find(
+              (product) => product.name === place.producto
+            );
+
+            // Verificar si el producto existe y tiene stock suficiente
+            return (
+              !productoEncontrado || place.cantidad > productoEncontrado.stock
+            );
+          }
+        );
+
+        if (missingOrInsufficientProducts.length > 0) {
+          // Listar productos faltantes o con stock insuficiente en una alerta
+          const productIssues = missingOrInsufficientProducts
+            .map((place) => {
+              const productoEncontrado = products.find(
+                (product) => product.name === place.producto
+              );
+              return productoEncontrado
+                ? `${place.producto} (solicitado: ${place.cantidad}, disponible: ${productoEncontrado.stock})`
+                : `${place.producto} (no disponible)`;
+            })
+            .join(", ");
+
+          alert(
+            `No se puede aprobar la solicitud. Problemas con los siguientes productos: ${productIssues}`
+          );
+          return; // Detener la función si hay productos con problemas
+        }
+
+        // Si todos los productos cumplen con las condiciones, actualizar la solicitud a aprobada
+        await updateSolicitud(id, {
+          estado: true,
+          nombre: nombreSolicitud,
+          cliente: clienteSolicitud,
+          descripcion: descripcionSolicitud,
+        });
+
+        // Registrar la aprobación en el historial
         const date = new Date();
         const historialData = {
           tipo: "Aprobar",
@@ -53,23 +103,52 @@ const VerSolicitudPage = () => {
           date,
           user,
         };
-        createHistorial(historialData);
+        await createHistorial(historialData);
 
-        console.log("Solicitud aprobada:", id);
+        // Actualizar el stock de los productos
+        for (const place of pedidosRelacionados) {
+          const productoEncontrado = products.find(
+            (product) => product.name === place.producto
+          );
+          if (productoEncontrado) {
+            const nuevoStock = productoEncontrado.stock - place.cantidad;
+            await updateProduct(productoEncontrado._id, {
+              stock: nuevoStock,
+              code: productoEncontrado.code,
+              name: productoEncontrado.name,
+              presentation: productoEncontrado.presentation,
+              cost_price: productoEncontrado.cost_price,
+              selling_price_1: productoEncontrado.selling_price_1,
+              selling_price_2: productoEncontrado.selling_price_2,
+              selling_price_3: productoEncontrado.selling_price_3,
+              minimum_stock: productoEncontrado.minimum_stock,
+              comision: productoEncontrado.comision,
+            }); // Actualizar el stock del producto
+          }
+        }
+
+        console.log("Solicitud aprobada y stock actualizado:", id);
         navigate("/requests");
       } catch (error) {
-        console.error("Error al aprobar la solicitud:", error);
+        console.error(
+          "Error al aprobar la solicitud o actualizar el stock:",
+          error
+        );
       }
     }
   };
 
   const handleEliminar = async () => {
-    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar esta Solicitud?");
+    const confirmDelete = window.confirm(
+      "¿Estás seguro de que quieres eliminar esta Solicitud?"
+    );
     if (confirmDelete) {
       try {
         await deleteSolicitud(id);
 
-        const pedidosRelacionados = pedido.filter((place) => place.nombre === nombreSolicitud);
+        const pedidosRelacionados = pedido.filter(
+          (place) => place.nombre === nombreSolicitud
+        );
         for (const place of pedidosRelacionados) {
           await deletePedido(place._id);
         }
@@ -142,14 +221,24 @@ const VerSolicitudPage = () => {
               .filter((place) => place.nombre === nombreSolicitud)
               .map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">{place.nombre}</td>
-                  <td className="text-center border border-green-100">{place.producto}</td>
-                  <td className="text-center border border-green-100">{place.cantidad}</td>
-                  <td className="text-center border border-green-100">Q.{place.total}</td>
+                  <td className="text-center border border-green-100">
+                    {place.nombre}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.producto}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.cantidad}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    Q.{place.total}
+                  </td>
                 </tr>
               ))}
             <tr className="bg-green-200">
-              <td colSpan="3" className="text-right font-bold py-2">Total General:</td>
+              <td colSpan="3" className="text-right font-bold py-2">
+                Total General:
+              </td>
               <td className="text-center font-bold py-2">Q.{totalSum}</td>
             </tr>
           </tbody>

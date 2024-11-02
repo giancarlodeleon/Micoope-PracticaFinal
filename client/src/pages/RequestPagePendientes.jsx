@@ -13,6 +13,7 @@ function RequestPagePendientes() {
   const { getRols, rol } = useRols();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDate, setSelectedDate] = useState(""); // Estado para la fecha seleccionada
   const solicitudsPerPage = 10;
   const [Setpermiso, setPermisoToShow] = useState(null);
   const [Setpermiso2, setPermisoToShow2] = useState(null);
@@ -61,11 +62,9 @@ function RequestPagePendientes() {
       };
       createHistorial(historialData);
       deleteSolicitud(solicitudId);
+
       // Eliminar los pedidos que tengan el mismo nombre
-
       const pedidosAEliminar = pedido.filter((p) => p.nombre === Nombre); // Filtrar los pedidos que coinciden
-
-      console.log(pedidosAEliminar)
       for (const pedidoToDelete of pedidosAEliminar) {
         deletePedido(pedidoToDelete._id); // Eliminar cada pedido
       }
@@ -73,18 +72,34 @@ function RequestPagePendientes() {
   };
 
   const getUsernameById = (userId) => {
-    const user = users.find((u) => u._id === userId); // Buscar el usuario por su id
-    return user ? user.username : "Usuario no encontrado"; // Retornar el nombre de usuario o un mensaje
+    const user = users.find((u) => u._id === userId);
+    return user ? user.username : "Usuario no encontrado";
   };
 
-  const filteredSolicituds = solicituds.filter(
-    (place) =>
+  // Filtrar solicitudes por nombre y fecha seleccionada
+  const filteredSolicituds = solicituds.filter((place) => {
+    const placeDate = new Date(place.date);
+    const selectedDateObj = selectedDate ? new Date(selectedDate) : null;
+
+    // Restar un día a la fecha seleccionada
+    if (selectedDateObj) {
+      selectedDateObj.setDate(selectedDateObj.getDate() + 1);
+    }
+
+    const isSameDay =
+      selectedDateObj &&
+      placeDate.getFullYear() === selectedDateObj.getFullYear() &&
+      placeDate.getMonth() === selectedDateObj.getMonth() &&
+      placeDate.getDate() === selectedDateObj.getDate();
+
+    return (
       place.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      place.estado === false // Filtra solo las solicitudes con estado true
-  );
+      place.estado === false && // Filtra solo las solicitudes con estado false
+      (!selectedDate || isSameDay) // Filtro por fecha
+    );
+  });
 
   const totalPages = Math.ceil(filteredSolicituds.length / solicitudsPerPage);
-
   const indexOfLastSolicitud = currentPage * solicitudsPerPage;
   const indexOfFirstSolicitud = indexOfLastSolicitud - solicitudsPerPage;
   const currentSolicituds = filteredSolicituds.slice(
@@ -98,21 +113,21 @@ function RequestPagePendientes() {
         <div className="flex-1" style={{ marginLeft: "50px" }}>
           <Link
             to=""
-            className="bg-green-900 font-bold text-green-50  hover:text-green-50 border-2  border-green-300  w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
+            className="bg-green-900 font-bold text-green-50 hover:text-green-50 border-2 border-green-300 w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
           >
             Solicitudes Pendientes
           </Link>
         </div>
-        <div className="flex-1 " style={{ marginRight: "50px" }}>
+        <div className="flex-1" style={{ marginRight: "50px" }}>
           <Link
             to="/requestsaprobadas"
-            className="bg-white font-bold text-green-900 border-2 border-green-900  hover:bg-green-500 hover:text-green-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
+            className="bg-white font-bold text-green-900 border-2 border-green-900 hover:bg-green-500 hover:text-green-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
           >
             Solicitudes Aprobadas
           </Link>
         </div>
       </div>
-      <div className="flex justify-center p-4 ">
+      <div className="flex justify-center p-4">
         <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
           <h1
             className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
@@ -129,17 +144,26 @@ function RequestPagePendientes() {
               </Link>
             )}
           </h1>
-          {/* Campo de búsqueda */}
-          <div className="p-4">
+          {/* Contenedor para el campo de búsqueda y el campo de filtro de fecha */}
+          <div className="flex p-4 space-x-4">
             <input
               type="text"
               placeholder="Buscar por nombre..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="flex-1 px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
             />
+            <div>
+              <label>Fecha: </label>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              />
+            </div>
           </div>
-          <div className="my-2 overflow-x-auto  rounded-lg">
+          <div className="my-2 overflow-x-auto rounded-lg">
             <table className="w-full border-collapse rounded-lg">
               <thead>
                 <tr className="bg-green-900 text-white">
@@ -169,7 +193,6 @@ function RequestPagePendientes() {
                     <td className="text-center border border-green-100">
                       {new Date(place.date).toLocaleDateString()}
                     </td>
-
                     <td className="flex justify-center items-center border border-green-100">
                       {Setpermiso2 && (
                         <Link
@@ -184,7 +207,9 @@ function RequestPagePendientes() {
                       )}
                       <button
                         className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                        onClick={() => handleDeleteClick(place._id, place.nombre)}
+                        onClick={() =>
+                          handleDeleteClick(place._id, place.nombre)
+                        }
                       >
                         Eliminar
                       </button>
@@ -195,7 +220,6 @@ function RequestPagePendientes() {
             </table>
             {/* Controles de paginación */}
             <div className="flex justify-center mt-4">
-              {/* Botón para ir a la página anterior (solo se muestra si no está en la primera página) */}
               {currentPage !== 1 && (
                 <button
                   className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
@@ -204,7 +228,6 @@ function RequestPagePendientes() {
                   Anterior
                 </button>
               )}
-              {/* Botón para ir a la página siguiente (solo se muestra si no está en la última página) */}
               {indexOfLastSolicitud < filteredSolicituds.length && (
                 <button
                   className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
