@@ -73,7 +73,7 @@ function Inventory() {
           className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
-          Productos
+          Productos/Servicios
           {Setpermiso && (
             <Link
               to="/add-product"
