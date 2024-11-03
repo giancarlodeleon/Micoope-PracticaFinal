@@ -29,13 +29,15 @@ import HistorialRoute from "./HistorialRoute";
 import RequestRoute from "./RequestRoute";
 import AddSolicitudRoute from "./AddSolicitudRoute";
 import VerSolicitudPage from "./pages/VerSolicitudPage";
+import ReportRoute from "./ReportRoute";
+import ReportPage from "./pages/ReportPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
 import { ClientProvider } from "./context/ClientContext";
 import { HistorialProvider } from "./context/HistorialContext";
 import { SolicitudProvider } from "./context/SolicitudContext";
-import { PedidoProvider} from "./context/PedidoContext";
+import { PedidoProvider } from "./context/PedidoContext";
 
 function App() {
   return (
@@ -44,63 +46,117 @@ function App() {
         <ProductProvider>
           <ClientProvider>
             <HistorialProvider>
-            <RolProvider>
-              <SolicitudProvider>
-                <PedidoProvider>
-              <BrowserRouter>
-                <main className="">
-                  <Navbar />
-                  <Routes>
-                    <Route path="/" element={<LoginPage />} />
+              <RolProvider>
+                <SolicitudProvider>
+                  <PedidoProvider>
+                    <BrowserRouter>
+                      <main className="">
+                        <Navbar />
+                        <Routes>
+                          <Route path="/" element={<LoginPage />} />
 
-                    <Route element={<ProtectedRoute />}>
-                      <Route element={<ManejoInformacionRoute />}>
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/users" element={<Users />} />
-                        <Route path="/users/:id" element={<RegisterPage />} />
-                        <Route path="/add-rol" element={<RolFormPage />} />
-                        <Route path="/rols/:id" element={<RolFormPage />} />
-                        <Route path="/roles" element={<Roles />} />
-                      </Route>
-                      <Route element={<ClientRoute />}>
-                      <Route path="/clientes" element={<ClientPage />} />
-                      <Route element={<AddClientRoute />}>
-                      <Route path="/add-client" element={<ClientFormPage />} />
-                      </Route>
-                      <Route path="/clients/:id" element={<ClientFormPage />} />
-                      </Route>
-                      <Route element={<InventarioRoute />}>
-                      <Route path="/inventario" element={<Inventory />} />
-                      <Route element={<AddInventarioRoute />}>
-                      <Route path="/add-product" element={<ProductFormPage />} />
-                      </Route>
-                      <Route path="/products/:id" element={<ProductFormPage />} />
-                      <Route element={<TakeoutStockRoute />}>
-                      <Route path="/restar-products/:id" element={<QuitarProductForm />} />
-                      </Route>
-                      <Route element={<AddStockRoute />}>
-                      <Route path="/sumar-products/:id" element={<AgregarProductForm />} />
-                      </Route>
-                      </Route>
-                      <Route element={<HistorialRoute />}>
-                      <Route path="/historial" element={<HistorialPage />} />
-                      </Route>
-                      <Route element={<RequestRoute />}>
-                      <Route path="/requests" element={<RequestPagePendiente />} />
-                      <Route path="/add-request" element={<SolicitudFormPage />} />
-                      <Route path="/requestsaprobadas" element={<RequestPageAprobado />} />
-                      <Route element={<AddSolicitudRoute />}>
-                      <Route path="/solicitudes/:id" element={<VerSolicitudPage />} />
-                      </Route>
-                      </Route>
-                      <Route path="/home" element={<HomePage />} />
-                    </Route>
-                  </Routes>
-                </main>
-              </BrowserRouter>
-              </PedidoProvider>
-              </SolicitudProvider>
-            </RolProvider>
+                          <Route element={<ProtectedRoute />}>
+                            <Route element={<ReportRoute />}>
+                              <Route path="/reporte" element={<ReportPage />} />
+                            </Route>
+                            <Route element={<ManejoInformacionRoute />}>
+                              <Route
+                                path="/register"
+                                element={<RegisterPage />}
+                              />
+                              <Route path="/users" element={<Users />} />
+                              <Route
+                                path="/users/:id"
+                                element={<RegisterPage />}
+                              />
+                              <Route
+                                path="/add-rol"
+                                element={<RolFormPage />}
+                              />
+                              <Route
+                                path="/rols/:id"
+                                element={<RolFormPage />}
+                              />
+                              <Route path="/roles" element={<Roles />} />
+                            </Route>
+                            <Route element={<ClientRoute />}>
+                              <Route
+                                path="/clientes"
+                                element={<ClientPage />}
+                              />
+                              <Route element={<AddClientRoute />}>
+                                <Route
+                                  path="/add-client"
+                                  element={<ClientFormPage />}
+                                />
+                              </Route>
+                              <Route
+                                path="/clients/:id"
+                                element={<ClientFormPage />}
+                              />
+                            </Route>
+                            <Route element={<InventarioRoute />}>
+                              <Route
+                                path="/inventario"
+                                element={<Inventory />}
+                              />
+                              <Route element={<AddInventarioRoute />}>
+                                <Route
+                                  path="/add-product"
+                                  element={<ProductFormPage />}
+                                />
+                              </Route>
+                              <Route
+                                path="/products/:id"
+                                element={<ProductFormPage />}
+                              />
+                              <Route element={<TakeoutStockRoute />}>
+                                <Route
+                                  path="/restar-products/:id"
+                                  element={<QuitarProductForm />}
+                                />
+                              </Route>
+                              <Route element={<AddStockRoute />}>
+                                <Route
+                                  path="/sumar-products/:id"
+                                  element={<AgregarProductForm />}
+                                />
+                              </Route>
+                            </Route>
+                            <Route element={<HistorialRoute />}>
+                              <Route
+                                path="/historial"
+                                element={<HistorialPage />}
+                              />
+                            </Route>
+                            <Route element={<RequestRoute />}>
+                              <Route
+                                path="/requests"
+                                element={<RequestPagePendiente />}
+                              />
+                              <Route
+                                path="/add-request"
+                                element={<SolicitudFormPage />}
+                              />
+                              <Route
+                                path="/requestsaprobadas"
+                                element={<RequestPageAprobado />}
+                              />
+                              <Route element={<AddSolicitudRoute />}>
+                                <Route
+                                  path="/solicitudes/:id"
+                                  element={<VerSolicitudPage />}
+                                />
+                              </Route>
+                            </Route>
+                            <Route path="/home" element={<HomePage />} />
+                          </Route>
+                        </Routes>
+                      </main>
+                    </BrowserRouter>
+                  </PedidoProvider>
+                </SolicitudProvider>
+              </RolProvider>
             </HistorialProvider>
           </ClientProvider>
         </ProductProvider>

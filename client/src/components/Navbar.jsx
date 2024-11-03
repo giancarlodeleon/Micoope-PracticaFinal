@@ -46,7 +46,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  }, []);
+  }, );
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -72,13 +72,13 @@ function Navbar() {
   };
   return (
     <>
-      <nav className="bg-white my-1 flex justify-between items-center px-10 rounded-lg relative z-50">
+      <nav className="bg-white my-1 flex justify-between items-center px-4 rounded-lg relative z-50">
         <Link to="/home">
           <img
             src={Logo}
             alt="Cinagro"
             className="rounded-lg"
-            style={{ maxWidth: "200px" }}
+            style={{ maxWidth: "180px" }}
           />
         </Link>
 
@@ -417,7 +417,7 @@ function Navbar() {
                     }}
                     activeStyle={{ background: "green", color: "white" }}
                   >
-                    <p className="justify-between">Cerrar Sesión</p>
+                    <p className="justify-between">Salir</p>
                   </NavLink>
                 </li>
                 <li>
