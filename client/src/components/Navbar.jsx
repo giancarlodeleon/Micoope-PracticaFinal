@@ -35,7 +35,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
-  },[]);
+  }, []);
 
   useEffect(() => {
     let timer;
@@ -46,8 +46,6 @@ function Navbar() {
     }
     return () => clearTimeout(timer);
   }, [dropdownOpenManejo]);
-
-
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -72,16 +70,15 @@ function Navbar() {
     setSubMenuVisible2(!subMenuVisible2);
   };
 
-
   return (
     <>
       <nav className="bg-white my-1 flex justify-between items-center px-4 rounded-lg relative z-50">
-        <Link to="/home">
+      <Link to={isAuthenticated ? "/home" : "/cinagro"}>
           <img
             src={Logo}
             alt="Cinagro"
             className="rounded-lg"
-            style={{ maxWidth: "180px" }}
+            style={{ maxWidth: "160px" }}
           />
         </Link>
 
@@ -189,6 +186,7 @@ function Navbar() {
                         </a>
                       )
                     )}
+
                     {rol.map((place) =>
                       place.name !== user.rol ||
                       !place.permission_Historial ? null : (
@@ -201,6 +199,62 @@ function Navbar() {
                         </a>
                       )
                     )}
+
+                    {/* Elemento con submenú */}
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Financial ? null : (
+                        <button
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left "
+                          onClick={toggleSubMenu2}
+                        >
+                          Administracion Financiera
+                        </button>
+                      )
+                    )}
+
+                    {/* Submenú */}
+                    {subMenuVisible2 && (
+                      <div className="pl-4 bg-gray-200">
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_Register_Sell ? null : (
+                            <a
+                              href="/registro-venta"
+                              className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
+                              role="menuitem"
+                            >
+                              Registro de Ventas
+                            </a>
+                          )
+                        )}
+
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_Payouts ? null : (
+                            <a
+                              href="/gastos"
+                              className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
+                              role="menuitem"
+                            >
+                              Gastos
+                            </a>
+                          )
+                        )}
+                        {rol.map((place) =>
+                          place.name !== user.rol ||
+                          !place.permission_Account ? null : (
+                            <a
+                              href="/estado-cuenta"
+                              className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
+                              role="menuitem"
+                            >
+                              Estado de cuenta
+                            </a>
+                          )
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -208,14 +262,14 @@ function Navbar() {
           </>
         ) : (
           // Display desktop menu
-          <ul className="flex gap-x-10 items-center">
+          <ul className="flex gap-x-8 items-center">
             {isAuthenticated && (
               <>
                 <li>
                   {/* Botón para desplegar el menú */}
 
                   <NavLink
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "15px" }}
                     onClick={handleDropdownToggleManejo}
                   >
                     {rol.map((place) =>
@@ -223,7 +277,7 @@ function Navbar() {
                       !place.permission_of_information ? null : (
                         <option
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname.startsWith("/users") ||
                             location.pathname.startsWith("/rols") ||
@@ -242,7 +296,7 @@ function Navbar() {
 
                   {/* Contenido del menú desplegable */}
                   {dropdownOpenManejo && (
-                    <ul className="absolute bg-white shadow-md rounded-lg mt-1 z-50 w-64 flex flex-col justify-center items-center">
+                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-48 flex flex-col justify-center items-center">
                       {/* Opciones del menú desplegable */}
                       <li>
                         <NavLink
@@ -255,7 +309,7 @@ function Navbar() {
                             !place.permission_of_information ? null : (
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
+                                style={{ fontSize: "15px" }}
                                 className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Usuarios
@@ -275,7 +329,7 @@ function Navbar() {
                             !place.permission_of_information ? null : (
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                                style={{ fontSize: "20px" }}
+                                style={{ fontSize: "15px" }}
                                 className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Roles
@@ -297,7 +351,7 @@ function Navbar() {
                       !place.permission_of_Client ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/clientes" ||
                             location.pathname.startsWith("/clients") ||
@@ -322,7 +376,7 @@ function Navbar() {
                       !place.permission_Warehouse ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/inventario" ||
                             location.pathname.startsWith("/products") ||
@@ -349,7 +403,7 @@ function Navbar() {
                       !place.permission_Request ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/requests" ||
                             location.pathname.startsWith("/solicitudes") ||
@@ -375,7 +429,7 @@ function Navbar() {
                       !place.permission_Historial ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/historial" ||
                             location.pathname.startsWith("/historial")
@@ -399,7 +453,7 @@ function Navbar() {
                       !place.permission_Summary ? null : (
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/reporte"
                               ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
@@ -414,8 +468,100 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
+                    style={{ fontSize: "20px" }}
+                    onClick={handleDropdownToggleAdmin}
+                  >
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_Financial ? null : (
+                        <option
+                          key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
+                          style={{ fontSize: "15px" }}
+                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                            location.pathname === "/gastos" ||
+                            location.pathname === "/registro-venta" ||
+                            location.pathname === "/estado-cuenta"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
+                              : ""
+                          }`}
+                        >
+                          Adminstracion Financiera
+                        </option>
+                      )
+                    )}
+                  </NavLink>
+
+                  {dropdownOpenAdmin && (
+                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-48 flex flex-col justify-center items-center">
+                      {/* Opciones del menú desplegable */}
+                      <li>
+                        <NavLink
+                          onClick={handleDropdownToggleAdmin}
+                          to="/registro-venta"
+                          activeStyle={{ background: "green", color: "white" }}
+                        >
+                          {rol.map((place) =>
+                            place.name !== user.rol ||
+                            !place.permission_Register_Sell ? null : (
+                              <option
+                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                                style={{ fontSize: "15px" }}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                              >
+                                Registro de ventas
+                              </option>
+                            )
+                          )}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleDropdownToggleAdmin}
+                          to="/gastos"
+                          activeStyle={{ background: "green", color: "white" }}
+                        >
+                          {rol.map((place) =>
+                            place.name !== user.rol ||
+                            !place.permission_Payouts ? null : (
+                              <option
+                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                                style={{ fontSize: "15px" }}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                              >
+                                Gastos
+                              </option>
+                            )
+                          )}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleDropdownToggleAdmin}
+                          to="/estado-cuenta"
+                          activeStyle={{ background: "green", color: "white" }}
+                        >
+                          {rol.map((place) =>
+                            place.name !== user.rol ||
+                            !place.permission_Account ? null : (
+                              <option
+                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                                style={{ fontSize: "15px" }}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                              >
+                                Estado de cuenta
+                              </option>
+                            )
+                          )}
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+
+                <li>
+                  <NavLink
                     to="/"
-                    style={{ fontSize: "20px", marginLeft: "30px" }}
+                    style={{ fontSize: "15px", marginLeft: "30px" }}
                     className="font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg"
                     onClick={() => {
                       logout();
@@ -423,6 +569,30 @@ function Navbar() {
                     activeStyle={{ background: "green", color: "white" }}
                   >
                     <p className="justify-between">Salir</p>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {!isAuthenticated && (
+              <>
+                <li>
+                  <NavLink
+                    to="/"
+                    activeStyle={{ background: "green", color: "white" }}
+                  >
+                    <option
+                         
+                          style={{ fontSize: "18px" }}
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/"||
+                            location.pathname === "/cinagro" 
+                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
+                              : ""
+                          }`}
+                        >
+                          Contribuyente
+                        </option>
                   </NavLink>
                 </li>
               </>
