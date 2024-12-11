@@ -68,6 +68,27 @@ const rolSchema = new mongoose.Schema(
       required: true,
     },
 
+    permission_Register_Sell: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_Payouts: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_Account: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    permission_Financial: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
 
     date: {
       type: Date,

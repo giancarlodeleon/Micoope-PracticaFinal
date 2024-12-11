@@ -11,7 +11,7 @@ function Navbar() {
 
   // Estado para controlar la visibilidad del menú desplegable
   const [dropdownOpenManejo, setDropdownOpenManejo] = useState(false);
-  const [dropdownOpenAgencia, setDropdownOpenAgencia] = useState(false);
+  const [dropdownOpenAdmin, setDropdownOpenAdmin] = useState(false);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const [Setpermiso, setPermisoToShow] = useState(null);
 
@@ -19,20 +19,23 @@ function Navbar() {
   const handleDropdownToggleManejo = () => {
     setDropdownOpenManejo(!dropdownOpenManejo);
   };
-
-  const handleDropdownToggleAgencia = () => {
-    setDropdownOpenAgencia(!dropdownOpenAgencia);
+  const handleDropdownToggleAdmin = () => {
+    setDropdownOpenAdmin(!dropdownOpenAdmin);
   };
 
   useEffect(() => {
     let timer;
-    if (dropdownOpenAgencia) {
+    if (dropdownOpenAdmin) {
       timer = setTimeout(() => {
-        setDropdownOpenAgencia(false);
+        setDropdownOpenAdmin(false);
       }, 2000); // Cerrar el menú después de 5 segundos
     }
     return () => clearTimeout(timer);
-  }, [dropdownOpenAgencia]);
+  }, [dropdownOpenAdmin]);
+
+  useEffect(() => {
+    getRols();
+  },[]);
 
   useEffect(() => {
     let timer;
@@ -44,9 +47,7 @@ function Navbar() {
     return () => clearTimeout(timer);
   }, [dropdownOpenManejo]);
 
-  useEffect(() => {
-    getRols();
-  }, );
+
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -70,6 +71,8 @@ function Navbar() {
   const toggleSubMenu2 = () => {
     setSubMenuVisible2(!subMenuVisible2);
   };
+
+
   return (
     <>
       <nav className="bg-white my-1 flex justify-between items-center px-4 rounded-lg relative z-50">
@@ -375,7 +378,7 @@ function Navbar() {
                           style={{ fontSize: "20px" }}
                           className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/historial" ||
-                            location.pathname.startsWith("/historial") 
+                            location.pathname.startsWith("/historial")
                               ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
                               : ""
                           }`}
@@ -422,14 +425,6 @@ function Navbar() {
                     <p className="justify-between">Salir</p>
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink
-                    style={{ fontSize: "20px" }}
-                    onClick={handleDropdownToggleAgencia}
-                  ></NavLink>
-                  {/* Contenido del menú desplegable */}
-                </li>
-               
               </>
             )}
           </ul>

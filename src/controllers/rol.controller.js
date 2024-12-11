@@ -11,7 +11,7 @@ export const getRols = async (req, res) => {
 
 export const createRols = async (req, res) => {
   try {
-    const { name,permission_Historial,permission_takeout_stock,permission_Request,permission_See_Request,permission_add_stock, permission_of_information, permission_Warehouse, permission_Summary, permission_of_Client,permission_of_add_Client,permission_of_add_Product, date } = req.body;
+    const { name,permission_Historial,permission_Financial,permission_Register_Sell,permission_Account,permission_Payouts,permission_takeout_stock,permission_Request,permission_See_Request,permission_add_stock, permission_of_information, permission_Warehouse, permission_Summary, permission_of_Client,permission_of_add_Client,permission_of_add_Product, date } = req.body;
   const newRol = new Rol({
     name,
     permission_of_information,
@@ -25,6 +25,10 @@ export const createRols = async (req, res) => {
     permission_Request,
     permission_Historial,
     permission_See_Request,
+    permission_Account,
+    permission_Payouts,
+    permission_Register_Sell,
+    permission_Financial,
     date,
     user: req.user.id,
   });

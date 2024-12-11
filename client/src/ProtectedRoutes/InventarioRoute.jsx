@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "./context/AuthContext";
-import { useRols } from "./context/RolContext";
+import { useAuth } from "../context/AuthContext";
+import { useRols } from "../context/RolContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function AdminRoute() {
+function InventarioRoute() {
   const { user } = useAuth();
   const { getRols, rol } = useRols();
 
@@ -14,7 +14,7 @@ function AdminRoute() {
   let hasAllowedRole = false;
   if (rol) {
     hasAllowedRole = rol.some(role => {
-      return role.name === user.rol && role.permission_of_information === true;
+      return role.name === user.rol && role.permission_Warehouse === true;
       
     });
   } 
@@ -28,4 +28,4 @@ function AdminRoute() {
   
 }
 
-export default AdminRoute;
+export default InventarioRoute;

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "./context/AuthContext";
-import { useRols } from "./context/RolContext";
+import { useAuth } from "../context/AuthContext";
+import { useRols } from "../context/RolContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function ClientRoute() {
+function ReportRoute() {
   const { user } = useAuth();
   const { getRols, rol } = useRols();
 
@@ -14,7 +14,7 @@ function ClientRoute() {
   let hasAllowedRole = false;
   if (rol) {
     hasAllowedRole = rol.some(role => {
-      return role.name === user.rol && role.permission_of_Client === true;
+      return role.name === user.rol && role.permission_Summary === true;
       
     });
   } 
@@ -28,4 +28,4 @@ function ClientRoute() {
   
 }
 
-export default ClientRoute;
+export default ReportRoute;

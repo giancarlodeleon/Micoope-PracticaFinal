@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "./context/AuthContext";
-import { useRols } from "./context/RolContext";
+import { useAuth } from "../context/AuthContext";
+import { useRols } from "../context/RolContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function HistorialRoute() {
+function AddSolicitudRoute() {
   const { user } = useAuth();
   const { getRols, rol } = useRols();
 
@@ -14,7 +14,7 @@ function HistorialRoute() {
   let hasAllowedRole = false;
   if (rol) {
     hasAllowedRole = rol.some(role => {
-      return role.name === user.rol && role.permission_Historial === true;
+      return role.name === user.rol && role.permission_See_Request === true;
       
     });
   } 
@@ -28,4 +28,4 @@ function HistorialRoute() {
   
 }
 
-export default HistorialRoute;
+export default AddSolicitudRoute;

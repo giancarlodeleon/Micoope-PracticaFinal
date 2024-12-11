@@ -38,6 +38,22 @@ export const RolSchema = z.object({
     permission_See_Request: z.boolean({
         required_error: "Permission of Request is required"
     }),
+    permission_Register_Sell: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
+
+    permission_Payouts: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
+
+    permission_Account: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
+    permission_Financial: z.boolean({
+        required_error: "Permission of Request is required"
+    }),
+
+
 
 
     date: z.string().datetime().optional(),

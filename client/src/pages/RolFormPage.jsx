@@ -38,6 +38,10 @@ function RolFormPage() {
         setValue("permission_Request", rol.permission_Request);
         setValue("permission_See_Request", rol.permission_See_Request);
         setValue("permission_Historial", rol.permission_Historial);
+        setValue("permission_Register_Sell", rol.permission_Register_Sell);
+        setValue("permission_Payouts", rol.permission_Payouts);
+        setValue("permission_Account", rol.permission_Account);
+        setValue("permission_Financial", rol.permission_Financial);
       }
     }
     loadRol();
@@ -180,6 +184,38 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_Historial", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para Registro de Ventas</label>
+            <input
+              type="checkbox"
+              {...register("permission_Register_Sell", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso para Gastos</label>
+            <input
+              type="checkbox"
+              {...register("permission_Payouts", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso Estados de Cuenta</label>
+            <input
+              type="checkbox"
+              {...register("permission_Account", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso Finanzas</label>
+            <input
+              type="checkbox"
+              {...register("permission_Financial", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

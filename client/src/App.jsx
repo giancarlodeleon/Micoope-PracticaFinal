@@ -12,25 +12,33 @@ import ProductFormPage from "./pages/ProductFormPage";
 import QuitarProductForm from "./pages/QuitarProductForm";
 import AgregarProductForm from "./pages/AgregarProductForm";
 import Users from "./pages/Users";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoutes/ProtectedRoute";
 import Navbar from "./components/Navbar";
-import ManejoInformacionRoute from "./ManejoInformacionRoute";
-import ClientRoute from "./ClientRoute";
-import AddClientRoute from "./AddClientRoute";
-import InventarioRoute from "./InventarioRoute";
-import AddInventarioRoute from "./AddInventarioRoute";
-import AddStockRoute from "./AddStockRoute";
-import TakeoutStockRoute from "./TakeoutStockRoute";
+import ManejoInformacionRoute from "./ProtectedRoutes/ManejoInformacionRoute";
+import ClientRoute from "./ProtectedRoutes/ClientRoute";
+import AddClientRoute from "./ProtectedRoutes/AddClientRoute";
+import InventarioRoute from "./ProtectedRoutes/InventarioRoute";
+import AddInventarioRoute from "./ProtectedRoutes/AddInventarioRoute";
+import AddStockRoute from "./ProtectedRoutes/AddStockRoute";
+import TakeoutStockRoute from "./ProtectedRoutes/TakeoutStockRoute";
 import RequestPagePendiente from "./pages/RequestPagePendientes";
 import RequestPageAprobado from "./pages/RequestPageAprobado";
 import SolicitudFormPage from "./pages/SolicitudFormPage";
 import HistorialPage from "./pages/HistorialPage";
-import HistorialRoute from "./HistorialRoute";
-import RequestRoute from "./RequestRoute";
-import AddSolicitudRoute from "./AddSolicitudRoute";
+import HistorialRoute from "./ProtectedRoutes/HistorialRoute";
+import RequestRoute from "./ProtectedRoutes/RequestRoute";
+import AddSolicitudRoute from "./ProtectedRoutes/AddSolicitudRoute";
 import VerSolicitudPage from "./pages/VerSolicitudPage";
-import ReportRoute from "./ReportRoute";
+import ReportRoute from "./ProtectedRoutes/ReportRoute";
 import ReportPage from "./pages/ReportPage";
+import LandingPage from "./pages/LandingPage";
+import EstadoCuentaPage from "./pages/EstadoCuentaPage";
+import GastosPage from "./pages/GastosPage";
+import RegistroVentaPage from "./pages/RegistroVentaPage";
+import AccountsRoute from "./ProtectedRoutes/AccountsRoute";
+import PayoutsRoute from "./ProtectedRoutes/PayoutsRoute";
+import RegisterSellRoute from "./ProtectedRoutes/RegisterSellRoute";
+import FinancialRoute from "./ProtectedRoutes/FinancialRoute";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -54,6 +62,7 @@ function App() {
                         <Navbar />
                         <Routes>
                           <Route path="/" element={<LoginPage />} />
+                          <Route path="/cinagro" element={<LandingPage />} />
 
                           <Route element={<ProtectedRoute />}>
                             <Route element={<ReportRoute />}>
@@ -147,6 +156,26 @@ function App() {
                                   path="/solicitudes/:id"
                                   element={<VerSolicitudPage />}
                                 />
+                              </Route>
+                              <Route element={<FinancialRoute />}>
+                                <Route element={<AccountsRoute />}>
+                                  <Route
+                                    path="/estado-cuenta"
+                                    element={<EstadoCuentaPage />}
+                                  />
+                                </Route>
+                                <Route element={<PayoutsRoute />}>
+                                  <Route
+                                    path="/gastos"
+                                    element={<GastosPage />}
+                                  />
+                                </Route>
+                                <Route element={<RegisterSellRoute />}>
+                                  <Route
+                                    path="/registro-venta"
+                                    element={<RegistroVentaPage />}
+                                  />
+                                </Route>
                               </Route>
                             </Route>
                             <Route path="/home" element={<HomePage />} />

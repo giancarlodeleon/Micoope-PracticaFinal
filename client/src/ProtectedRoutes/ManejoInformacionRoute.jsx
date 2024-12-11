@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "./context/AuthContext";
-import { useRols } from "./context/RolContext";
+import { useAuth } from "../context/AuthContext";
+import { useRols } from "../context/RolContext";
 import { Navigate, Outlet } from "react-router-dom";
 
-function AddClientRoute() {
+function AdminRoute() {
   const { user } = useAuth();
   const { getRols, rol } = useRols();
 
@@ -14,7 +14,7 @@ function AddClientRoute() {
   let hasAllowedRole = false;
   if (rol) {
     hasAllowedRole = rol.some(role => {
-      return role.name === user.rol && role.permission_of_add_Client === true;
+      return role.name === user.rol && role.permission_of_information === true;
       
     });
   } 
@@ -28,4 +28,4 @@ function AddClientRoute() {
   
 }
 
-export default AddClientRoute;
+export default AdminRoute;
