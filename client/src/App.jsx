@@ -46,6 +46,8 @@ import { ClientProvider } from "./context/ClientContext";
 import { HistorialProvider } from "./context/HistorialContext";
 import { SolicitudProvider } from "./context/SolicitudContext";
 import { PedidoProvider } from "./context/PedidoContext";
+import { GastoProvider } from "./context/GastoContext";
+import { VentaProvider } from "./context/VentaContext";
 
 function App() {
   return (
@@ -57,6 +59,8 @@ function App() {
               <RolProvider>
                 <SolicitudProvider>
                   <PedidoProvider>
+                  <VentaProvider>
+                  <GastoProvider>
                     <BrowserRouter>
                       <main className="">
                         <Navbar />
@@ -183,6 +187,8 @@ function App() {
                         </Routes>
                       </main>
                     </BrowserRouter>
+                    </GastoProvider>
+                    </VentaProvider>
                   </PedidoProvider>
                 </SolicitudProvider>
               </RolProvider>

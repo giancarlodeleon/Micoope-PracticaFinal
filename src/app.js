@@ -10,6 +10,8 @@ import rolRoutes from './routes/rol.routes.js'
 import historialRoutes from './routes/historial.routes.js'
 import solicitudRoutes from './routes/solicitud.routes.js'
 import pedidoRoutes from './routes/pedido.routes.js'
+import gastoRoutes from './routes/gasto.routes.js'
+import ventaRoutes from './routes/venta.routes.js'
 
 
 const app = express();
@@ -30,6 +32,8 @@ app.use('/api',rolRoutes);
 app.use('/api',historialRoutes);
 app.use('/api',solicitudRoutes);
 app.use('/api',pedidoRoutes);
+app.use('/api',gastoRoutes);
+app.use('/api',ventaRoutes);
 
 
 export default app;
