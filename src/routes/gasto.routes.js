@@ -12,9 +12,9 @@ import { GastoSchema } from "../schemas/gasto.schema.js";
 
 const router = Router();
 
-router.get("/ventas", authRequired, getGastos);
+router.get("/gastos", authRequired, getGastos);
 router.get("/gastos/:id", authRequired, getGasto);
-router.post("/ventas", authRequired,validateSchema(GastoSchema), createGastos);
+router.post("/gastos", authRequired,validateSchema(GastoSchema), createGastos);
 router.delete("/gastos/:id", authRequired, deleteGastos);
 router.put("/gastos/:id", authRequired,validateSchema(GastoSchema), updateGastos);
 

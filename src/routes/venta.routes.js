@@ -8,7 +8,7 @@ import {
   deleteVentas
 } from "../controllers/venta.controller.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
-import { GastoSchema as VentaSchema } from "../schemas/venta.schema.js";
+import { VentaSchema } from "../schemas/venta.schema.js";
 
 const router = Router();
 
