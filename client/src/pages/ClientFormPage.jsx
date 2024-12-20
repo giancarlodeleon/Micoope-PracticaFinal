@@ -46,8 +46,12 @@ function ClientFormPage() {
   const { user} = useAuth();
 
   useEffect(() => {
-    setClientCount(client.length);
-  }, [client.length]);
+    const maxCode = client.reduce((max, current) => {
+      const currentCode = Number(current.code);
+      return currentCode > max ? currentCode : max;
+    }, 99); // Inicia en 99 para que el primer código sea 100
+    setClientCount(maxCode + 1);
+  }, [client]);
 
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [municipios, setMunicipios] = useState([]);
@@ -84,7 +88,7 @@ function ClientFormPage() {
     if (params.id) {
       data.nit = Number(data.nit);
       data.phone = Number(data.phone);
-      data.code = String(clientCount + 99);
+      data.code = String(clientCount-1);
       await updateClient(params.id, data);
       const date = new Date();
       const historialData = {
@@ -92,14 +96,14 @@ function ClientFormPage() {
         descripcion: `Se Modifico el cliente ${data.name}`,
         cantidad: 0,
         date,
-        user,
+        user, 
       };
       await createHistorial(historialData);
       navigate("/clientes");
     } else {
       data.nit = Number(data.nit);
       data.phone = Number(data.phone);
-      data.code = String(clientCount + 100);
+      data.code = String(clientCount);
       await createClient(data);
       const date = new Date();
       const historialData = {

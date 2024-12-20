@@ -150,7 +150,9 @@ function RequestPageAprobado() {
             <table className="w-full border-collapse rounded-lg">
               <thead>
                 <tr className="bg-green-900 text-white">
+                  <th className="py-2 text-center">Codigo</th>
                   <th className="py-2 text-center">Nombre</th>
+                  <th className="py-2 text-center">Tipo</th>
                   <th className="py-2 text-center">Descripcion</th>
                   <th className="py-2 text-center">Cliente</th>
                   <th className="py-2 text-center">Usuario</th>
@@ -162,7 +164,13 @@ function RequestPageAprobado() {
                 {currentSolicituds.map((place) => (
                   <tr key={place._id}>
                     <td className="text-center border border-green-100">
+                      {place.codigo}
+                    </td>
+                    <td className="text-center border border-green-100">
                       {place.nombre}
+                    </td>
+                    <td className="text-center border border-green-100">
+                      {place.tipo}
                     </td>
                     <td className="text-center border border-green-100">
                       {place.descripcion}

@@ -17,9 +17,10 @@ function SolicitudFormPage() {
     getValues,
   } = useForm();
 
-  const { createSolicitud, getSolicitud, updateSolicitud } = useSolicituds();
-  const { createPedido, getPedidos, pedido, deletePedido} = usePedidos();
-  const { getClients, client } = useClients();
+  const { createSolicitud, getSolicitud, updateSolicitud, solicituds } =
+    useSolicituds();
+  const { createPedido, getPedidos, pedido, deletePedido } = usePedidos();
+  const { getClients,client } = useClients();
   const { getProducts, products } = useProducts();
   const navigate = useNavigate();
   const params = useParams();
@@ -35,6 +36,7 @@ function SolicitudFormPage() {
   const [isNombreEditable, setIsNombreEditable] = useState(true);
   const [errorNombre, setErrorNombre] = useState(false);
   const [errorCliente, setErrorCliente] = useState(false);
+  const [solicitudCount, setSolicitudCount] = useState(0);
 
   useEffect(() => {
     getClients();
@@ -42,43 +44,53 @@ function SolicitudFormPage() {
     async function loadSolicitud() {
       if (params.id) {
         const solicitud = await getSolicitud(params.id);
+        setValue("codigo", solicitud.codigo);
         setValue("nombre", solicitud.code);
         setValue("cliente", solicitud.name);
         setValue("descripcion", solicitud.presentation);
+        setValue("tipo", solicitud.tipo);
+        setValue("dias_credito", solicitud.dias_credito);
       }
     }
     loadSolicitud();
   }, [params.id, getSolicitud, setValue]);
- 
+
   useEffect(() => {
     getPedidos();
-  },);
+  });
+
+  useEffect(() => {
+    const maxCode = solicituds.reduce((max, current) => {
+      const currentCode = Number(current.codigo);
+      return currentCode > max ? currentCode : max;
+    }, 0); // Inicia en 99 para que el primer código sea 100
+    setSolicitudCount(maxCode + 1);
+  }, [solicituds]);
 
   const handleRemoveMatchingPedidos = async () => {
     const nombreValue = getValues("nombre"); // Obtiene el nombre actual del formulario.
     for (const item of orderItems) {
-      
       // Busca el pedido en la base de datos que coincida con el nombre y los detalles del item.
-      const itemToRemove = pedido.find(p =>
-        p.nombre === nombreValue &&
-        p.producto === item.product &&
-        p.cantidad === Number(item.quantity) &&
-        p.total === Number(item.total)
+      const itemToRemove = pedido.find(
+        (p) =>
+          p.nombre === nombreValue &&
+          p.producto === item.product &&
+          p.cantidad === Number(item.quantity) &&
+          p.total === Number(item.total)
       );
 
       if (itemToRemove) {
         await deletePedido(itemToRemove._id); // Elimina el pedido.
       }
-      
     }
   };
 
   const handleClientChange = (e) => {
-    const selected = client.find((place) => place.name === e.target.value);
+    const selected = solicituds.find((place) => place.name === e.target.value);
     setSelectedClient(selected);
     setFactura(selected ? selected.factura : "");
     setValue("cliente", e.target.value);
-    setErrorCliente(false);  // Resetea el error si hay selección
+    setErrorCliente(false); // Resetea el error si hay selección
   };
 
   const handleAddProduct = () => {
@@ -128,8 +140,8 @@ function SolicitudFormPage() {
       };
       createPedido(PedidoData);
 
-       // Log de todos los pedidos en la base de datos
-     // Muestra todos los pedidos en la consola
+      // Log de todos los pedidos en la base de datos
+      // Muestra todos los pedidos en la consola
 
       const newItem = {
         product: selectedProduct,
@@ -151,18 +163,18 @@ function SolicitudFormPage() {
 
   const handleRemoveSelectedProduct = () => {
     if (selectedRowIndex !== null) {
-
       const nombreValue = getValues("nombre");
       const item = orderItems[selectedRowIndex];
       const selectedProducto = item.product;
       const selectedCantidad = item.quantity;
       const selectedTotal = item.total;
 
-      const itemToRemove = pedido.find(item => 
-        item.nombre === nombreValue &&
-        item.producto === selectedProducto &&
-        item.cantidad === Number(selectedCantidad) &&
-        item.total === Number(selectedTotal)
+      const itemToRemove = pedido.find(
+        (item) =>
+          item.nombre === nombreValue &&
+          item.producto === selectedProducto &&
+          item.cantidad === Number(selectedCantidad) &&
+          item.total === Number(selectedTotal)
       );
 
       deletePedido(itemToRemove._id);
@@ -174,6 +186,8 @@ function SolicitudFormPage() {
 
   const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
+      data.codigo = String(solicitudCount - 1);
+      data.dias_credito = Number(data.dias_credito);
       await updateSolicitud(params.id, data);
       const date = new Date();
       const historialData = {
@@ -190,19 +204,22 @@ function SolicitudFormPage() {
         "¿Estás seguro de crear la Solicitud (No se podra modificar)?"
       );
       if (confirmDelete) {
-      data.estado = false;
-      await createSolicitud(data);
-      const date = new Date();
-      const historialData = {
-        tipo: "Agregar",
-        descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
-        cantidad: 0,
-        date,
-        user,
-      };
-      await createHistorial(historialData);
-      navigate("/requests");
-    }}
+        data.estado = false;
+        data.codigo = String(solicitudCount);
+        data.dias_credito = Number(data.dias_credito);
+        await createSolicitud(data);
+        const date = new Date();
+        const historialData = {
+          tipo: "Agregar",
+          descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
+          cantidad: 0,
+          date,
+          user,
+        };
+        await createHistorial(historialData);
+        navigate("/requests");
+      }
+    }
   });
 
   const totalAmount = orderItems.reduce((sum, item) => sum + item.total, 0);
@@ -224,7 +241,9 @@ function SolicitudFormPage() {
             />
             {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
             {errorNombre && (
-              <p className="text-red-500">Debe llenar el campo de Nombre antes de crear un pedido.</p>
+              <p className="text-red-500">
+                Debe llenar el campo de Nombre antes de crear un pedido.
+              </p>
             )}
           </div>
 
@@ -241,9 +260,13 @@ function SolicitudFormPage() {
                 </option>
               ))}
             </select>
-            {errors.cliente && <p className="text-red-500">Cliente Requerido</p>}
+            {errors.cliente && (
+              <p className="text-red-500">Cliente Requerido</p>
+            )}
             {errorCliente && (
-              <p className="text-red-500">Debe seleccionar un cliente antes de crear un pedido.</p>
+              <p className="text-red-500">
+                Debe seleccionar un cliente antes de crear un pedido.
+              </p>
             )}
           </div>
 
@@ -258,6 +281,31 @@ function SolicitudFormPage() {
             {errors.descripcion && (
               <p className="text-red-500">Descripción Requerida</p>
             )}
+          </div>
+          <div className="flex space-x-4">
+            <div className="w-2/3">
+              <label className="text-white">Producto</label>
+              <select
+                {...register("tipo", { required: true })}
+                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              >
+                <option value="">Selecciona tipo</option>
+                <option value="Credito">Credito</option>
+                <option value="Contado">Contado</option>
+              </select>
+              {errors.tipo && (
+                <p className="text-red-500">Tipo de Solicitud requerido</p>
+              )}
+            </div>
+            <div className="w-1/3">
+              <label className="text-white">Dias Credito</label>
+              <input
+                type="number"
+                placeholder="Dias Credito"
+                {...register("dias_credito", { required: false })}
+                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              />
+            </div>
           </div>
 
           <h1 className="text-2xl text-white font-bold mb-4">Pedidos</h1>
@@ -309,10 +357,18 @@ function SolicitudFormPage() {
           <table className="min-w-full mt-4 bg-white rounded-md">
             <thead>
               <tr>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Producto</th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Precio</th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Cantidad</th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Total</th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                  Producto
+                </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                  Precio
+                </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                  Cantidad
+                </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                  Total
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -320,20 +376,28 @@ function SolicitudFormPage() {
                 <tr
                   key={index}
                   onClick={() => handleSelectRow(index)}
-                  className={
-                    selectedRowIndex === index ? "bg-gray-300" : ""
-                  }
+                  className={selectedRowIndex === index ? "bg-gray-300" : ""}
                 >
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.product}</td>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.price}</td>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{item.quantity}</td>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">Q.{item.total.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {item.product}
+                  </td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {item.price}
+                  </td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {item.quantity}
+                  </td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    Q.{item.total.toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div className="mt-4 text-white text-xl font-bold">Total: Q.{totalAmount.toFixed(2)}</div>
+          <div className="mt-4 text-white text-xl font-bold">
+            Total: Q.{totalAmount.toFixed(2)}
+          </div>
 
           <button
             type="submit"
@@ -343,8 +407,8 @@ function SolicitudFormPage() {
           </button>
         </form>
         <Link
-        onClick={handleRemoveMatchingPedidos}
-        to="/requests"
+          onClick={handleRemoveMatchingPedidos}
+          to="/requests"
           className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
         >
           Regresar

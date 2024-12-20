@@ -2,10 +2,20 @@ import mongoose from "mongoose";
 
 const solicitudSchema = new mongoose.Schema(
   {
+    codigo: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    tipo: {
+      type: String,
+      required: true,
+    },
+
     nombre: {
       type: String,
       required: true,
-      unique: true, 
     },
 
     estado: {
@@ -22,6 +32,10 @@ const solicitudSchema = new mongoose.Schema(
     descripcion: {
       type: String,
       required: true,
+    },
+
+    dias_credito: {
+      type: Number,
     },
 
     date: {

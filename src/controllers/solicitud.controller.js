@@ -11,12 +11,15 @@ export const getSolicituds = async (req, res) => {
 
 export const createSolicituds = async (req, res) => {
   try {
-    const { nombre,estado,descripcion, cliente,date} = req.body;
+    const {codigo,tipo,nombre,estado,descripcion, cliente,dias_credito,date} = req.body;
   const newSolicitud = new Solicitud({
+    codigo,
+    tipo,
     nombre,
     estado,
     descripcion,
     cliente,
+    dias_credito,
     date,
     user: req.user.id,
   });

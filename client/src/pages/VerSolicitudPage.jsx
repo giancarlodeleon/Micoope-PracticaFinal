@@ -12,6 +12,9 @@ const VerSolicitudPage = () => {
   const { getPedidos, pedido, deletePedido } = usePedidos();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [codigoSolicitud, setCodigoSolicitud] = useState("");
+  const [tipoSolicitud, setTipoSolicitud] = useState("");
+  const [dias_creditoSolicitud, setDias_creditoSolicitud] = useState("");
   const [nombreSolicitud, setNombreSolicitud] = useState("");
   const [descripcionSolicitud, setDescripcionSolicitud] = useState("");
   const [fechaSolicitud, setFechaSolicitud] = useState(""); // Estado para la fecha de la solicitud
@@ -36,6 +39,9 @@ const VerSolicitudPage = () => {
   useEffect(() => {
     const solicitud = solicituds.find((solicitud) => solicitud._id === id);
     if (solicitud) {
+      setCodigoSolicitud(solicitud.codigo);
+      setTipoSolicitud(solicitud.tipo);
+      setDias_creditoSolicitud(solicitud.dias_credito);
       setNombreSolicitud(solicitud.nombre);
       setDescripcionSolicitud(solicitud.descripcion);
       setFechaSolicitud(new Date(solicitud.date).toLocaleDateString("es-GT")); // Formatear la fecha
@@ -89,6 +95,9 @@ const VerSolicitudPage = () => {
         // Si todos los productos cumplen con las condiciones, actualizar la solicitud a aprobada
         await updateSolicitud(id, {
           estado: true,
+          codigo: codigoSolicitud,
+          tipo: tipoSolicitud,
+          dias_credito: dias_creditoSolicitud,
           nombre: nombreSolicitud,
           cliente: clienteSolicitud,
           descripcion: descripcionSolicitud,
