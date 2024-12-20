@@ -36,6 +36,7 @@ import EstadoCuentaPage from "./pages/EstadoCuentaPage";
 import GastosPage from "./pages/GastosPage";
 import GastoFormPage from "./pages/GastoFormPage";
 import RegistroVentaPage from "./pages/RegistroVentaPage";
+import RegistroVentaFormPage from "./pages/RegistroVentaFormPage";
 import AccountsRoute from "./ProtectedRoutes/AccountsRoute";
 import PayoutsRoute from "./ProtectedRoutes/PayoutsRoute";
 import RegisterSellRoute from "./ProtectedRoutes/RegisterSellRoute";
@@ -193,6 +194,14 @@ function App() {
                                       <Route
                                         path="/registro-venta"
                                         element={<RegistroVentaPage />}
+                                      />
+                                      <Route
+                                        path="/add-venta"
+                                        element={<RegistroVentaFormPage />}
+                                      />
+                                      <Route
+                                        path="/registro-venta/:id"
+                                        element={<RegistroVentaFormPage />}
                                       />
                                     </Route>
                                   </Route>

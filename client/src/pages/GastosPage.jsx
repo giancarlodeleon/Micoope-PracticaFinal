@@ -45,7 +45,7 @@ function GastosPage() {
     return user ? user.username : "Usuario no encontrado";
   };
 
-  // Filtrar roles según el término de búsqueda
+  // Filtrar roles según el término de búsqueda 
   const filteredGastos = gastos.filter((place) =>
     place.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -68,7 +68,7 @@ function GastosPage() {
           className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
-          Gastos
+          Registro de Gastos
           <Link
             to="/add-gasto"
             className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"

@@ -5,6 +5,7 @@ const ventaSchema = new mongoose.Schema(
     numero: {
       type: Number,
       required: true,
+      unique: true,
     },
 
     numero_factura: {
