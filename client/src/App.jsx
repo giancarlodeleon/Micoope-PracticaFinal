@@ -41,6 +41,8 @@ import AccountsRoute from "./ProtectedRoutes/AccountsRoute";
 import PayoutsRoute from "./ProtectedRoutes/PayoutsRoute";
 import RegisterSellRoute from "./ProtectedRoutes/RegisterSellRoute";
 import FinancialRoute from "./ProtectedRoutes/FinancialRoute";
+import EstadoHistorialPage from "./pages/EstadoHistorialPage";
+import EstadoFacturaPage from "./pages/EstadoFacturaPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -175,6 +177,14 @@ function App() {
                                         path="/estado-cuenta"
                                         element={<EstadoCuentaPage />}
                                       />
+                                      <Route
+                                        path="/estado-cuenta/:id"
+                                        element={<EstadoFacturaPage />}
+                                      />
+                                      <Route
+                                        path="/estado-cuenta/historial/:id"
+                                        element={<EstadoFacturaPage />}
+                                      />
                                     </Route>
                                     <Route element={<PayoutsRoute />}>
                                       <Route
@@ -200,7 +210,7 @@ function App() {
                                         element={<RegistroVentaFormPage />}
                                       />
                                       <Route
-                                        path="/registro-venta/:id"
+                                        path="/ventas/:id"
                                         element={<RegistroVentaFormPage />}
                                       />
                                     </Route>

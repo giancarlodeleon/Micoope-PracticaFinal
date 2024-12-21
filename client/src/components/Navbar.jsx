@@ -480,7 +480,9 @@ function Navbar() {
                           className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname === "/gastos" ||
                             location.pathname === "/registro-venta" ||
-                            location.pathname === "/estado-cuenta"
+                            location.pathname.startsWith("/add-venta") ||
+                            location.pathname.startsWith("/add-gasto") ||
+                            location.pathname.startsWith("/estado-cuenta") 
                               ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""
                           }`}

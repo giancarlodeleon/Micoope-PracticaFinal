@@ -5,6 +5,8 @@ import { useSolicituds } from "../context/SolicitudContext";
 import { useHistorials } from "../context/HistorialContext";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
+import { jsPDF } from "jspdf"; // Importar jsPDF
+import "jspdf-autotable"; // Para tablas
 
 const VerSolicitudPage = () => {
   const { getSolicituds, solicituds, deleteSolicitud, updateSolicitud } =
@@ -17,8 +19,8 @@ const VerSolicitudPage = () => {
   const [dias_creditoSolicitud, setDias_creditoSolicitud] = useState("");
   const [nombreSolicitud, setNombreSolicitud] = useState("");
   const [descripcionSolicitud, setDescripcionSolicitud] = useState("");
-  const [fechaSolicitud, setFechaSolicitud] = useState(""); // Estado para la fecha de la solicitud
-  const [clienteSolicitud, setClienteSolicitud] = useState(""); // Estado para el cliente de la solicitud
+  const [fechaSolicitud, setFechaSolicitud] = useState("");
+  const [clienteSolicitud, setClienteSolicitud] = useState("");
   const [estadoSolicitud, setEstadoSolicitud] = useState(false);
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
@@ -44,8 +46,8 @@ const VerSolicitudPage = () => {
       setDias_creditoSolicitud(solicitud.dias_credito);
       setNombreSolicitud(solicitud.nombre);
       setDescripcionSolicitud(solicitud.descripcion);
-      setFechaSolicitud(new Date(solicitud.date).toLocaleDateString("es-GT")); // Formatear la fecha
-      setClienteSolicitud(solicitud.cliente); // Asignar el cliente
+      setFechaSolicitud(new Date(solicitud.date).toLocaleDateString("es-GT"));
+      setClienteSolicitud(solicitud.cliente);
       setEstadoSolicitud(solicitud.estado);
     }
   }, [solicituds, id]);
@@ -56,7 +58,6 @@ const VerSolicitudPage = () => {
     );
     if (confirmAprobar) {
       try {
-        // Verificar si todos los productos existen y tienen stock suficiente
         const pedidosRelacionados = pedido.filter(
           (place) => place.nombre === nombreSolicitud
         );
@@ -65,8 +66,6 @@ const VerSolicitudPage = () => {
             const productoEncontrado = products.find(
               (product) => product.name === place.producto
             );
-
-            // Verificar si el producto existe y tiene stock suficiente
             return (
               !productoEncontrado || place.cantidad > productoEncontrado.stock
             );
@@ -74,7 +73,6 @@ const VerSolicitudPage = () => {
         );
 
         if (missingOrInsufficientProducts.length > 0) {
-          // Listar productos faltantes o con stock insuficiente en una alerta
           const productIssues = missingOrInsufficientProducts
             .map((place) => {
               const productoEncontrado = products.find(
@@ -89,10 +87,9 @@ const VerSolicitudPage = () => {
           alert(
             `No se puede aprobar la solicitud. Problemas con los siguientes productos: ${productIssues}`
           );
-          return; // Detener la función si hay productos con problemas
+          return;
         }
 
-        // Si todos los productos cumplen con las condiciones, actualizar la solicitud a aprobada
         await updateSolicitud(id, {
           estado: true,
           codigo: codigoSolicitud,
@@ -103,7 +100,6 @@ const VerSolicitudPage = () => {
           descripcion: descripcionSolicitud,
         });
 
-        // Registrar la aprobación en el historial
         const date = new Date();
         const historialData = {
           tipo: "Aprobar",
@@ -114,7 +110,6 @@ const VerSolicitudPage = () => {
         };
         await createHistorial(historialData);
 
-        // Actualizar el stock de los productos
         for (const place of pedidosRelacionados) {
           const productoEncontrado = products.find(
             (product) => product.name === place.producto
@@ -132,11 +127,10 @@ const VerSolicitudPage = () => {
               selling_price_3: productoEncontrado.selling_price_3,
               minimum_stock: productoEncontrado.minimum_stock,
               comision: productoEncontrado.comision,
-            }); // Actualizar el stock del producto
+            });
           }
         }
 
-        console.log("Solicitud aprobada y stock actualizado:", id);
         navigate("/requests");
       } catch (error) {
         console.error(
@@ -178,6 +172,38 @@ const VerSolicitudPage = () => {
     }
   };
 
+  const handleGeneratePDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Solicitud de Pedido", 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Código: ${codigoSolicitud}`, 10, 20);
+    doc.text(`Tipo: ${tipoSolicitud}`, 10, 30);
+    doc.text(`Días de Crédito: ${dias_creditoSolicitud}`, 10, 40);
+    doc.text(`Nombre: ${nombreSolicitud}`, 10, 50);
+    doc.text(`Descripción: ${descripcionSolicitud}`, 10, 60);
+    doc.text(`Fecha de Creación: ${fechaSolicitud}`, 10, 70);
+    doc.text(`Cliente: ${clienteSolicitud}`, 10, 80);
+
+    const pedidosRelacionados = pedido.filter(
+      (place) => place.nombre === nombreSolicitud
+    );
+    const rows = pedidosRelacionados.map((place) => [
+      place.producto,
+      place.cantidad,
+      `Q.${place.total}`,
+    ]);
+
+    doc.autoTable({
+      head: [["Producto", "Cantidad", "Total"]],
+      body: rows,
+      startY: 90,
+    });
+
+    doc.text(`Total General: Q.${totalSum}`, 10, doc.autoTable.previous.finalY + 10);
+    doc.save(`Solicitud_${codigoSolicitud}.pdf`);
+  };
+
   const totalSum = pedido
     .filter((place) => place.nombre === nombreSolicitud)
     .reduce((sum, place) => sum + place.total, 0);
@@ -186,7 +212,7 @@ const VerSolicitudPage = () => {
     <div className="my-2 flex flex-col items-center">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md relative">
         <Link
-          to={estadoSolicitud ? "/requestsaprobadas" : "/requests"} // Navegar según el estado
+          to={estadoSolicitud ? "/requestsaprobadas" : "/requests"}
           className="absolute right-4 top-4 text-gray-50 hover:text-gray-300 font-bold py-1 px-2 rounded-lg"
         >
           Regresar
@@ -198,8 +224,6 @@ const VerSolicitudPage = () => {
           {nombreSolicitud}
         </h1>
       </div>
-
-      {/* Espacio ordenado para la descripción, fecha y cliente */}
       <div className="my-4 w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <h2 className="font-bold text-lg">Descripción:</h2>
@@ -214,7 +238,6 @@ const VerSolicitudPage = () => {
           <p>{clienteSolicitud}</p>
         </div>
       </div>
-
       <div className="my-4 overflow-x-auto w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
         <table className="w-full border-collapse rounded-lg">
           <thead>
@@ -253,7 +276,6 @@ const VerSolicitudPage = () => {
           </tbody>
         </table>
       </div>
-
       <div className="flex justify-center gap-4 my-4">
         {estadoSolicitud === false && (
           <button
@@ -265,6 +287,7 @@ const VerSolicitudPage = () => {
         )}
         {estadoSolicitud === true && (
           <button
+            onClick={handleGeneratePDF}
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
           >
             Imprimir PDF

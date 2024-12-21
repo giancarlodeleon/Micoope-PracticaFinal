@@ -95,6 +95,7 @@ function RegistroVentaPage() {
                 <th className="py-2 text-center">No. Fact</th>
                 <th className="py-2 text-center">FEL Serie</th>
                 <th className="py-2 text-center">FEL Numero</th>
+                <th className="py-2 text-center">Solicitud</th>
                 <th className="py-2 text-center">Monto</th>
                 <th className="py-2 text-center">Pendiente</th>
                 <th className="py-2 text-center">Fecha Emision</th>
@@ -118,28 +119,28 @@ function RegistroVentaPage() {
                     {place.FEL_numero}
                   </td>
                   <td className="text-center border border-green-100">
+                    {place.solicitud}
+                  </td>
+                  <td className="text-center border border-green-100">
                     {place.monto}
                   </td>
                   <td className="text-center border border-green-100">
                     {place.pendiente}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.fecha_pago}
+                    {new Date(place.date).toLocaleDateString()}
                   </td>
                   <td className="text-center border border-green-100">
-                    {place.date}
+                    {place.fecha_pago}
                   </td>
 
                   <td className="flex justify-center items-center border border-green-100">
-                    <Link
-                      to={`/gastos/${place._id}`}
-                      className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
-                    >
-                      Editar
-                    </Link>
+                   
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id, place.numero_factura)}
+                      onClick={() =>
+                        handleDeleteClick(place._id, place.numero_factura)
+                      }
                     >
                       Eliminar
                     </button>

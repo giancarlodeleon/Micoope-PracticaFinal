@@ -11,8 +11,9 @@ export const getVentas = async (req, res) => {
 
 export const createVentas = async (req, res) => {
   try {
-    const { numero,numero_factura,FEL_serie,FEL_numero,monto,pendiente,fecha_pago,date} = req.body;
-  const newVenta = new Gasto({
+    const { solicitud,numero,numero_factura,FEL_serie,FEL_numero,monto,pendiente,fecha_pago,cliente,date} = req.body;
+  const newVenta = new Venta({
+    solicitud,
     numero,
     numero_factura,
     FEL_serie,
@@ -20,6 +21,7 @@ export const createVentas = async (req, res) => {
     monto,
     pendiente,
     fecha_pago,
+    cliente,
     date,
     user: req.user.id,
   });

@@ -23,6 +23,11 @@ const ventaSchema = new mongoose.Schema(
       required: true,
     },
 
+    solicitud: {
+      type: Number,
+      required: true,
+    },
+
     monto: {
       type: Number,
       required: true,
@@ -32,9 +37,15 @@ const ventaSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    
     fecha_pago: {
-      type: Date,
+      type: String,
       required: false,
+    },
+    
+    cliente: {
+      type: String,
+      required: true,
     },
 
     date: {
