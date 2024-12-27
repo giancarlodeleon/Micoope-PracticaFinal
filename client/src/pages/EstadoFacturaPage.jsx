@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useVentas } from "../context/VentaContext";
 import { useClients } from "../context/ClientContext";
 import { useUsers } from "../context/UserContext";
-import { useAuth } from "../context/AuthContext";
 
 function EstadoFacturaPage() {
   const { getVentas, ventas } = useVentas();
@@ -12,7 +11,6 @@ function EstadoFacturaPage() {
   const { getClients, client } = useClients();
   const [searchTerm, setSearchTerm] = useState("");
   const ventasPerPage = 10;
-  const { getUsers } = useUsers();
 
   useEffect(() => {
     getVentas();
@@ -26,11 +24,12 @@ function EstadoFacturaPage() {
 
   const clientName = getClientNameById(id); // Obtener el nombre del cliente
 
-  // Filtrar las ventas según el cliente y el término de búsqueda
+  // Filtrar las ventas según el cliente, el término de búsqueda y el atributo pendiente > 0
   const filteredVentas = ventas.filter(
     (place) =>
       (!clientName || place.cliente === clientName) &&
-      place.FEL_serie.toLowerCase().includes(searchTerm.toLowerCase())
+      place.FEL_serie.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      place.pendiente > 0 // Condición para mostrar solo las ventas con pendiente > 0
   );
 
   // Calcular el total de páginas para las ventas filtradas

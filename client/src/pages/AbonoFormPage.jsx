@@ -68,14 +68,22 @@ function AbonoFormPage() {
     if (params.id) {
       await updateVenta(params.id, data);
       const date = new Date();
+
+      // Cambiar la descripción dependiendo de si el pendiente es 0
+      const descripcion =
+        newPendiente === 0
+          ? `Se terminó de pagar la venta ${data.FEL_serie}`
+          : `Se abonó a la venta ${data.FEL_serie}`;
+
       const historialData = {
         cliente: data.cliente,
         tipo: "Abono",
-        descripcion: `Se Abonó la venta ${data.FEL_serie}`,
+        descripcion, // Usar la descripción dinámica
         cantidad: amountToAdd,
         date,
         user,
       };
+
       await createHistorial(historialData);
       navigate(`/estado-cuenta/${userid}`);
     }
