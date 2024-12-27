@@ -24,6 +24,7 @@ function Roles() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el rol ${Nombre}'`,
         cantidad: 0,

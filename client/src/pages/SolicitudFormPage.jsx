@@ -191,6 +191,7 @@ function SolicitudFormPage() {
       await updateSolicitud(params.id, data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Modificar",
         descripcion: `Se Modificó una solicitud con nombre ${data.nombre} y factura ${factura}`,
         cantidad: 0,
@@ -210,6 +211,7 @@ function SolicitudFormPage() {
         await createSolicitud(data);
         const date = new Date();
         const historialData = {
+          cliente:"n/a",
           tipo: "Agregar",
           descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
           cantidad: 0,
@@ -284,7 +286,7 @@ function SolicitudFormPage() {
           </div>
           <div className="flex space-x-4">
             <div className="w-2/3">
-              <label className="text-white">Producto</label>
+              <label className="text-white">Tipo de pago</label>
               <select
                 {...register("tipo", { required: true })}
                 className="w-full bg-green-700 text-white px-4 py-2 rounded-md"

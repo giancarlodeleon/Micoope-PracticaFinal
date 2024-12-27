@@ -55,11 +55,10 @@ function RegistroVentaFormPage() {
     data.pendiente = Number(data.monto);
     data.solicitud = Number(data.solicitud);
     data.fecha_pago = "0/0/0";
-    
+
     const solicitudSeleccionada = solicituds.find(
       (solicitud) => Number(solicitud.codigo) === Number(data.solicitud)
     );
-
 
     if (solicitudSeleccionada) {
       data.cliente = solicitudSeleccionada.cliente; // Asignamos el cliente de la solicitud seleccionada
@@ -67,11 +66,11 @@ function RegistroVentaFormPage() {
       data.cliente = ""; // Valor predeterminado si no se encuentra
     }
 
-
     if (params.id) {
       await updateVenta(params.id, data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Modificar",
         descripcion: `Se Modificó la venta ${data.FEL_serie}`,
         cantidad: 0,
@@ -84,8 +83,9 @@ function RegistroVentaFormPage() {
       await createVenta(data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Agregar",
-        descripcion: `Se Agregó la venta ${data.nombre}`,
+        descripcion: `Se Agregó la venta ${data.numero}`,
         cantidad: 0,
         date,
         user,
@@ -158,11 +158,13 @@ function RegistroVentaFormPage() {
             >
               <option value="">Selecciona una solicitud</option>
               {solicituds &&
-                solicituds.map((solicitud) => (
-                  <option key={solicitud.codigo} value={solicitud.codigo}>
-                    {solicitud.nombre}
-                  </option>
-                ))}
+                solicituds
+                  .filter((solicitud) => solicitud.estado) // Filtra las solicitudes con estado true
+                  .map((solicitud) => (
+                    <option key={solicitud.codigo} value={solicitud.codigo}>
+                      {solicitud.nombre}
+                    </option>
+                  ))}
             </select>
             {errors.solicitud && (
               <p className="text-red-500">Solicitud Requerida</p>

@@ -60,6 +60,7 @@ function ProductFormPage() {
       await updateProduct(params.id, data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el usuario ${data.name}`,
         cantidad: 0,
@@ -83,6 +84,7 @@ function ProductFormPage() {
       await createProduct(data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el usuario ${data.name}`,
         cantidad: 0,

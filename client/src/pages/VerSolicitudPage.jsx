@@ -102,6 +102,7 @@ const VerSolicitudPage = () => {
 
         const date = new Date();
         const historialData = {
+          cliente:"n/a",
           tipo: "Aprobar",
           descripcion: `Se aprobó la solicitud ${nombreSolicitud}`,
           cantidad: 0,
@@ -157,6 +158,7 @@ const VerSolicitudPage = () => {
         }
         const date = new Date();
         const historialData = {
+          cliente:"n/a",
           tipo: "Eliminar",
           descripcion: `Se eliminó la solicitud ${nombreSolicitud}`,
           cantidad: 0,

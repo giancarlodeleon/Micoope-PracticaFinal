@@ -11,8 +11,9 @@ export const getHistorials = async (req, res) => {
 
 export const createHistorials = async (req, res) => {
   try {
-    const { tipo,descripcion, cantidad,date} = req.body;
+    const { cliente,tipo,descripcion, cantidad,date} = req.body;
   const newHistorial = new Historial({
+    cliente,
     tipo,
     descripcion,
     cantidad,

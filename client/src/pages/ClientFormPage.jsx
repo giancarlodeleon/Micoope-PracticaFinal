@@ -92,6 +92,7 @@ function ClientFormPage() {
       await updateClient(params.id, data);
       const date = new Date();
       const historialData = {
+        cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el cliente ${data.name}`,
         cantidad: 0,
@@ -107,6 +108,7 @@ function ClientFormPage() {
       await createClient(data);
       const date = new Date();
       const historialData = {
+        cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el cliente ${data.name}`,
         cantidad: 0,

@@ -18,6 +18,10 @@ const historialSchema = new mongoose.Schema(
         required: false,
       },
   
+      cliente: {
+        type: String,
+        required: false,
+      },
   
       date: {
         type: Date,

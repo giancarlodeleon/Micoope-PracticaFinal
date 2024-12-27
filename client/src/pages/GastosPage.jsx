@@ -29,6 +29,7 @@ function GastosPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino el gasto ${Nombre}`,
         cantidad: 0,

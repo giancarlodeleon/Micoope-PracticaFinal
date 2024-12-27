@@ -57,6 +57,7 @@ function RegisterPage() {
     if (redirectOnSuccess && RegisterErrors.length === 0) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Agregar",
         descripcion: `Se ${accion} el nuevo usuario ${agregar}`,
         cantidad: 0,

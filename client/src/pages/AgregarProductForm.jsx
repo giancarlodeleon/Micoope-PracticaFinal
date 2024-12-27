@@ -63,6 +63,7 @@ const AgregarProductForm = () => {
 
       const date = new Date();
       const historialData = {
+        cliente: "n/a",
         tipo: "Sumar",
         descripcion: `Se le Sumo al producto/servicio ${data.name}`,
         cantidad: Number(data.amountToAdd),

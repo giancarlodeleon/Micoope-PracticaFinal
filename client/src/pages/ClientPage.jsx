@@ -35,6 +35,7 @@ function ClientPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el cliente ${Nombre}`,
         cantidad: 0,

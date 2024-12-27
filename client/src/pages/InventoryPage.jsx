@@ -32,6 +32,7 @@ function Inventory() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el producto/servicio ${Nombre}`,
         cantidad: 0,

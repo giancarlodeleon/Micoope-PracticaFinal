@@ -48,6 +48,7 @@ function RequestPageAprobado() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino la solicitud ${Nombre}`,
         cantidad: 0,

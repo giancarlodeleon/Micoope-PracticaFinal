@@ -43,6 +43,7 @@ import RegisterSellRoute from "./ProtectedRoutes/RegisterSellRoute";
 import FinancialRoute from "./ProtectedRoutes/FinancialRoute";
 import EstadoHistorialPage from "./pages/EstadoHistorialPage";
 import EstadoFacturaPage from "./pages/EstadoFacturaPage";
+import AbonoFormPage from "./pages/AbonoFormPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -183,7 +184,11 @@ function App() {
                                       />
                                       <Route
                                         path="/estado-cuenta/historial/:id"
-                                        element={<EstadoFacturaPage />}
+                                        element={<EstadoHistorialPage />}
+                                      />
+                                      <Route
+                                        path="/estado-cuenta/historial/:userid/:id"
+                                        element={<AbonoFormPage />}
                                       />
                                     </Route>
                                     <Route element={<PayoutsRoute />}>

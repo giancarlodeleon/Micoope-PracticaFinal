@@ -52,6 +52,7 @@ function RolFormPage() {
       await updateRol(params.id, data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el rol ${data.name}'`,
         cantidad: 0,
@@ -64,6 +65,7 @@ function RolFormPage() {
       await createRol(data);
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el rol ${data.name}'`,
         cantidad: 0,

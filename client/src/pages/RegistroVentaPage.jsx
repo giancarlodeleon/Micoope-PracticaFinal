@@ -29,6 +29,7 @@ function RegistroVentaPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino la venta ${Nombre}`,
         cantidad: 0,

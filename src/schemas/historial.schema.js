@@ -11,7 +11,9 @@ export const HistorialSchema = z.object({
     cantidad: z.number({
         required_error: "Cantidad Price is required"
     }),
-    
+    cliente: z.string({
+        required_error: "Cliente is required"
+    }),
     
     date: z.string().datetime().optional(),
 })

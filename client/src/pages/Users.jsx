@@ -27,6 +27,7 @@ function Users() {
       if (user.id === userId) {
         const date = new Date();
         const historialData = {
+          cliente:"n/a",
           tipo: "Eliminar",
           descripcion: `Se elimino el usuario ${Nombre}`,
           cantidad: 0,
@@ -42,6 +43,7 @@ function Users() {
       }
       const date = new Date();
       const historialData = {
+        cliente:"n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el usuario ${Nombre}'`,
         cantidad: 0,
