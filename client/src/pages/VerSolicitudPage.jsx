@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import { jsPDF } from "jspdf"; // Importar jsPDF
 import "jspdf-autotable"; // Para tablas
+import Logo from "../assets/cinagro.jpg";
 
 const VerSolicitudPage = () => {
   const { getSolicituds, solicituds, deleteSolicitud, updateSolicitud } =
@@ -176,35 +177,75 @@ const VerSolicitudPage = () => {
 
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("Solicitud de Pedido", 10, 10);
+  
+    // Logo
+    const logo = new Image();
+    logo.src = Logo;
+    doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ancho ajustado de 40 a 50
+  
+    // Encabezado
     doc.setFontSize(12);
-    doc.text(`Código: ${codigoSolicitud}`, 10, 20);
-    doc.text(`Tipo: ${tipoSolicitud}`, 10, 30);
-    doc.text(`Días de Crédito: ${dias_creditoSolicitud}`, 10, 40);
-    doc.text(`Nombre: ${nombreSolicitud}`, 10, 50);
-    doc.text(`Descripción: ${descripcionSolicitud}`, 10, 60);
-    doc.text(`Fecha de Creación: ${fechaSolicitud}`, 10, 70);
-    doc.text(`Cliente: ${clienteSolicitud}`, 10, 80);
-
+    doc.text("CINAGRO SOCIEDAD ANONIMA", 60, 15);
+    doc.setFontSize(10);
+    doc.text("Trabajando por un mejor futuro agrícola", 60, 20);
+    doc.text("GUATEMALA - GUATEMALA", 60, 25);
+    doc.text("Tel: 5466-48578", 60, 30);
+  
+    // Información del cliente y solicitud
+    doc.setFontSize(10);
+    doc.text("Fecha de Creacion:", 150, 20);
+    doc.text(`${fechaSolicitud}`, 185, 20);
+    doc.text("Forma de Pago:", 150, 25);
+    doc.text(`${dias_creditoSolicitud ? "Crédito (" + dias_creditoSolicitud + " días)" : "Contado"}`, 180, 25);
+  
+    doc.text("Nombre del cliente:", 10, 40);
+    doc.text(`${clienteSolicitud}`, 45, 40);
+    doc.text("Dirección:", 10, 45);
+    doc.text(`SALAMA, SALAMA`, 40, 45);
+  
+    // Tabla de productos
     const pedidosRelacionados = pedido.filter(
       (place) => place.nombre === nombreSolicitud
     );
-    const rows = pedidosRelacionados.map((place) => [
+  
+    const rows = pedidosRelacionados.map((place, index) => [
+      index + 1,
       place.producto,
-      place.cantidad,
+      `${place.cantidad}`,
       `Q.${place.total}`,
     ]);
-
+  
     doc.autoTable({
-      head: [["Producto", "Cantidad", "Total"]],
+      startY: 60,
+      head: [["#", "Descripción", "Cantidad", "Total"]],
       body: rows,
-      startY: 90,
+      styles: { fontSize: 9 },
     });
-
-    doc.text(`Total General: Q.${totalSum}`, 10, doc.autoTable.previous.finalY + 10);
+  
+    // Totales
+    const finalY = doc.autoTable.previous.finalY;
+    doc.text("Sub Total:", 150, finalY + 10);
+    doc.text(`Q.${totalSum}`, 180, finalY + 10);
+    doc.text("TOTAL:", 150, finalY + 15);
+    doc.text(`Q.${totalSum}`, 180, finalY + 15);
+  
+    // Observaciones
+    doc.text("Observaciones:", 10, finalY + 25);
+    doc.text(
+      "Producto entregado en lugar indicado por el cliente.",
+      10, finalY + 30
+    );
+  
+    // Firma
+    doc.text("Recibí Conforme__________________________", 105, finalY + 50, { align: "center" });
+    doc.text("Firma y Sello_____________________________", 105, finalY + 60, { align: "center" });
+    doc.text("¡TRABAJANDO POR UN MEJOR FUTURO AGRÍCOLA!", 105, finalY + 70, { align: "center" });
+  
+    // Guardar el archivo PDF
     doc.save(`Solicitud_${codigoSolicitud}.pdf`);
   };
+  
+  
 
   const totalSum = pedido
     .filter((place) => place.nombre === nombreSolicitud)
