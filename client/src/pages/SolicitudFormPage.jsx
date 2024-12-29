@@ -20,7 +20,7 @@ function SolicitudFormPage() {
   const { createSolicitud, getSolicitud, updateSolicitud, solicituds } =
     useSolicituds();
   const { createPedido, getPedidos, pedido, deletePedido } = usePedidos();
-  const { getClients,client } = useClients();
+  const { getClients, client } = useClients();
   const { getProducts, products } = useProducts();
   const navigate = useNavigate();
   const params = useParams();
@@ -37,6 +37,7 @@ function SolicitudFormPage() {
   const [errorNombre, setErrorNombre] = useState(false);
   const [errorCliente, setErrorCliente] = useState(false);
   const [solicitudCount, setSolicitudCount] = useState(0);
+  const [nit, setNit] = useState("");
 
   useEffect(() => {
     getClients();
@@ -47,6 +48,7 @@ function SolicitudFormPage() {
         setValue("codigo", solicitud.codigo);
         setValue("nombre", solicitud.code);
         setValue("cliente", solicitud.name);
+        setValue("nit", solicitud.nit);
         setValue("descripcion", solicitud.presentation);
         setValue("tipo", solicitud.tipo);
         setValue("dias_credito", solicitud.dias_credito);
@@ -84,11 +86,11 @@ function SolicitudFormPage() {
       }
     }
   };
-
   const handleClientChange = (e) => {
-    const selected = solicituds.find((place) => place.name === e.target.value);
+    const selected = client.find((place) => place.name === e.target.value); // Busca el cliente seleccionado
     setSelectedClient(selected);
     setFactura(selected ? selected.factura : "");
+    setNit(selected ? selected.nit : ""); // Actualiza el NIT del cliente seleccionado
     setValue("cliente", e.target.value);
     setErrorCliente(false); // Resetea el error si hay selección
   };
@@ -188,10 +190,11 @@ function SolicitudFormPage() {
     if (params.id) {
       data.codigo = String(solicitudCount - 1);
       data.dias_credito = Number(data.dias_credito);
+      data.nit = nit;
       await updateSolicitud(params.id, data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modificó una solicitud con nombre ${data.nombre} y factura ${factura}`,
         cantidad: 0,
@@ -208,10 +211,12 @@ function SolicitudFormPage() {
         data.estado = false;
         data.codigo = String(solicitudCount);
         data.dias_credito = Number(data.dias_credito);
+        data.nit = nit;
+        console.log(data)
         await createSolicitud(data);
         const date = new Date();
         const historialData = {
-          cliente:"n/a",
+          cliente: "n/a",
           tipo: "Agregar",
           descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
           cantidad: 0,

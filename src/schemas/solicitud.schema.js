@@ -22,6 +22,9 @@ export const SolicitudSchema = z.object({
     dias_credito: z.number({
         required_error: "Dias credito is required"
     }),
+    nit: z.number({
+        required_error: "NIT is required"
+    }),
     
     date: z.string().datetime().optional(),
 })

@@ -37,12 +37,18 @@ const solicitudSchema = new mongoose.Schema(
     dias_credito: {
       type: Number,
     },
+    
+    nit: {
+      type: Number,
+      required: true,
+    },
+
 
     date: {
       type: Date,
       default: Date.now,
     },
-
+    
     user: {
       type: mongoose.Schema.Types.ObjectId,
       red: "User",

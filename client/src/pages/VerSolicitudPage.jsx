@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { usePedidos } from "../context/PedidoContext";
 import { useSolicituds } from "../context/SolicitudContext";
 import { useHistorials } from "../context/HistorialContext";
+import { useClients } from "../context/ClientContext";
 import { useAuth } from "../context/AuthContext";
 import { useProducts } from "../context/ProductContext";
 import { jsPDF } from "jspdf"; // Importar jsPDF
@@ -20,15 +21,19 @@ const VerSolicitudPage = () => {
   const [dias_creditoSolicitud, setDias_creditoSolicitud] = useState("");
   const [nombreSolicitud, setNombreSolicitud] = useState("");
   const [descripcionSolicitud, setDescripcionSolicitud] = useState("");
+  const { getClients, client } = useClients();
   const [fechaSolicitud, setFechaSolicitud] = useState("");
   const [clienteSolicitud, setClienteSolicitud] = useState("");
+  const [clienteNit, setClienteNit] = useState("");
   const [estadoSolicitud, setEstadoSolicitud] = useState(false);
+  const [clienteDireccion, setClienteDireccion] = useState(""); 
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
   const { getProducts, products, updateProduct } = useProducts();
 
   useEffect(() => {
     getSolicituds();
+    getClients();
   }, []);
 
   useEffect(() => {
@@ -50,6 +55,10 @@ const VerSolicitudPage = () => {
       setFechaSolicitud(new Date(solicitud.date).toLocaleDateString("es-GT"));
       setClienteSolicitud(solicitud.cliente);
       setEstadoSolicitud(solicitud.estado);
+      setClienteNit(solicitud.nit);
+
+      const cliente = client.find((c) => c.nit === solicitud.nit);
+      setClienteDireccion(cliente?.direction || "Dirección no disponible");
     }
   }, [solicituds, id]);
 
@@ -96,6 +105,7 @@ const VerSolicitudPage = () => {
           codigo: codigoSolicitud,
           tipo: tipoSolicitud,
           dias_credito: dias_creditoSolicitud,
+          nit: clienteNit,
           nombre: nombreSolicitud,
           cliente: clienteSolicitud,
           descripcion: descripcionSolicitud,
@@ -103,7 +113,7 @@ const VerSolicitudPage = () => {
 
         const date = new Date();
         const historialData = {
-          cliente:"n/a",
+          cliente: "n/a",
           tipo: "Aprobar",
           descripcion: `Se aprobó la solicitud ${nombreSolicitud}`,
           cantidad: 0,
@@ -159,7 +169,7 @@ const VerSolicitudPage = () => {
         }
         const date = new Date();
         const historialData = {
-          cliente:"n/a",
+          cliente: "n/a",
           tipo: "Eliminar",
           descripcion: `Se eliminó la solicitud ${nombreSolicitud}`,
           cantidad: 0,
@@ -177,12 +187,12 @@ const VerSolicitudPage = () => {
 
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
-  
+
     // Logo
     const logo = new Image();
     logo.src = Logo;
     doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ancho ajustado de 40 a 50
-  
+
     // Encabezado
     doc.setFontSize(12);
     doc.text("CINAGRO SOCIEDAD ANONIMA", 60, 15);
@@ -190,62 +200,82 @@ const VerSolicitudPage = () => {
     doc.text("Trabajando por un mejor futuro agrícola", 60, 20);
     doc.text("GUATEMALA - GUATEMALA", 60, 25);
     doc.text("Tel: 5466-48578", 60, 30);
-  
+
     // Información del cliente y solicitud
     doc.setFontSize(10);
     doc.text("Fecha de Creacion:", 150, 20);
     doc.text(`${fechaSolicitud}`, 185, 20);
     doc.text("Forma de Pago:", 150, 25);
-    doc.text(`${dias_creditoSolicitud ? "Crédito (" + dias_creditoSolicitud + " días)" : "Contado"}`, 180, 25);
-  
+    doc.text(
+      `${
+        dias_creditoSolicitud
+          ? "Crédito (" + dias_creditoSolicitud + " días)"
+          : "Contado"
+      }`,
+      180,
+      25
+    );
+
     doc.text("Nombre del cliente:", 10, 40);
     doc.text(`${clienteSolicitud}`, 45, 40);
     doc.text("Dirección:", 10, 45);
-    doc.text(`SALAMA, SALAMA`, 40, 45);
-  
+    doc.text(`${clienteDireccion}`, 40, 45);
+    doc.text("Nit cliente:", 10, 50);
+    doc.text(`${clienteNit}`, 40, 50);
+
     // Tabla de productos
     const pedidosRelacionados = pedido.filter(
       (place) => place.nombre === nombreSolicitud
     );
-  
-    const rows = pedidosRelacionados.map((place, index) => [
-      index + 1,
-      place.producto,
-      `${place.cantidad}`,
-      `Q.${place.total}`,
-    ]);
-  
+
+    const rows = pedidosRelacionados.map((place) => {
+      const productoEncontrado = products.find(
+        (product) => product.name === place.producto
+      );
+      return [
+        productoEncontrado?.presentation || "N/A", // Usar el atributo presentation del producto
+        place.producto,
+        `${place.cantidad}`,
+        `Q.${place.total}`,
+      ];
+    });
+
     doc.autoTable({
       startY: 60,
-      head: [["#", "Descripción", "Cantidad", "Total"]],
+      head: [["Presentación", "Descripción", "Cantidad", "Total"]],
       body: rows,
       styles: { fontSize: 9 },
     });
-  
+
     // Totales
     const finalY = doc.autoTable.previous.finalY;
     doc.text("Sub Total:", 150, finalY + 10);
     doc.text(`Q.${totalSum}`, 180, finalY + 10);
     doc.text("TOTAL:", 150, finalY + 15);
     doc.text(`Q.${totalSum}`, 180, finalY + 15);
-  
+
     // Observaciones
     doc.text("Observaciones:", 10, finalY + 25);
     doc.text(
       "Producto entregado en lugar indicado por el cliente.",
-      10, finalY + 30
+      10,
+      finalY + 30
     );
-  
+
     // Firma
-    doc.text("Recibí Conforme__________________________", 105, finalY + 50, { align: "center" });
-    doc.text("Firma y Sello_____________________________", 105, finalY + 60, { align: "center" });
-    doc.text("¡TRABAJANDO POR UN MEJOR FUTURO AGRÍCOLA!", 105, finalY + 70, { align: "center" });
-  
+    doc.text("Recibí Conforme__________________________", 105, finalY + 50, {
+      align: "center",
+    });
+    doc.text("Firma y Sello_____________________________", 105, finalY + 60, {
+      align: "center",
+    });
+    doc.text("¡TRABAJANDO POR UN MEJOR FUTURO AGRÍCOLA!", 105, finalY + 70, {
+      align: "center",
+    });
+
     // Guardar el archivo PDF
     doc.save(`Solicitud_${codigoSolicitud}.pdf`);
   };
-  
-  
 
   const totalSum = pedido
     .filter((place) => place.nombre === nombreSolicitud)
