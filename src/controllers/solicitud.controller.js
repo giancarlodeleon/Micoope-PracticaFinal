@@ -11,8 +11,9 @@ export const getSolicituds = async (req, res) => {
 
 export const createSolicituds = async (req, res) => {
   try {
-    const {nit,codigo,tipo,nombre,estado,descripcion, cliente,dias_credito,date} = req.body;
+    const {observacion, nit,codigo,tipo,nombre,estado,descripcion, cliente,dias_credito,date} = req.body;
   const newSolicitud = new Solicitud({
+    observacion,
     nit,
     codigo,
     tipo,

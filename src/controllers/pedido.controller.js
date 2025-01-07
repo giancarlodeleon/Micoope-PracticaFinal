@@ -11,8 +11,9 @@ export const getPedidos = async (req, res) => {
 
 export const createPedidos = async (req, res) => {
   try {
-    const { nombre,producto,cantidad, total,date} = req.body;
+    const { precio,nombre,producto,cantidad, total,date} = req.body;
   const newPedido = new Pedido({
+    precio,
     nombre,
     producto,
     cantidad,

@@ -25,6 +25,10 @@ export const SolicitudSchema = z.object({
     nit: z.number({
         required_error: "NIT is required"
     }),
+
+    observacion: z.string({
+        required_error: "Observacion is required"
+    }),
     
     date: z.string().datetime().optional(),
 })

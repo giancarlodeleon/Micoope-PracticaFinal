@@ -54,6 +54,11 @@ const solicitudSchema = new mongoose.Schema(
       red: "User",
       required: true,
     },
+
+    observacion: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

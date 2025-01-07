@@ -21,12 +21,16 @@ const VerSolicitudPage = () => {
   const [dias_creditoSolicitud, setDias_creditoSolicitud] = useState("");
   const [nombreSolicitud, setNombreSolicitud] = useState("");
   const [descripcionSolicitud, setDescripcionSolicitud] = useState("");
+  const [observacionSolicitud, setObservacionSolicitud] = useState("");
   const { getClients, client } = useClients();
   const [fechaSolicitud, setFechaSolicitud] = useState("");
   const [clienteSolicitud, setClienteSolicitud] = useState("");
   const [clienteNit, setClienteNit] = useState("");
   const [estadoSolicitud, setEstadoSolicitud] = useState(false);
-  const [clienteDireccion, setClienteDireccion] = useState(""); 
+  const [clienteDireccion, setClienteDireccion] = useState("");
+  const [clienteMunicipio, setClienteMunicipio] = useState("");
+  const [clienteCode, setClienteCode] = useState("");
+  const [clienteDepartamento, setClienteDepartamento] = useState("");
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
   const { getProducts, products, updateProduct } = useProducts();
@@ -52,6 +56,7 @@ const VerSolicitudPage = () => {
       setDias_creditoSolicitud(solicitud.dias_credito);
       setNombreSolicitud(solicitud.nombre);
       setDescripcionSolicitud(solicitud.descripcion);
+      setObservacionSolicitud(solicitud.observacion);
       setFechaSolicitud(new Date(solicitud.date).toLocaleDateString("es-GT"));
       setClienteSolicitud(solicitud.cliente);
       setEstadoSolicitud(solicitud.estado);
@@ -59,6 +64,11 @@ const VerSolicitudPage = () => {
 
       const cliente = client.find((c) => c.nit === solicitud.nit);
       setClienteDireccion(cliente?.direction || "Dirección no disponible");
+      setClienteMunicipio(cliente?.municipio || "Municipio no disponible");
+      setClienteDepartamento(
+        cliente?.department || "Departamento no disponible"
+      );
+      setClienteCode(cliente?.code || "Codigo no disponible");
     }
   }, [solicituds, id]);
 
@@ -109,6 +119,7 @@ const VerSolicitudPage = () => {
           nombre: nombreSolicitud,
           cliente: clienteSolicitud,
           descripcion: descripcionSolicitud,
+          observacion: observacionSolicitud,
         });
 
         const date = new Date();
@@ -201,11 +212,25 @@ const VerSolicitudPage = () => {
     doc.text("GUATEMALA - GUATEMALA", 60, 25);
     doc.text("Tel: 5466-48578", 60, 30);
 
+    const fechaVencimiento =
+      dias_creditoSolicitud && dias_creditoSolicitud > 0
+        ? new Date(
+            new Date(fechaSolicitud.split("/").reverse().join("-")).getTime() +
+              dias_creditoSolicitud * 24 * 60 * 60 * 1000
+          ).toLocaleDateString("es-GT")
+        : "N/A";
+
     // Información del cliente y solicitud
+    doc.setFontSize(11);
+    doc.text("No. de Documento:", 150, 20);
+    doc.setTextColor(255, 0, 0);
+    doc.text(`${codigoSolicitud}`, 185, 20);
+    doc.setTextColor(0, 0, 0);
+
     doc.setFontSize(10);
-    doc.text("Fecha de Creacion:", 150, 20);
-    doc.text(`${fechaSolicitud}`, 185, 20);
-    doc.text("Forma de Pago:", 150, 25);
+    doc.text("Fecha de Creacion:", 150, 25);
+    doc.text(`${fechaSolicitud}`, 185, 25);
+    doc.text("Forma de Pago:", 150, 30);
     doc.text(
       `${
         dias_creditoSolicitud
@@ -213,15 +238,23 @@ const VerSolicitudPage = () => {
           : "Contado"
       }`,
       180,
-      25
+      30
     );
+    doc.text("Fecha de Vencimiento:", 150, 35); // Nueva línea
+    doc.text(`${fechaVencimiento}`, 190, 35); // Nueva línea
 
     doc.text("Nombre del cliente:", 10, 40);
     doc.text(`${clienteSolicitud}`, 45, 40);
     doc.text("Dirección:", 10, 45);
-    doc.text(`${clienteDireccion}`, 40, 45);
+    doc.text(
+      `${clienteDireccion},${clienteMunicipio},${clienteDepartamento}`,
+      40,
+      45
+    );
     doc.text("Nit cliente:", 10, 50);
     doc.text(`${clienteNit}`, 40, 50);
+    doc.text("Codigo de Cliente:", 10, 55);
+    doc.text(`${clienteCode}`, 40, 55);
 
     // Tabla de productos
     const pedidosRelacionados = pedido.filter(
@@ -233,16 +266,17 @@ const VerSolicitudPage = () => {
         (product) => product.name === place.producto
       );
       return [
-        productoEncontrado?.presentation || "N/A", // Usar el atributo presentation del producto
-        place.producto,
-        `${place.cantidad}`,
-        `Q.${place.total}`,
+        productoEncontrado?.presentation || "N/A", // Presentación
+        place.producto, // Descripción
+        `${place.cantidad}`, // Cantidad
+        `Q.${place.precio}`, // Valor unitario
+        `Q.${place.total}`, // Total
       ];
     });
 
     doc.autoTable({
       startY: 60,
-      head: [["Presentación", "Descripción", "Cantidad", "Total"]],
+      head: [["Presentación", "Descripción", "Cantidad", "Unidad", "Total"]],
       body: rows,
       styles: { fontSize: 9 },
     });
@@ -256,11 +290,15 @@ const VerSolicitudPage = () => {
 
     // Observaciones
     doc.text("Observaciones:", 10, finalY + 25);
-    doc.text(
-      "Producto entregado en lugar indicado por el cliente.",
-      10,
-      finalY + 30
-    );
+    if (observacionSolicitud.trim() === "") {
+      doc.text(
+        "Producto entregado en lugar indicado por el cliente.",
+        10,
+        finalY + 30
+      );
+    } else {
+      doc.text(observacionSolicitud, 10, finalY + 30);
+    }
 
     // Firma
     doc.text("Recibí Conforme__________________________", 105, finalY + 50, {
@@ -318,30 +356,40 @@ const VerSolicitudPage = () => {
               <th className="py-2 text-center">Nombre</th>
               <th className="py-2 text-center">Producto</th>
               <th className="py-2 text-center">Cantidad</th>
+              <th className="py-2 text-center">Valor Unitario</th>
               <th className="py-2 text-center">Total</th>
             </tr>
           </thead>
           <tbody>
             {pedido
               .filter((place) => place.nombre === nombreSolicitud)
-              .map((place) => (
-                <tr key={place._id}>
-                  <td className="text-center border border-green-100">
-                    {place.nombre}
-                  </td>
-                  <td className="text-center border border-green-100">
-                    {place.producto}
-                  </td>
-                  <td className="text-center border border-green-100">
-                    {place.cantidad}
-                  </td>
-                  <td className="text-center border border-green-100">
-                    Q.{place.total}
-                  </td>
-                </tr>
-              ))}
+              .map((place) => {
+                const productoEncontrado = products.find(
+                  (product) => product.name === place.producto
+                );
+
+                return (
+                  <tr key={place._id}>
+                    <td className="text-center border border-green-100">
+                      {place.nombre}
+                    </td>
+                    <td className="text-center border border-green-100">
+                      {place.producto}
+                    </td>
+                    <td className="text-center border border-green-100">
+                      {place.cantidad}
+                    </td>
+                    <td className="text-center border border-green-100">
+                      Q.{place.precio}
+                    </td>
+                    <td className="text-center border border-green-100">
+                      Q.{place.total}
+                    </td>
+                  </tr>
+                );
+              })}
             <tr className="bg-green-200">
-              <td colSpan="3" className="text-right font-bold py-2">
+              <td colSpan="4" className="text-right font-bold py-2">
                 Total General:
               </td>
               <td className="text-center font-bold py-2">Q.{totalSum}</td>
@@ -349,6 +397,7 @@ const VerSolicitudPage = () => {
           </tbody>
         </table>
       </div>
+
       <div className="flex justify-center gap-4 my-4">
         {estadoSolicitud === false && (
           <button

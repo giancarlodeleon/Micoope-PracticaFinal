@@ -14,6 +14,9 @@ export const PedidoSchema = z.object({
     total: z.number({
         required_error: "Total is required"
     }),
+    precio: z.number({
+        required_error: "Pedido is required"
+    }),
     
     date: z.string().datetime().optional(),
 })

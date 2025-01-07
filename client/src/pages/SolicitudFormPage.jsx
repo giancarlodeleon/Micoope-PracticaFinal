@@ -38,6 +38,7 @@ function SolicitudFormPage() {
   const [errorCliente, setErrorCliente] = useState(false);
   const [solicitudCount, setSolicitudCount] = useState(0);
   const [nit, setNit] = useState("");
+  const [showDiasCredito, setShowDiasCredito] = useState(false);
 
   useEffect(() => {
     getClients();
@@ -45,6 +46,7 @@ function SolicitudFormPage() {
     async function loadSolicitud() {
       if (params.id) {
         const solicitud = await getSolicitud(params.id);
+        setShowDiasCredito(solicitud.tipo === "Credito");
         setValue("codigo", solicitud.codigo);
         setValue("nombre", solicitud.code);
         setValue("cliente", solicitud.name);
@@ -52,6 +54,7 @@ function SolicitudFormPage() {
         setValue("descripcion", solicitud.presentation);
         setValue("tipo", solicitud.tipo);
         setValue("dias_credito", solicitud.dias_credito);
+        setValue("observacion", solicitud.observacion);
       }
     }
     loadSolicitud();
@@ -65,9 +68,15 @@ function SolicitudFormPage() {
     const maxCode = solicituds.reduce((max, current) => {
       const currentCode = Number(current.codigo);
       return currentCode > max ? currentCode : max;
-    }, 0); // Inicia en 99 para que el primer código sea 100
+    }, 499); // Inicia en 500 para que el primer código sea 100
     setSolicitudCount(maxCode + 1);
   }, [solicituds]);
+
+  const handleTipoChange = (e) => {
+    const selectedTipo = e.target.value;
+    setShowDiasCredito(selectedTipo === "Credito");
+    setValue("tipo", selectedTipo);
+  };
 
   const handleRemoveMatchingPedidos = async () => {
     const nombreValue = getValues("nombre"); // Obtiene el nombre actual del formulario.
@@ -78,7 +87,8 @@ function SolicitudFormPage() {
           p.nombre === nombreValue &&
           p.producto === item.product &&
           p.cantidad === Number(item.quantity) &&
-          p.total === Number(item.total)
+          p.total === Number(item.total) &&
+          p.precio === Number(item.precio)
       );
 
       if (itemToRemove) {
@@ -137,6 +147,7 @@ function SolicitudFormPage() {
         producto: selectedProduct,
         cantidad: Number(selectedQuantity),
         total: Number(price * selectedQuantity),
+        precio: Number(price),
         date,
         user,
       };
@@ -212,7 +223,7 @@ function SolicitudFormPage() {
         data.codigo = String(solicitudCount);
         data.dias_credito = Number(data.dias_credito);
         data.nit = nit;
-        console.log(data)
+        console.log(data);
         await createSolicitud(data);
         const date = new Date();
         const historialData = {
@@ -294,6 +305,7 @@ function SolicitudFormPage() {
               <label className="text-white">Tipo de pago</label>
               <select
                 {...register("tipo", { required: true })}
+                onChange={handleTipoChange}
                 className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
               >
                 <option value="">Selecciona tipo</option>
@@ -304,15 +316,24 @@ function SolicitudFormPage() {
                 <p className="text-red-500">Tipo de Solicitud requerido</p>
               )}
             </div>
-            <div className="w-1/3">
-              <label className="text-white">Dias Credito</label>
-              <input
-                type="number"
-                placeholder="Dias Credito"
-                {...register("dias_credito", { required: false })}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
-              />
-            </div>
+            {showDiasCredito && (
+              <div className="w-1/3">
+                <label className="text-white">Días Crédito</label>
+                <input
+                  type="number"
+                  placeholder="Días Crédito"
+                  {...register("dias_credito", {
+                    required: true,
+                    validate: (value) =>
+                      value > 0 || "Los días de crédito deben ser mayores a 0",
+                  })}
+                  className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                />
+                {errors.dias_credito && (
+                  <p className="text-red-500">{errors.dias_credito.message}</p>
+                )}
+              </div>
+            )}
           </div>
 
           <h1 className="text-2xl text-white font-bold mb-4">Pedidos</h1>
@@ -404,6 +425,16 @@ function SolicitudFormPage() {
 
           <div className="mt-4 text-white text-xl font-bold">
             Total: Q.{totalAmount.toFixed(2)}
+          </div>
+
+          <div>
+            <label className="text-white">Observacion</label>
+            <input
+              type="text"
+              placeholder="Observacion"
+              {...register("observacion", { required: false })}
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+            />
           </div>
 
           <button

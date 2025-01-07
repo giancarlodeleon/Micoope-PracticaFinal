@@ -48,7 +48,6 @@ function RegistroVentaFormPage() {
 
   const onSubmit = handleSubmit(async (data) => {
     // Convertimos los datos de entrada al formato esperado
-    data.numero = Number(data.numero);
     data.numero_factura = Number(data.numero_factura);
     data.FEL_numero = Number(data.FEL_numero);
     data.monto = Number(data.monto);
@@ -61,16 +60,18 @@ function RegistroVentaFormPage() {
     );
 
     if (solicitudSeleccionada) {
-      data.cliente = solicitudSeleccionada.cliente; // Asignamos el cliente de la solicitud seleccionada
+      data.cliente = solicitudSeleccionada.cliente;
+      data.numero = Number(solicitudSeleccionada.codigo); // Asignamos el cliente de la solicitud seleccionada
     } else {
       data.cliente = ""; // Valor predeterminado si no se encuentra
+      data.numero = 0;
     }
 
     if (params.id) {
       await updateVenta(params.id, data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modificó la venta ${data.FEL_serie}`,
         cantidad: 0,
@@ -83,7 +84,7 @@ function RegistroVentaFormPage() {
       await createVenta(data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se Agregó la venta ${data.numero}`,
         cantidad: 0,
@@ -100,17 +101,6 @@ function RegistroVentaFormPage() {
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Venta Facturada</h1>
         <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="text-white">No. Documento</label>
-            <input
-              type="number"
-              placeholder="Numero de documento"
-              {...register("numero", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
-            />
-            {errors.numero && <p className="text-red-500">Numero Requerido</p>}
-          </div>
-
           <div>
             <label className="text-white">No. Factura</label>
             <input
