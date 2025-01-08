@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useHistorials } from "../context/HistorialContext";
 import { useAuth } from "../context/AuthContext";
 import { useSolicituds } from "../context/SolicitudContext";
+import { usePedidos } from "../context/PedidoContext";
 
 function RegistroVentaFormPage() {
   const {
@@ -20,6 +21,11 @@ function RegistroVentaFormPage() {
   const params = useParams();
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
+  const {getPedidos, pedido } = usePedidos();
+
+  useEffect(() => {
+    getPedidos();
+  });
 
   useEffect(() => {
     async function loadVenta() {
@@ -41,60 +47,92 @@ function RegistroVentaFormPage() {
     async function loadSolicituds() {
       await getSolicituds();
     }
-
+ 
     loadVenta();
     loadSolicituds();
   }, []);
 
+  
   const onSubmit = handleSubmit(async (data) => {
-    // Convertimos los datos de entrada al formato esperado
-    data.numero_factura = Number(data.numero_factura);
-    data.FEL_numero = Number(data.FEL_numero);
-    data.monto = Number(data.monto);
-    data.pendiente = Number(data.monto);
-    data.solicitud = Number(data.solicitud);
-    data.fecha_pago = "0/0/0";
-
-    const solicitudSeleccionada = solicituds.find(
-      (solicitud) => Number(solicitud.codigo) === Number(data.solicitud)
-    );
-
-    if (solicitudSeleccionada) {
-      data.cliente = solicitudSeleccionada.cliente;
-      data.numero = Number(solicitudSeleccionada.codigo); // Asignamos el cliente de la solicitud seleccionada
-    } else {
-      data.cliente = ""; // Valor predeterminado si no se encuentra
-      data.numero = 0;
-    }
-
-    if (params.id) {
-      await updateVenta(params.id, data);
-      const date = new Date();
-      const historialData = {
-        cliente: "n/a",
-        tipo: "Modificar",
-        descripcion: `Se Modificó la venta ${data.FEL_serie}`,
-        cantidad: 0,
-        date,
-        user,
-      };
-      await createHistorial(historialData);
-      navigate("/registro-venta");
-    } else {
-      await createVenta(data);
-      const date = new Date();
-      const historialData = {
-        cliente: "n/a",
-        tipo: "Agregar",
-        descripcion: `Se Agregó la venta ${data.numero}`,
-        cantidad: 0,
-        date,
-        user,
-      };
-      await createHistorial(historialData);
-      navigate("/registro-venta");
+    try {
+      // Convertimos los datos de entrada al formato esperado
+      data.numero_factura = Number(data.numero_factura);
+      data.FEL_numero = Number(data.FEL_numero);
+      data.monto = parseFloat(data.monto); // Aceptamos decimales
+      data.pendiente = parseFloat(data.monto);
+      data.solicitud = Number(data.solicitud);
+      data.fecha_pago = "0/0/0";
+  
+      // Encontrar la solicitud seleccionada
+      const solicitudSeleccionada = solicituds.find(
+        (solicitud) => Number(solicitud.codigo) === Number(data.solicitud)
+      );
+  
+      if (solicitudSeleccionada) {
+        data.cliente = solicitudSeleccionada.cliente;
+        data.numero = Number(solicitudSeleccionada.codigo);
+        data.date = solicitudSeleccionada.date; // Asignar el date de la solicitud seleccionada
+      } else {
+        data.cliente = "";
+        data.numero = 0;
+        data.date = ""; // En caso de que no haya solicitud seleccionada
+      }
+  
+      // Filtrar pedidos por nombre de solicitud seleccionada
+      const pedidosRelacionados = pedido.filter(
+        (p) => p.nombre === solicitudSeleccionada.nombre
+      );
+  
+      // Calcular la suma total del atributo "total" de los pedidos relacionados
+      const sumaPedidos = pedidosRelacionados.reduce(
+        (total, p) => total + Number(p.total),
+        0
+      );
+  
+      if (data.monto !== sumaPedidos) {
+        alert(
+          `El monto ingresado (${data.monto}) no coincide con la suma de "total" de los pedidos relacionados (${sumaPedidos}).`
+        );
+        return;
+      }
+  
+      if (params.id) {
+        await updateVenta(params.id, data);
+        const date = new Date();
+        const historialData = {
+          cliente: "n/a",
+          tipo: "Modificar",
+          descripcion: `Se Modificó la venta ${data.FEL_serie}`,
+          cantidad: 0,
+          date,
+          user,
+        };
+        await createHistorial(historialData);
+        navigate("/registro-venta");
+      } else {
+        await createVenta(data);
+        const date = new Date();
+        const historialData = {
+          cliente: "n/a",
+          tipo: "Agregar",
+          descripcion: `Se Agregó la venta ${data.numero}`,
+          cantidad: 0,
+          date,
+          user,
+        };
+        await createHistorial(historialData);
+        navigate("/registro-venta");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        alert("Esta solicitud ya tiene una factura.");
+      } else {
+        alert("Ocurrió un error inesperado. Por favor, intenta de nuevo.");
+      }
     }
   });
+  
+  
 
   return (
     <div className="items-center justify-center py-20">
@@ -165,6 +203,7 @@ function RegistroVentaFormPage() {
             <label className="text-white">Monto</label>
             <input
               type="number"
+              step="0.01" // Permite decimales
               placeholder="Monto"
               {...register("monto", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"

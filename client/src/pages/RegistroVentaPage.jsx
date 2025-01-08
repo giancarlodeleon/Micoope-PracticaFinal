@@ -4,6 +4,7 @@ import { useVentas } from "../context/VentaContext";
 import { useHistorials } from "../context/HistorialContext";
 import { useUsers } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
+import { useSolicituds } from "../context/SolicitudContext";
 
 function RegistroVentaPage() {
   const { getVentas, ventas, deleteVenta } = useVentas();
@@ -13,12 +14,11 @@ function RegistroVentaPage() {
   const { createHistorial } = useHistorials();
   const { getUsers, users } = useUsers();
   const { user } = useAuth();
+  const { getSolicituds, solicituds } = useSolicituds();
 
   useEffect(() => {
     getVentas();
-  }, []);
-
-  useEffect(() => {
+    getSolicituds();
     getUsers();
   }, []);
 
@@ -29,7 +29,7 @@ function RegistroVentaPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino la venta ${Nombre}`,
         cantidad: 0,
@@ -62,6 +62,24 @@ function RegistroVentaPage() {
     indexOfLastVenta
   );
 
+  // Función para obtener el "tipo" de la solicitud por "codigo"
+  const getTipoByCodigo = (codigo) => {
+    const solicitud = solicituds.find((sol) => sol.codigo === String(codigo));
+    return solicitud ? solicitud.tipo : "No encontrado";
+  };
+
+  const getFechaVencimiento = (place, date) => {
+    const solicitud = solicituds.find((sol) => sol.codigo === String(place));
+    if (solicitud.tipo === "Credito") {
+      const fechaEmision = new Date(date);
+      return new Date(
+        new Date(date.split("/").reverse().join("-")).getTime() +
+          solicitud.dias_credito * 24 * 60 * 60 * 1000
+      ).toLocaleDateString("es-GT");
+    }
+    return "N/A";
+  };
+
   return (
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
@@ -78,7 +96,6 @@ function RegistroVentaPage() {
             +
           </Link>
         </h1>
-        {/* Campo de búsqueda */}
         <div className="p-4">
           <input
             type="text"
@@ -88,7 +105,7 @@ function RegistroVentaPage() {
             className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
           />
         </div>
-        <div className="my-2 overflow-x-auto  rounded-lg">
+        <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
               <tr className="bg-green-900 text-white">
@@ -101,6 +118,9 @@ function RegistroVentaPage() {
                 <th className="py-2 text-center">Pendiente</th>
                 <th className="py-2 text-center">Fecha Emision</th>
                 <th className="py-2 text-center">Fecha Pago</th>
+                <th className="py-2 text-center">Tipo de Solicitud</th>
+                <th className="py-2 text-center">Fecha de Vencimiento</th>{" "}
+                {/* Nueva columna */}
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -134,9 +154,17 @@ function RegistroVentaPage() {
                   <td className="text-center border border-green-100">
                     {place.fecha_pago}
                   </td>
-
+                  <td className="text-center border border-green-100">
+                    {getTipoByCodigo(place.numero)}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {getFechaVencimiento(
+                      place.numero,
+                      new Date(place.date).toLocaleDateString()
+                    )}{" "}
+                    {/* Mostrar la fecha de vencimiento */}
+                  </td>
                   <td className="flex justify-center items-center border border-green-100">
-                   
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
                       onClick={() =>
@@ -150,9 +178,7 @@ function RegistroVentaPage() {
               ))}
             </tbody>
           </table>
-          {/* Controles de paginación */}
           <div className="flex justify-center mt-4">
-            {/* Botón para ir a la página anterior (solo se muestra si no está en la primera página) */}
             {currentPage !== 1 && (
               <button
                 className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
@@ -161,7 +187,6 @@ function RegistroVentaPage() {
                 Anterior
               </button>
             )}
-            {/* Botón para ir a la página siguiente (solo se muestra si no está en la última página) */}
             {indexOfLastVenta < filteredVentas.length && (
               <button
                 className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
@@ -171,7 +196,6 @@ function RegistroVentaPage() {
               </button>
             )}
           </div>
-          {/* Mostrar el total de páginas */}
           <p className="text-center text-sm text-gray-500 mt-2">
             Página {currentPage} de {totalPages}
           </p>
