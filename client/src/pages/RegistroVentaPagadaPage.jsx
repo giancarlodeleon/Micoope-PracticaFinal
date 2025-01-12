@@ -9,7 +9,7 @@ import { jsPDF } from "jspdf"; // Importar jsPDF
 import "jspdf-autotable"; // Para tablas
 import Logo from "../assets/cinagro.jpg";
 
-function RegistroVentaPage() {
+function RegistroVentaPagadaPage() {
   const { getVentas, ventas, deleteVenta } = useVentas();
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState("");
@@ -81,8 +81,8 @@ function RegistroVentaPage() {
     const tipo = tipoSolicitud
       ? getTipoByCodigo(venta.numero) === tipoSolicitud
       : true;
-    const pendienteCero = venta.pendiente !== 0; // Verifica si el pendiente es 0
-  
+    const pendienteCero = venta.pendiente === 0; // Verifica si el pendiente es 0
+
     if (start && end) {
       // Incluir un día extra al rango
       end.setDate(end.getDate() + 1);
@@ -91,7 +91,6 @@ function RegistroVentaPage() {
     }
     return tipo && pendienteCero; // Si no se seleccionaron fechas, mostrar todas las ventas que coincidan con el tipo y tengan pendiente 0
   });
-
   const totalPages = Math.ceil(filteredVentas.length / ventasPerPage);
   const indexOfLastVenta = currentPage * ventasPerPage;
   const indexOfFirstVenta = indexOfLastVenta - ventasPerPage;
@@ -128,7 +127,7 @@ function RegistroVentaPage() {
 
     // Título y rango de fechas
     doc.setFontSize(12);
-    doc.text(`Reporte de Ventas Pendientes (${rangoFechas})`, 14, 50);
+    doc.text(`Reporte de Ventas Pagadas (${rangoFechas})`, 14, 50);
 
     // Crear filas para la tabla
     const rows = filteredVentas.map((place) => [
@@ -146,12 +145,6 @@ function RegistroVentaPage() {
         place.numero,
         new Date(place.date).toLocaleDateString()
       ),
-      getDiasDeAtraso(
-        getFechaVencimiento(
-          place.numero,
-          new Date(place.date).toLocaleDateString()
-        )
-      ),
     ]);
 
     // Encabezados de la tabla
@@ -168,7 +161,6 @@ function RegistroVentaPage() {
         "Fecha Pago",
         "Tipo de Solicitud",
         "Fecha de Vencimiento",
-        "Días de Atraso",
       ],
     ];
 
@@ -187,12 +179,11 @@ function RegistroVentaPage() {
     const fechaArchivo = new Date()
       .toLocaleDateString("es-GT")
       .replace(/\//g, "-"); // Reemplazar las barras por guiones para evitar problemas en el nombre
-    const nombreArchivo = `Reporte_Ventas_Pendientes_${fechaArchivo}.pdf`;
+    const nombreArchivo = `Reporte_Ventas_Pagadas_${fechaArchivo}.pdf`;
 
     // Guardar el archivo PDF
     doc.save(nombreArchivo);
   };
-
   return (
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
@@ -212,16 +203,16 @@ function RegistroVentaPage() {
         <div className="flex justify-between">
           <div className="flex-1 py-2">
             <Link
-              to=""
-              className="bg-green-900 font-bold text-green-50 hover:text-green-50 border-2 border-green-300 w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
+              to="/registro-venta"
+              className="bg-white font-bold text-green-900 border-2 border-green-900 hover:bg-green-500 hover:text-green-50 w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
             >
               Facturas Pendientes
             </Link>
           </div>
           <div className="flex-1 py-2">
             <Link
-              to="/registro-venta-pagada"
-              className="bg-white font-bold text-green-900 border-2 border-green-900 hover:bg-green-500 hover:text-green-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
+              to=""
+              className="bg-green-900 font-bold text-green-50 hover:text-green-50 border-2 border-green-300 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
             >
               Facturas Pagadas
             </Link>
@@ -285,7 +276,6 @@ function RegistroVentaPage() {
                 <th className="py-2 text-center">Fecha Pago</th>
                 <th className="py-2 text-center">Tipo de Solicitud</th>
                 <th className="py-2 text-center">Fecha de Vencimiento</th>
-                <th className="py-2 text-center">Días de Atraso</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -328,14 +318,7 @@ function RegistroVentaPage() {
                       new Date(place.date).toLocaleDateString()
                     )}
                   </td>
-                  <td className="text-center border border-green-100">
-                    {getDiasDeAtraso(
-                      getFechaVencimiento(
-                        place.numero,
-                        new Date(place.date).toLocaleDateString()
-                      )
-                    )}
-                  </td>
+
                   <td className="flex justify-center items-center border border-green-100">
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
@@ -385,4 +368,4 @@ function RegistroVentaPage() {
   );
 }
 
-export default RegistroVentaPage;
+export default RegistroVentaPagadaPage;

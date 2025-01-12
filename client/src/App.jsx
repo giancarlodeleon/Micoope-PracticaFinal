@@ -44,6 +44,7 @@ import FinancialRoute from "./ProtectedRoutes/FinancialRoute";
 import EstadoHistorialPage from "./pages/EstadoHistorialPage";
 import EstadoFacturaPage from "./pages/EstadoFacturaPage";
 import AbonoFormPage from "./pages/AbonoFormPage";
+import RegistroVentaPagadaPage from "./pages/RegistroVentaPagadaPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -209,6 +210,10 @@ function App() {
                                       <Route
                                         path="/registro-venta"
                                         element={<RegistroVentaPage />}
+                                      />
+                                       <Route
+                                        path="/registro-venta-pagada"
+                                        element={<RegistroVentaPagadaPage />}
                                       />
                                       <Route
                                         path="/add-venta"

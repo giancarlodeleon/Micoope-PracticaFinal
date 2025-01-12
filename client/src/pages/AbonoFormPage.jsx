@@ -72,8 +72,8 @@ function AbonoFormPage() {
       // Cambiar la descripción dependiendo de si el pendiente es 0
       const descripcion =
         newPendiente === 0
-          ? `Se terminó de pagar la venta ${data.FEL_serie}`
-          : `Se abonó a la venta ${data.FEL_serie}`;
+          ? `Se terminó de pagar la venta ${data.numero}`
+          : `Se abonó a la venta ${data.numero}`;
 
       const historialData = {
         cliente: data.cliente,

@@ -479,7 +479,7 @@ function Navbar() {
                           style={{ fontSize: "15px" }}
                           className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname === "/gastos" ||
-                            location.pathname === "/registro-venta" ||
+                            location.pathname.startsWith("/registro-venta") ||
                             location.pathname.startsWith("/add-venta") ||
                             location.pathname.startsWith("/add-gasto") ||
                             location.pathname.startsWith("/estado-cuenta") 
