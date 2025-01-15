@@ -8,7 +8,16 @@ import { useAuth } from "../context/AuthContext";
 function ClientFormPage() {
   const departamentosMunicipios = {
     "Alta Verapaz": ["Cobán", "San Pedro Carchá", "Tactic"],
-    "Baja Verapaz": ["Salamá", "San Miguel Chicaj", "San Jeronimo", "Purulha","Granados","Santa Cruz El Chol", "Cubulco", "Rabinal"],
+    "Baja Verapaz": [
+      "Salamá",
+      "San Miguel Chicaj",
+      "San Jeronimo",
+      "Purulha",
+      "Granados",
+      "Santa Cruz El Chol",
+      "Cubulco",
+      "Rabinal",
+    ],
     Chimaltenango: ["Chimaltenango", "San Juan Comalapa"],
     Chiquimula: ["Chiquimula", "Jocotán"],
     "El Progreso": ["Guastatoya", "Sanarate"],
@@ -43,7 +52,7 @@ function ClientFormPage() {
   const params = useParams();
   const [clientCount, setClientCount] = useState(0);
   const { createHistorial } = useHistorials();
-  const { user} = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     const maxCode = client.reduce((max, current) => {
@@ -88,16 +97,20 @@ function ClientFormPage() {
     if (params.id) {
       data.nit = Number(data.nit);
       data.phone = Number(data.phone);
-      data.code = String(clientCount-1);
+      data.code = String(clientCount - 1);
       await updateClient(params.id, data);
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el cliente ${data.name}`,
         cantidad: 0,
         date,
-        user, 
+        user,
       };
       await createHistorial(historialData);
       navigate("/clientes");
@@ -108,6 +121,10 @@ function ClientFormPage() {
       await createClient(data);
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el cliente ${data.name}`,
@@ -163,7 +180,9 @@ function ClientFormPage() {
               <option value="Empresa">Empresa</option>
               <option value="Individual">Individual</option>
             </select>
-            {errors.type && <p className="text-red-500">Tipo de cliente requerido</p>}
+            {errors.type && (
+              <p className="text-red-500">Tipo de cliente requerido</p>
+            )}
           </div>
 
           <div>
@@ -185,7 +204,9 @@ function ClientFormPage() {
               {...register("social", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.social && <p className="text-red-500">Razón Social Requerido</p>}
+            {errors.social && (
+              <p className="text-red-500">Razón Social Requerido</p>
+            )}
           </div>
 
           <div>
@@ -202,7 +223,9 @@ function ClientFormPage() {
                 </option>
               ))}
             </select>
-            {errors.department && <p className="text-red-500">Departamento Requerido</p>}
+            {errors.department && (
+              <p className="text-red-500">Departamento Requerido</p>
+            )}
           </div>
 
           <div>
@@ -218,7 +241,9 @@ function ClientFormPage() {
                 </option>
               ))}
             </select>
-            {errors.municipio && <p className="text-red-500">Municipio Requerido</p>}
+            {errors.municipio && (
+              <p className="text-red-500">Municipio Requerido</p>
+            )}
           </div>
 
           <div>
@@ -229,7 +254,9 @@ function ClientFormPage() {
               {...register("direction", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.direction && <p className="text-red-500">Dirección Requerida</p>}
+            {errors.direction && (
+              <p className="text-red-500">Dirección Requerida</p>
+            )}
           </div>
 
           <div>
@@ -240,7 +267,9 @@ function ClientFormPage() {
               {...register("reference", { required: false })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.reference && <p className="text-red-500">Referencia Requerida</p>}
+            {errors.reference && (
+              <p className="text-red-500">Referencia Requerida</p>
+            )}
           </div>
 
           <div>
@@ -262,7 +291,9 @@ function ClientFormPage() {
               {...register("plazo_credito", { required: true })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
-            {errors.plazo_credito && <p className="text-red-500">Plazo Crédito Requerido</p>}
+            {errors.plazo_credito && (
+              <p className="text-red-500">Plazo Crédito Requerido</p>
+            )}
           </div>
 
           <div>

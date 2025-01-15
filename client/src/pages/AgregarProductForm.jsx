@@ -63,6 +63,10 @@ const AgregarProductForm = () => {
 
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Sumar",
         descripcion: `Se le Sumo al producto/servicio ${data.name}`,
@@ -78,7 +82,9 @@ const AgregarProductForm = () => {
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
-        <h1 className="text-2xl text-white font-bold mb-4">Agregar Producto/Servicio</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">
+          Agregar Producto/Servicio
+        </h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="text-white">Cantidad a Agregar</label>
@@ -92,7 +98,7 @@ const AgregarProductForm = () => {
               <p className="text-red-500">Ingrese una cantidad válida</p>
             )}
           </div>
-  
+
           <div>
             <label className="text-white">Precio de Venta 1</label>
             <input
@@ -106,7 +112,7 @@ const AgregarProductForm = () => {
               <p className="text-red-500">Ingrese un precio válido</p>
             )}
           </div>
-  
+
           <button
             type="submit"
             className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
@@ -123,7 +129,6 @@ const AgregarProductForm = () => {
       </div>
     </div>
   );
-  
 };
 
 export default AgregarProductForm;

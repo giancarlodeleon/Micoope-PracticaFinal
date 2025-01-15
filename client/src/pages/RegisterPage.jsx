@@ -23,8 +23,8 @@ function RegisterPage() {
   const [redirectOnSuccess, setRedirectOnSuccess] = useState(false);
   const [updateRedirect, setUpdateRedirect] = useState(false);
   const { createHistorial } = useHistorials();
-  const [agregar,Setagregar]=useState('');
-  const [accion,Setaccion]=useState('');
+  const [agregar, Setagregar] = useState("");
+  const [accion, Setaccion] = useState("");
 
   const password = watch("password", ""); // Observa el campo de contraseña
 
@@ -57,7 +57,11 @@ function RegisterPage() {
     if (redirectOnSuccess && RegisterErrors.length === 0) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se ${accion} el nuevo usuario ${agregar}`,
         cantidad: 0,
@@ -67,7 +71,7 @@ function RegisterPage() {
       createHistorial(historialData);
       navigate("/users");
     }
-  }, [redirectOnSuccess, RegisterErrors, navigate,createHistorial]);
+  }, [redirectOnSuccess, RegisterErrors, navigate, createHistorial]);
 
   const onSubmit = handleSubmit(async (values) => {
     if (params.id) {
@@ -75,8 +79,8 @@ function RegisterPage() {
         values.sueldo_base = parseFloat(values.sueldo_base);
         values.kilometraje = parseFloat(values.kilometraje);
         await updateUser(params.id, values);
-        Setaccion('modifico')
-        Setagregar(values.username)
+        Setaccion("modifico");
+        Setagregar(values.username);
         setUpdateRedirect(true);
         setTimeout(() => {
           setUpdateRedirect(false);
@@ -89,8 +93,8 @@ function RegisterPage() {
         values.sueldo_base = parseFloat(values.sueldo_base);
         values.kilometraje = parseFloat(values.kilometraje);
         await signup(values);
-        Setagregar(values.username)
-        Setaccion('agrego')
+        Setagregar(values.username);
+        Setaccion("agrego");
         setRedirectOnSuccess(true);
         setTimeout(() => {
           setRedirectOnSuccess(false);
@@ -105,6 +109,10 @@ function RegisterPage() {
     if (UpdateErrors.length === 0 && updateRedirect) {
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         tipo: "Modificar",
         descripcion: `Se ${accion} el usuario ${agregar}`,
         cantidad: 0,

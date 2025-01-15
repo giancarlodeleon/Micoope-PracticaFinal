@@ -48,7 +48,11 @@ function RequestPageAprobado() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino la solicitud ${Nombre}`,
         cantidad: 0,
@@ -199,7 +203,9 @@ function RequestPageAprobado() {
                       )}
                       <button
                         className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                        onClick={() => handleDeleteClick(place._id, place.nombre)}
+                        onClick={() =>
+                          handleDeleteClick(place._id, place.nombre)
+                        }
                       >
                         Eliminar
                       </button>

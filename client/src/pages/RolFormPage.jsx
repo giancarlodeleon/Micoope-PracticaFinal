@@ -52,7 +52,11 @@ function RolFormPage() {
       await updateRol(params.id, data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el rol ${data.name}'`,
         cantidad: 0,
@@ -65,7 +69,11 @@ function RolFormPage() {
       await createRol(data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el rol ${data.name}'`,
         cantidad: 0,
@@ -174,7 +182,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para ver Solicitudes</label>
+            <label className="text-white font ">
+              Permiso para ver Solicitudes
+            </label>
             <input
               type="checkbox"
               {...register("permission_See_Request", { value: true })}
@@ -190,7 +200,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para Registro de Ventas</label>
+            <label className="text-white font ">
+              Permiso para Registro de Ventas
+            </label>
             <input
               type="checkbox"
               {...register("permission_Register_Sell", { value: true })}
@@ -206,7 +218,9 @@ function RolFormPage() {
             />
           </div>
           <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso Estados de Cuenta</label>
+            <label className="text-white font ">
+              Permiso Estados de Cuenta
+            </label>
             <input
               type="checkbox"
               {...register("permission_Account", { value: true })}

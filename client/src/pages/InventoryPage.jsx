@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useProducts } from "../context/ProductContext";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
 import { useHistorials } from "../context/HistorialContext";
 
@@ -25,14 +25,18 @@ function Inventory() {
     getRols();
   }, []);
 
-  const handleDeleteClick = (productId,Nombre) => {
+  const handleDeleteClick = (productId, Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este Producto?"
     );
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el producto/servicio ${Nombre}`,
         cantidad: 0,
@@ -130,11 +134,13 @@ function Inventory() {
                     Q.{place.selling_price_1}
                   </td>
                   <td className="text-center border border-green-100">
-                    Q.{place.selling_price_1 +
+                    Q.
+                    {place.selling_price_1 +
                       place.selling_price_1 * (place.selling_price_2 / 100)}
                   </td>
                   <td className="text-center border border-green-100">
-                    Q.{place.selling_price_1 +
+                    Q.
+                    {place.selling_price_1 +
                       place.selling_price_1 * (place.selling_price_3 / 100)}
                   </td>
                   <td className="text-center border border-green-100">
@@ -175,7 +181,7 @@ function Inventory() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id,place.name)}
+                      onClick={() => handleDeleteClick(place._id, place.name)}
                     >
                       Eliminar
                     </button>

@@ -124,6 +124,10 @@ const VerSolicitudPage = () => {
 
         const date = new Date();
         const historialData = {
+          num_doc: "n/a",
+          recibo: "n/a",
+          banco: "n/a",
+          tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Aprobar",
           descripcion: `Se aprobó la solicitud ${nombreSolicitud}`,
@@ -180,6 +184,10 @@ const VerSolicitudPage = () => {
         }
         const date = new Date();
         const historialData = {
+          num_doc: "n/a",
+          recibo: "n/a",
+          banco: "n/a",
+          tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Eliminar",
           descripcion: `Se eliminó la solicitud ${nombreSolicitud}`,

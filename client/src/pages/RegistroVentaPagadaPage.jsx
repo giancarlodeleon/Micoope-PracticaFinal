@@ -34,6 +34,10 @@ function RegistroVentaPagadaPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino la venta ${Nombre}`,

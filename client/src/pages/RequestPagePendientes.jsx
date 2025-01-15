@@ -54,7 +54,11 @@ function RequestPagePendientes() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino la solicitud ${Nombre}`,
         cantidad: 0,
@@ -168,8 +172,8 @@ function RequestPagePendientes() {
             <table className="w-full border-collapse rounded-lg">
               <thead>
                 <tr className="bg-green-900 text-white">
-                <th className="py-2 text-center">Codigo</th>
-                <th className="py-2 text-center">Nombre</th>
+                  <th className="py-2 text-center">Codigo</th>
+                  <th className="py-2 text-center">Nombre</th>
                   <th className="py-2 text-center">Tipo</th>
                   <th className="py-2 text-center">Descripcion</th>
                   <th className="py-2 text-center">Cliente</th>

@@ -60,7 +60,11 @@ const QuitarProductForm = () => {
 
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Quitar",
         descripcion: `Se le Quito al producto/servicio ${data.name}`,
         cantidad: Number(data.amountToSubtract),

@@ -21,7 +21,7 @@ function RegistroVentaFormPage() {
   const params = useParams();
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
-  const {getPedidos, pedido } = usePedidos();
+  const { getPedidos, pedido } = usePedidos();
 
   useEffect(() => {
     getPedidos();
@@ -47,12 +47,11 @@ function RegistroVentaFormPage() {
     async function loadSolicituds() {
       await getSolicituds();
     }
- 
+
     loadVenta();
     loadSolicituds();
   }, []);
 
-  
   const onSubmit = handleSubmit(async (data) => {
     try {
       // Convertimos los datos de entrada al formato esperado
@@ -62,12 +61,12 @@ function RegistroVentaFormPage() {
       data.pendiente = parseFloat(data.monto);
       data.solicitud = Number(data.solicitud);
       data.fecha_pago = "0/0/0";
-  
+
       // Encontrar la solicitud seleccionada
       const solicitudSeleccionada = solicituds.find(
         (solicitud) => Number(solicitud.codigo) === Number(data.solicitud)
       );
-  
+
       if (solicitudSeleccionada) {
         data.cliente = solicitudSeleccionada.cliente;
         data.numero = Number(solicitudSeleccionada.codigo);
@@ -77,29 +76,33 @@ function RegistroVentaFormPage() {
         data.numero = 0;
         data.date = ""; // En caso de que no haya solicitud seleccionada
       }
-  
+
       // Filtrar pedidos por nombre de solicitud seleccionada
       const pedidosRelacionados = pedido.filter(
         (p) => p.nombre === solicitudSeleccionada.nombre
       );
-  
+
       // Calcular la suma total del atributo "total" de los pedidos relacionados
       const sumaPedidos = pedidosRelacionados.reduce(
         (total, p) => total + Number(p.total),
         0
       );
-  
+
       if (data.monto !== sumaPedidos) {
         alert(
           `El monto ingresado (${data.monto}) no coincide con la suma de "total" de los pedidos relacionados (${sumaPedidos}).`
         );
         return;
       }
-  
+
       if (params.id) {
         await updateVenta(params.id, data);
         const date = new Date();
         const historialData = {
+          num_doc: "n/a",
+          recibo: "n/a",
+          banco: "n/a",
+          tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Modificar",
           descripcion: `Se Modificó la venta ${data.FEL_serie}`,
@@ -113,6 +116,10 @@ function RegistroVentaFormPage() {
         await createVenta(data);
         const date = new Date();
         const historialData = {
+          num_doc: "n/a",
+          recibo: "n/a",
+          banco: "n/a",
+          tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Agregar",
           descripcion: `Se Agregó la venta ${data.numero}`,
@@ -131,8 +138,6 @@ function RegistroVentaFormPage() {
       }
     }
   });
-  
-  
 
   return (
     <div className="items-center justify-center py-20">

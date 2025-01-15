@@ -29,7 +29,11 @@ function GastosPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino el gasto ${Nombre}`,
         cantidad: 0,
@@ -46,7 +50,7 @@ function GastosPage() {
     return user ? user.username : "Usuario no encontrado";
   };
 
-  // Filtrar roles según el término de búsqueda 
+  // Filtrar roles según el término de búsqueda
   const filteredGastos = gastos.filter((place) =>
     place.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );

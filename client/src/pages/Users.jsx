@@ -19,7 +19,7 @@ function Users() {
     getUsers();
   }, []);
 
-  const handleDeleteClick = (userId,Nombre) => {
+  const handleDeleteClick = (userId, Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este usuario?"
     );
@@ -27,7 +27,11 @@ function Users() {
       if (user.id === userId) {
         const date = new Date();
         const historialData = {
-          cliente:"n/a",
+          num_doc: "n/a",
+          recibo: "n/a",
+          banco: "n/a",
+          tipo_pago: "n/a",
+          cliente: "n/a",
           tipo: "Eliminar",
           descripcion: `Se elimino el usuario ${Nombre}`,
           cantidad: 0,
@@ -43,7 +47,11 @@ function Users() {
       }
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el usuario ${Nombre}'`,
         cantidad: 0,
@@ -180,7 +188,9 @@ function Users() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id,place.username)}
+                      onClick={() =>
+                        handleDeleteClick(place._id, place.username)
+                      }
                     >
                       Eliminar
                     </button>

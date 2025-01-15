@@ -34,6 +34,10 @@ function RegistroVentaPage() {
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se Elimino la venta ${Nombre}`,
@@ -82,7 +86,7 @@ function RegistroVentaPage() {
       ? getTipoByCodigo(venta.numero) === tipoSolicitud
       : true;
     const pendienteCero = venta.pendiente !== 0; // Verifica si el pendiente es 0
-  
+
     if (start && end) {
       // Incluir un día extra al rango
       end.setDate(end.getDate() + 1);

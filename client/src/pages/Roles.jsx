@@ -4,27 +4,30 @@ import { useRols } from "../context/RolContext";
 import { useHistorials } from "../context/HistorialContext";
 import { useAuth } from "../context/AuthContext";
 
-
 function Roles() {
   const { getRols, rol, deleteRol } = useRols();
   const [currentPage, setCurrentPage] = useState(1); // Estado para almacenar la página actual
   const [searchTerm, setSearchTerm] = useState(""); // Estado para almacenar el término de búsqueda
   const rolsPerPage = 10; // Número de roles por página
   const { createHistorial } = useHistorials();
-  const { user} = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     getRols();
   }, []);
 
-  const handleDeleteClick = (roleId,Nombre) => {
+  const handleDeleteClick = (roleId, Nombre) => {
     const confirmDelete = window.confirm(
       "¿Estás seguro de que quieres eliminar este rol?"
     );
     if (confirmDelete) {
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Eliminar",
         descripcion: `Se elimino el rol ${Nombre}'`,
         cantidad: 0,
@@ -158,7 +161,7 @@ function Roles() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id,place.name)}
+                      onClick={() => handleDeleteClick(place._id, place.name)}
                     >
                       Eliminar
                     </button>

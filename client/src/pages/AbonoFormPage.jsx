@@ -11,6 +11,7 @@ function AbonoFormPage() {
     handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -20,6 +21,8 @@ function AbonoFormPage() {
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
   const { userid } = useParams();
+
+  const metodoPagoSeleccionado = watch("metodoPago"); // Monitorea el valor del método de pago
 
   useEffect(() => {
     async function loadVenta() {
@@ -42,25 +45,18 @@ function AbonoFormPage() {
 
   const onSubmit = handleSubmit(async (data) => {
     const amountToAdd = Number(data.amountToAdd);
-    const pendienteActual = Number(getValues("pendiente")); // Obtener pendiente actualizado
+    const pendienteActual = Number(getValues("pendiente"));
 
     if (amountToAdd > pendienteActual) {
       alert("No puede abonar más de lo pendiente.");
       return;
     }
 
-    data.numero = Number(data.numero);
-    data.numero_factura = Number(data.numero_factura);
-    data.FEL_numero = Number(data.FEL_numero);
-    data.monto = Number(data.monto);
-    data.solicitud = Number(data.solicitud);
-
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Los meses son base 0
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
     data.fecha_pago = `${day}/${month}/${year}`;
-    data.cliente = data.cliente;
 
     const newPendiente = pendienteActual - amountToAdd;
     data.pendiente = newPendiente;
@@ -68,17 +64,19 @@ function AbonoFormPage() {
     if (params.id) {
       await updateVenta(params.id, data);
       const date = new Date();
-
-      // Cambiar la descripción dependiendo de si el pendiente es 0
       const descripcion =
         newPendiente === 0
           ? `Se terminó de pagar la venta ${data.numero}`
           : `Se abonó a la venta ${data.numero}`;
 
       const historialData = {
+        num_doc: data.num_doc || "N/A",
+        recibo: data.reciboCaja || "N/A",
+        banco: data.banco || "N/A",
+        tipo_pago: data.metodoPago,
         cliente: data.cliente,
         tipo: "Abono",
-        descripcion, // Usar la descripción dinámica
+        descripcion,
         cantidad: amountToAdd,
         date,
         user,
@@ -94,6 +92,94 @@ function AbonoFormPage() {
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Abono a Factura</h1>
         <form onSubmit={onSubmit} className="space-y-4">
+          {/* Número de Recibo de Caja */}
+          <div>
+            <label className="text-white">Número de Recibo de Caja (Opcional)</label>
+            <input
+              type="text"
+              placeholder="Ingrese el número de recibo"
+              {...register("reciboCaja", {
+                required: false,
+                maxLength: {
+                  value: 20,
+                  message:
+                    "El número de recibo no puede exceder 20 caracteres.",
+                },
+              })}
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+            />
+            {errors.reciboCaja && (
+              <p className="text-red-500">{errors.reciboCaja.message}</p>
+            )}
+          </div>
+
+          {/* Método de Pago */}
+          <div>
+            <label className="text-white">Método de Pago</label>
+            <select
+              {...register("metodoPago", {
+                required: "Seleccione un método de pago.",
+              })}
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="Cheque">Cheque</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Deposito">Depósito</option>
+            </select>
+            {errors.metodoPago && (
+              <p className="text-red-500">{errors.metodoPago.message}</p>
+            )}
+          </div>
+
+          {/* Banco (solo si el método de pago no es efectivo) */}
+          {metodoPagoSeleccionado && metodoPagoSeleccionado !== "Efectivo" && (
+            <div>
+              <label className="text-white">Número de Documento</label>
+              <input
+                type="text"
+                placeholder="Ingrese el numero del documento"
+                {...register("num_doc", {
+                  required: "El Numero del documento es obligatorio.",
+                  maxLength: {
+                    value: 50,
+                    message:
+                      "El numero del documento no puede exceder 50 caracteres.",
+                  },
+                })}
+                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              />
+              {errors.num_doc && (
+                <p className="text-red-500">{errors.num_doc.message}</p>
+              )}
+            </div>
+          )}
+
+          {/* Número de Cheque (solo si el método de pago es Cheque) */}
+          {metodoPagoSeleccionado === "Cheque" && (
+            <div>
+              <label className="text-white">Nombre del Banco</label>
+              <input
+                type="text"
+                placeholder="Ingrese el nombre del banco"
+                {...register("banco", {
+                  required: "El nombre del banco es obligatorio.",
+                  maxLength: {
+                    value: 20,
+                    message:
+                      "El nombre del banco no puede exceder 20 caracteres.",
+                  },
+                })}
+                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              />
+              {errors.banco && (
+                <p className="text-red-500">{errors.banco.message}</p>
+              )}
+            </div>
+          )}
+
+          {/* Cantidad a Abonar */}
           <div>
             <label className="text-white">Cantidad a Abonar</label>
             <input

@@ -38,7 +38,11 @@ function GastoFormPage() {
       await updateGasto(params.id, data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Modificar",
         descripcion: `Se Modifico el gasto ${data.nombre}`,
         cantidad: 0,
@@ -52,7 +56,11 @@ function GastoFormPage() {
       await createGasto(data);
       const date = new Date();
       const historialData = {
-        cliente:"n/a",
+        num_doc: "n/a",
+        recibo: "n/a",
+        banco: "n/a",
+        tipo_pago: "n/a",
+        cliente: "n/a",
         tipo: "Agregar",
         descripcion: `Se Agrego el gasto ${data.nombre}`,
         cantidad: 0,

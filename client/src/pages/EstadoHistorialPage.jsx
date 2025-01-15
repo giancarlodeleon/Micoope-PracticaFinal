@@ -422,6 +422,10 @@ function EstadoHistorialPage() {
               <tr className="bg-green-900 text-white">
                 <th className="py-2 text-center">Tipo</th>
                 <th className="py-2 text-center">Descripción</th>
+                <th className="py-2 text-center">Tipo de Pago</th>
+                <th className="py-2 text-center">No.Doc</th>
+                <th className="py-2 text-center">Banco</th>
+                <th className="py-2 text-center">No.Recibo Caja</th>
                 <th className="py-2 text-center">Cantidad</th>
                 <th className="py-2 text-center">Fecha</th>
                 <th className="py-2 text-center">Hora</th>
@@ -436,6 +440,18 @@ function EstadoHistorialPage() {
                   </td>
                   <td className="text-center border border-green-100">
                     {place.descripcion}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.tipo_pago}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.num_doc}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.banco}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.recibo}
                   </td>
                   <td className="text-center border border-green-100">
                     {place.cantidad}
