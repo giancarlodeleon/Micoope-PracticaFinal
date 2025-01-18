@@ -4,7 +4,7 @@ const gastoSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
-      required: true,
+      required: false,
     },
 
     precio: {
@@ -15,6 +15,16 @@ const gastoSchema = new mongoose.Schema(
     date: {
       type: Date,
       default: Date.now,
+    },
+
+    factura: {
+      type: String,
+      required: true,
+    },
+
+    tipo: {
+      type: String,
+      required: true,
     },
 
     user: {

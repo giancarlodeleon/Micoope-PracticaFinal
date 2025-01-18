@@ -11,15 +11,17 @@ export const getGastos = async (req, res) => {
 
 export const createGastos = async (req, res) => {
   try {
-    const { nombre,precio,date} = req.body;
-  const newGasto = new Gasto({
-    nombre,
-    precio,
-    date,
-    user: req.user.id,
-  });
-  const savedGasto = await newGasto.save();
-  res.json(savedGasto);
+    const { nombre, precio, factura, tipo, date } = req.body;
+    const newGasto = new Gasto({
+      nombre,
+      factura,
+      tipo,
+      precio,
+      date,
+      user: req.user.id,
+    });
+    const savedGasto = await newGasto.save();
+    res.json(savedGasto);
   } catch (error) {
     return res.status(500).json({ message: "Something went Wrong" });
   }

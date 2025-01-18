@@ -36,6 +36,7 @@ const solicitudSchema = new mongoose.Schema(
 
     dias_credito: {
       type: Number,
+      required: false,
     },
     
     nit: {

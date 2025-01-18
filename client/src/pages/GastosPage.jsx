@@ -4,11 +4,16 @@ import { useGastos } from "../context/GastoContext";
 import { useHistorials } from "../context/HistorialContext";
 import { useUsers } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
+import { jsPDF } from "jspdf"; // Importar jsPDF
+import "jspdf-autotable"; // Para tablas
+import Logo from "../assets/cinagro.jpg";
 
 function GastosPage() {
   const { getGastos, gastos, deleteGasto } = useGastos();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const gastosPerPage = 10;
   const { createHistorial } = useHistorials();
   const { getUsers, users } = useUsers();
@@ -16,9 +21,6 @@ function GastosPage() {
 
   useEffect(() => {
     getGastos();
-  }, []);
-
-  useEffect(() => {
     getUsers();
   }, []);
 
@@ -50,21 +52,101 @@ function GastosPage() {
     return user ? user.username : "Usuario no encontrado";
   };
 
-  // Filtrar roles según el término de búsqueda
-  const filteredGastos = gastos.filter((place) =>
-    place.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filtrar gastos por rango de fechas y término de búsqueda
+  const filteredGastos = gastos.filter((gasto) => {
+    const gastoDate = new Date(gasto.date);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+    const matchesSearchTerm = gasto.tipo
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
 
-  // Calcular el total de páginas para los roles filtrados
+    if (start && end) {
+      // Incluir un día extra al rango
+      end.setDate(end.getDate() + 1);
+      end.setHours(23, 59, 59, 999);
+      return gastoDate >= start && gastoDate <= end && matchesSearchTerm;
+    }
+    return matchesSearchTerm;
+  });
+
+  // Calcular el total de páginas para los gastos filtrados
   const totalPages = Math.ceil(filteredGastos.length / gastosPerPage);
 
-  // Lógica para calcular los índices de inicio y fin de los roles en la página actual
+  // Lógica para calcular los índices de inicio y fin de los gastos en la página actual
   const indexOfLastGasto = currentPage * gastosPerPage;
   const indexOfFirstGasto = indexOfLastGasto - gastosPerPage;
   const currentGastos = filteredGastos.slice(
     indexOfFirstGasto,
     indexOfLastGasto
   );
+
+  // Función para exportar a PDF
+  const exportarPDF = () => {
+    // Crear un documento en orientación horizontal
+    const doc = new jsPDF("landscape");
+
+    // Agregar logo y encabezado
+    const logo = new Image();
+    logo.src = Logo; // Asegúrate de que `Logo` esté importado correctamente.
+    doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ajusta el tamaño y posición según sea necesario
+
+    doc.setFontSize(12);
+    doc.text("CINAGRO SOCIEDAD ANONIMA", 90, 15);
+    doc.setFontSize(10);
+    doc.text("Trabajando por un mejor futuro agrícola", 90, 20);
+    doc.text("GUATEMALA - GUATEMALA", 90, 25);
+    doc.text("Tel: 5466-48578", 90, 30);
+
+    // Determinar el texto del rango de fechas
+    const rangoFechas =
+      startDate && endDate
+        ? `Rango: ${new Date(
+            new Date(startDate).setDate(new Date(startDate).getDate() + 1)
+          ).toLocaleDateString()} - ${new Date(
+            new Date(endDate).setDate(new Date(endDate).getDate() + 1)
+          ).toLocaleDateString()}`
+        : "General";
+
+    // Título y rango de fechas
+    doc.setFontSize(12);
+    doc.text(`Reporte de Gastos (${rangoFechas})`, 14, 50);
+
+    // Crear filas para la tabla
+    const rows = filteredGastos.map((place) => [
+      place.tipo,
+      `Q.${place.precio}`,
+      new Date(place.date).toLocaleDateString(),
+      new Date(place.date).toLocaleTimeString(),
+      getUsernameById(place.user),
+      place.nombre,
+    ]);
+
+    // Encabezados de la tabla
+    const headers = [
+      ["Tipo", "Monto", "Fecha", "Hora", "Usuario", "Descripción"],
+    ];
+
+    // Generar la tabla con jsPDF-AutoTable
+    doc.autoTable({
+      startY: 60, // Comienza debajo del encabezado
+      head: headers,
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 3 },
+      headStyles: { fillColor: [0, 128, 0] }, // Color verde para el encabezado
+      tableWidth: "auto", // Ajustar automáticamente el ancho de la tabla
+    });
+
+    const fechaActual = new Date().toLocaleDateString();
+
+    const fechaArchivo = new Date()
+      .toLocaleDateString("es-GT")
+      .replace(/\//g, "-"); // Reemplazar las barras por guiones para evitar problemas en el nombre
+    const nombreArchivo = `Reporte_Gastos_${fechaArchivo}.pdf`;
+
+    // Guardar el archivo PDF
+    doc.save(nombreArchivo);
+  };
 
   return (
     <div className="flex justify-center p-4 ">
@@ -82,25 +164,58 @@ function GastosPage() {
             +
           </Link>
         </h1>
-        {/* Campo de búsqueda */}
-        <div className="p-4">
-          <input
-            type="text"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
-          />
+
+        {/* Filtros */}
+        <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-16">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha Inicial:
+            </label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha Final:
+            </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Buscar:
+            </label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar por tipo..."
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+            />
+          </div>
         </div>
-        <div className="my-2 overflow-x-auto  rounded-lg">
+
+        {/* Tabla */}
+        <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
               <tr className="bg-green-900 text-white">
-                <th className="py-2 text-center">Nombre</th>
+                <th className="py-2 text-center">Tipo</th>
                 <th className="py-2 text-center">Monto</th>
                 <th className="py-2 text-center">Fecha</th>
                 <th className="py-2 text-center">Hora</th>
                 <th className="py-2 text-center">Usuario</th>
+                <th className="py-2 text-center">Descripcion</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -108,7 +223,7 @@ function GastosPage() {
               {currentGastos.map((place) => (
                 <tr key={place._id}>
                   <td className="text-center border border-green-100">
-                    {place.nombre}
+                    {place.tipo}
                   </td>
                   <td className="text-center border border-green-100">
                     Q.{place.precio}
@@ -122,6 +237,9 @@ function GastosPage() {
                   <td className="text-center border border-green-100">
                     {getUsernameById(place.user)}
                   </td>
+                  <td className="text-center border border-green-100">
+                    {place.nombre}
+                  </td>
 
                   <td className="flex justify-center items-center border border-green-100">
                     <Link
@@ -132,7 +250,7 @@ function GastosPage() {
                     </Link>
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
-                      onClick={() => handleDeleteClick(place._id, place.nombre)}
+                      onClick={() => handleDeleteClick(place._id, place.tipo)}
                     >
                       Eliminar
                     </button>
@@ -141,9 +259,7 @@ function GastosPage() {
               ))}
             </tbody>
           </table>
-          {/* Controles de paginación */}
           <div className="flex justify-center mt-4">
-            {/* Botón para ir a la página anterior (solo se muestra si no está en la primera página) */}
             {currentPage !== 1 && (
               <button
                 className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
@@ -152,7 +268,6 @@ function GastosPage() {
                 Anterior
               </button>
             )}
-            {/* Botón para ir a la página siguiente (solo se muestra si no está en la última página) */}
             {indexOfLastGasto < filteredGastos.length && (
               <button
                 className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
@@ -162,10 +277,19 @@ function GastosPage() {
               </button>
             )}
           </div>
-          {/* Mostrar el total de páginas */}
           <p className="text-center text-sm text-gray-500 mt-2">
             Página {currentPage} de {totalPages}
           </p>
+        </div>
+
+        {/* Botón para Exportar centrado al final */}
+        <div className="flex justify-center mt-4 pb-4">
+          <button
+            onClick={exportarPDF}
+            className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
+          >
+            Exportar a PDF
+          </button>
         </div>
       </div>
     </div>

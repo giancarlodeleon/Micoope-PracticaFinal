@@ -200,7 +200,7 @@ function SolicitudFormPage() {
   const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
       data.codigo = String(solicitudCount - 1);
-      data.dias_credito = Number(data.dias_credito);
+      data.dias_credito = Number(data.dias_credito) || 0;
       data.nit = nit;
       await updateSolicitud(params.id, data);
       const date = new Date();
@@ -225,7 +225,7 @@ function SolicitudFormPage() {
       if (confirmDelete) {
         data.estado = false;
         data.codigo = String(solicitudCount);
-        data.dias_credito = Number(data.dias_credito);
+        data.dias_credito = Number(data.dias_credito) || 0;
         data.nit = nit;
         console.log(data);
         await createSolicitud(data);
