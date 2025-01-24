@@ -12,6 +12,11 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
+    proveedor: {
+      type: String,
+      required: true,
+    },
+
     presentation: {
       type: String,
       required: false,

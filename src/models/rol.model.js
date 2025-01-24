@@ -31,11 +31,18 @@ const rolSchema = new mongoose.Schema(
       required: true,
     },
 
+    permission_of_Proveedor: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+
     permission_of_add_Client: {
       type: Boolean,
       default: true,
       required: true,
     },
+    
     permission_of_add_Product: {
       type: Boolean,
       default: true,

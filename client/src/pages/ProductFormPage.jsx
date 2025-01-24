@@ -4,6 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useHistorials } from "../context/HistorialContext";
 import { useAuth } from "../context/AuthContext";
+import { useProveedors } from "../context/ProveedorContext";
 
 function ProductFormPage() {
   const {
@@ -13,12 +14,17 @@ function ProductFormPage() {
     formState: { errors },
   } = useForm();
 
+  const { getProveedors, proveedors } = useProveedors();
   const { createProduct, getProduct, updateProduct, products } = useProducts();
   const navigate = useNavigate();
   const params = useParams();
   const [productCount, setProductCount] = useState(0);
   const { createHistorial } = useHistorials();
   const { user } = useAuth();
+
+  useEffect(() => {
+    getProveedors();
+  }, []);
 
   useEffect(() => {
     setProductCount(products.length);
@@ -38,6 +44,8 @@ function ProductFormPage() {
         setValue("selling_price_3", product.selling_price_3);
         setValue("gravamen", product.gravamen);
         setValue("stock", product.stock);
+        setValue("proveedor", product.proveedor);
+        setValue("comision", product.comision);
         setValue("minimum_stock", product.minimum_stock);
       }
     }
@@ -50,6 +58,7 @@ function ProductFormPage() {
       data.selling_price_1 = Number(data.selling_price_1);
       data.selling_price_2 = Number(data.selling_price_2);
       data.selling_price_3 = Number(data.selling_price_3);
+      data.comision = !!data.comision;
       data.stock = Number(data.stock);
       data.minimum_stock = Number(data.minimum_stock);
       const nameCode = data.name.substring(0, 3).toUpperCase(); // Primeras 3 letras del nombre
@@ -78,6 +87,7 @@ function ProductFormPage() {
       data.selling_price_1 = Number(data.selling_price_1);
       data.selling_price_2 = Number(data.selling_price_2);
       data.selling_price_3 = Number(data.selling_price_3);
+      data.comision = !!data.comision;
       data.stock = Number(data.stock);
       data.minimum_stock = Number(data.minimum_stock);
       const nameCode = data.name.substring(0, 3).toUpperCase(); // Primeras 3 letras del nombre
@@ -85,6 +95,7 @@ function ProductFormPage() {
         ? `-${data.presentation.substring(0, 3).toUpperCase()}`
         : ""; // Si hay presentación, agrega las primeras 3 letras
       data.code = `${nameCode}${productCount + 1}${presentationCode}`;
+      console.log(data)
       await createProduct(data);
       const date = new Date();
       const historialData = {
@@ -130,6 +141,24 @@ function ProductFormPage() {
               {...register("presentation", { required: false })}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
             />
+          </div>
+
+          <div>
+            <label className="text-white">Proveedor</label>
+            <select
+              {...register("proveedor", { required: true })}
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+            >
+              <option value="">Seleccione un proveedor</option>
+              {proveedors.map((proveedor) => (
+                <option key={proveedor._id} value={proveedor.nombre}>
+                  {proveedor.nombre}
+                </option>
+              ))}
+            </select>
+            {errors.proveedor && (
+              <p className="text-red-500">Proveedor Requerido</p>
+            )}
           </div>
 
           <div>

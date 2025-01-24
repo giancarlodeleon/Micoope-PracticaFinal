@@ -11,23 +11,37 @@ export const getProducts = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { code,name, comision,stock,presentation, cost_price,selling_price_1,selling_price_2,selling_price_3,minimum_stock, date } = req.body;
-  const newProduct = new Product({
-    code,
-    name,
-    comision,
-    presentation,
-    cost_price,
-    selling_price_1,
-    selling_price_2,
-    selling_price_3,
-    minimum_stock,
-    stock,
-    date,
-    user: req.user.id,
-  });
-  const savedProduct = await newProduct.save();
-  res.json(savedProduct);
+    const {
+      code,
+      name,
+      proveedor,
+      comision,
+      stock,
+      presentation,
+      cost_price,
+      selling_price_1,
+      selling_price_2,
+      selling_price_3,
+      minimum_stock,
+      date,
+    } = req.body;
+    const newProduct = new Product({
+      code,
+      name,
+      proveedor,
+      comision,
+      presentation,
+      cost_price,
+      selling_price_1,
+      selling_price_2,
+      selling_price_3,
+      minimum_stock,
+      stock,
+      date,
+      user: req.user.id,
+    });
+    const savedProduct = await newProduct.save();
+    res.json(savedProduct);
   } catch (error) {
     return res.status(500).json({ message: "Something went Wrong" });
   }

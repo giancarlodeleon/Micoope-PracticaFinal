@@ -34,6 +34,7 @@ const AgregarProductForm = () => {
         setValue("selling_price_3", loadedProduct.selling_price_3);
         setValue("gravamen", loadedProduct.gravamen);
         setValue("stock", loadedProduct.stock);
+        setValue("proveedor", product.proveedor);
         setValue("minimum_stock", loadedProduct.minimum_stock);
       }
     }

@@ -12,6 +12,7 @@ function Navbar() {
   // Estado para controlar la visibilidad del menú desplegable
   const [dropdownOpenManejo, setDropdownOpenManejo] = useState(false);
   const [dropdownOpenAdmin, setDropdownOpenAdmin] = useState(false);
+  const [dropdownOpenPersonal, setDropdownOpenPersonal] = useState(false);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const [Setpermiso, setPermisoToShow] = useState(null);
 
@@ -21,6 +22,9 @@ function Navbar() {
   };
   const handleDropdownToggleAdmin = () => {
     setDropdownOpenAdmin(!dropdownOpenAdmin);
+  };
+  const handleDropdownTogglePersonal = () => {
+    setDropdownOpenPersonal(!dropdownOpenPersonal);
   };
 
   useEffect(() => {
@@ -48,6 +52,16 @@ function Navbar() {
   }, [dropdownOpenManejo]);
 
   useEffect(() => {
+    let timer;
+    if (dropdownOpenPersonal) {
+      timer = setTimeout(() => {
+        setDropdownOpenPersonal(false);
+      }, 2000); // Cerrar el menú después de 5 segundos
+    }
+    return () => clearTimeout(timer);
+  }, [dropdownOpenPersonal]);
+
+  useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
     setPermisoToShow(permiso);
   }, []);
@@ -70,10 +84,16 @@ function Navbar() {
     setSubMenuVisible2(!subMenuVisible2);
   };
 
+  const [subMenuVisible3, setSubMenuVisible3] = useState(false);
+
+  const toggleSubMenu3 = () => {
+    setSubMenuVisible3(!subMenuVisible3);
+  };
+
   return (
     <>
       <nav className="bg-white my-1 flex justify-between items-center px-4 rounded-lg relative z-50">
-      <Link to={isAuthenticated ? "/home" : "/cinagro"}>
+        <Link to={isAuthenticated ? "/home" : "/cinagro"}>
           <img
             src={Logo}
             alt="Cinagro"
@@ -110,7 +130,7 @@ function Navbar() {
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
                           onClick={toggleSubMenu1}
                         >
-                          Manejo de Informacion
+                          Administrador
                         </button>
                       )
                     )}
@@ -144,6 +164,19 @@ function Navbar() {
                           role="menuitem"
                         >
                           Clientes
+                        </a>
+                      )
+                    )}
+
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_of_Proveedor ? null : (
+                        <a
+                          href="/proveedors"
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Proveedores
                         </a>
                       )
                     )}
@@ -208,7 +241,7 @@ function Navbar() {
                           className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left "
                           onClick={toggleSubMenu2}
                         >
-                          Administracion Financiera
+                          Finanzas
                         </button>
                       )
                     )}
@@ -288,7 +321,7 @@ function Navbar() {
                               : ""
                           }`}
                         >
-                          Manejo de informacion
+                          Administrador
                         </option>
                       )
                     )}
@@ -296,7 +329,7 @@ function Navbar() {
 
                   {/* Contenido del menú desplegable */}
                   {dropdownOpenManejo && (
-                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-48 flex flex-col justify-center items-center">
+                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-32 flex flex-col justify-center items-center">
                       {/* Opciones del menú desplegable */}
                       <li>
                         <NavLink
@@ -361,6 +394,31 @@ function Navbar() {
                           }`}
                         >
                           Clientes
+                        </option>
+                      )
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/proveedors"
+                    activeStyle={{ background: "green", color: "white" }}
+                  >
+                    {rol.map((place) =>
+                      place.name !== user.rol ||
+                      !place.permission_of_Proveedor ? null : (
+                        <option
+                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                          style={{ fontSize: "15px" }}
+                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                            location.pathname === "/proveedors" ||
+                            location.pathname.startsWith("/proveedors") ||
+                            location.pathname === "/add-proveedor"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              : ""
+                          }`}
+                        >
+                          Proveedores
                         </option>
                       )
                     )}
@@ -482,19 +540,19 @@ function Navbar() {
                             location.pathname.startsWith("/registro-venta") ||
                             location.pathname.startsWith("/add-venta") ||
                             location.pathname.startsWith("/add-gasto") ||
-                            location.pathname.startsWith("/estado-cuenta") 
+                            location.pathname.startsWith("/estado-cuenta")
                               ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
-                          Adminstracion Financiera
+                          Finanzas
                         </option>
                       )
                     )}
                   </NavLink>
 
                   {dropdownOpenAdmin && (
-                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-48 flex flex-col justify-center items-center">
+                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-26 flex flex-col justify-center items-center">
                       {/* Opciones del menú desplegable */}
                       <li>
                         <NavLink
@@ -584,17 +642,16 @@ function Navbar() {
                     activeStyle={{ background: "green", color: "white" }}
                   >
                     <option
-                         
-                          style={{ fontSize: "18px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
-                            location.pathname === "/"||
-                            location.pathname === "/cinagro" 
-                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
-                              : ""
-                          }`}
-                        >
-                          Contribuyente
-                        </option>
+                      style={{ fontSize: "18px" }}
+                      className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                        location.pathname === "/" ||
+                        location.pathname === "/cinagro"
+                          ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
+                          : ""
+                      }`}
+                    >
+                      Contribuyente
+                    </option>
                   </NavLink>
                 </li>
               </>

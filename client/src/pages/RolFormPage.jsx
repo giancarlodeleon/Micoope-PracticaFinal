@@ -42,6 +42,7 @@ function RolFormPage() {
         setValue("permission_Payouts", rol.permission_Payouts);
         setValue("permission_Account", rol.permission_Account);
         setValue("permission_Financial", rol.permission_Financial);
+        setValue("permission_of_Proveedor", rol.permission_of_Proveedor);
       }
     }
     loadRol();
@@ -232,6 +233,15 @@ function RolFormPage() {
             <input
               type="checkbox"
               {...register("permission_Financial", { value: true })}
+              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
+            />
+          </div>
+
+          <div className="flex items-center py-2">
+            <label className="text-white font ">Permiso a Proveedores</label>
+            <input
+              type="checkbox"
+              {...register("permission_of_Proveedor", { value: true })}
               className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
             />
           </div>

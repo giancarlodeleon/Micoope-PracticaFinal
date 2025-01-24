@@ -98,6 +98,7 @@ function Roles() {
                 <th className="py-2 text-center">Gastos</th>
                 <th className="py-2 text-center">Estados de Cuenta</th>
                 <th className="py-2 text-center">Finanzas</th>
+                <th className="py-2 text-center">Proveedores</th>
                 <th className="py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -151,6 +152,9 @@ function Roles() {
                   </td>
                   <td className="text-center border border-green-100">
                     {place.permission_Financial ? "Activo" : "Desactivo"}
+                  </td>
+                  <td className="text-center border border-green-100">
+                    {place.permission_of_Proveedor ? "Activo" : "Desactivo"}
                   </td>
                   <td className="flex justify-center items-center border border-green-100">
                     <Link
