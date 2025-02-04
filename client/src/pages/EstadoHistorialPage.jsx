@@ -248,7 +248,7 @@ function EstadoHistorialPage() {
         </h1>
 
         {/* Tabla de ventas */}
-        <div className="bg-green-900 text-white text-center py-2 font-bold">
+        <div className="bg-green-900 text-white text-center py-2 my-2 font-bold">
           Facturas pagadas
         </div>
 

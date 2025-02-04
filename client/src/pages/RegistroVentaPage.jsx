@@ -105,59 +105,56 @@ function RegistroVentaPage() {
   );
 
   const handleGeneratePDF = () => {
-    // Crear un documento en orientación horizontal
     const doc = new jsPDF("landscape");
-
+  
     // Agregar logo y encabezado
     const logo = new Image();
-    logo.src = Logo; // Asegúrate de que `Logo` esté importado correctamente.
-    doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ajusta el tamaño y posición según sea necesario
-
+    logo.src = Logo;
+    doc.addImage(logo, "JPEG", 10, 10, 50, 20);
+  
     doc.setFontSize(12);
     doc.text("CINAGRO SOCIEDAD ANONIMA", 90, 15);
     doc.setFontSize(10);
     doc.text("Trabajando por un mejor futuro agrícola", 90, 20);
     doc.text("GUATEMALA - GUATEMALA", 90, 25);
     doc.text("Tel: 5466-48578", 90, 30);
-
-    // Determinar el texto del rango de fechas
+  
     const rangoFechas =
       startDate && endDate
-        ? `Rango: ${new Date(
-            new Date(startDate).setDate(new Date(startDate).getDate() + 1)
-          ).toLocaleDateString()} - ${new Date(
-            new Date(endDate).setDate(new Date(endDate).getDate() + 1)
-          ).toLocaleDateString()}`
+        ? `Rango: ${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}`
         : "General";
-
-    // Título y rango de fechas
+  
     doc.setFontSize(12);
     doc.text(`Reporte de Ventas Pendientes (${rangoFechas})`, 14, 50);
-
+  
+    // Ordenar ventas por fecha de vencimiento, colocando "N/A" al final
+    const sortedVentas = [...filteredVentas].sort((a, b) => {
+      const fechaA = getFechaVencimiento(a.numero, new Date(a.date).toLocaleDateString());
+      const fechaB = getFechaVencimiento(b.numero, new Date(b.date).toLocaleDateString());
+  
+      // Convertir fechas a formato válido
+      const dateA = fechaA === "N/A" ? Infinity : new Date(fechaA.split("/").reverse().join("-"));
+      const dateB = fechaB === "N/A" ? Infinity : new Date(fechaB.split("/").reverse().join("-"));
+  
+      return dateA - dateB;
+    });
+  
     // Crear filas para la tabla
-    const rows = filteredVentas.map((place) => [
-      place.numero,
-      place.numero_factura,
-      place.FEL_serie,
-      place.FEL_numero,
-      place.solicitud,
-      place.monto,
-      place.pendiente,
-      new Date(place.date).toLocaleDateString(),
-      place.fecha_pago || "N/A",
-      getTipoByCodigo(place.numero),
-      getFechaVencimiento(
-        place.numero,
-        new Date(place.date).toLocaleDateString()
-      ),
-      getDiasDeAtraso(
-        getFechaVencimiento(
-          place.numero,
-          new Date(place.date).toLocaleDateString()
-        )
-      ),
+    const rows = sortedVentas.map((venta) => [
+      venta.numero,
+      venta.numero_factura,
+      venta.FEL_serie,
+      venta.FEL_numero,
+      venta.solicitud,
+      venta.monto,
+      venta.pendiente,
+      new Date(venta.date).toLocaleDateString(),
+      venta.fecha_pago || "N/A",
+      getTipoByCodigo(venta.numero),
+      getFechaVencimiento(venta.numero, new Date(venta.date).toLocaleDateString()),
+      getDiasDeAtraso(getFechaVencimiento(venta.numero, new Date(venta.date).toLocaleDateString())),
     ]);
-
+  
     // Encabezados de la tabla
     const headers = [
       [
@@ -175,28 +172,23 @@ function RegistroVentaPage() {
         "Días de Atraso",
       ],
     ];
-
+  
     // Generar la tabla con jsPDF-AutoTable
     doc.autoTable({
-      startY: 60, // Comienza debajo del encabezado
+      startY: 60,
       head: headers,
       body: rows,
       styles: { fontSize: 8, cellPadding: 3 },
-      headStyles: { fillColor: [0, 128, 0] }, // Color verde para el encabezado
-      tableWidth: "auto", // Ajustar automáticamente el ancho de la tabla
+      headStyles: { fillColor: [0, 128, 0] },
+      tableWidth: "auto",
     });
-
-    const fechaActual = new Date().toLocaleDateString();
-
-    const fechaArchivo = new Date()
-      .toLocaleDateString("es-GT")
-      .replace(/\//g, "-"); // Reemplazar las barras por guiones para evitar problemas en el nombre
+  
+    const fechaArchivo = new Date().toLocaleDateString("es-GT").replace(/\//g, "-");
     const nombreArchivo = `Reporte_Ventas_Pendientes_${fechaArchivo}.pdf`;
-
-    // Guardar el archivo PDF
+  
     doc.save(nombreArchivo);
   };
-
+  
   return (
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">

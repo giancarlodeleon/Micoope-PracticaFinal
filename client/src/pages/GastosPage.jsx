@@ -83,17 +83,18 @@ function GastosPage() {
 
   // Función para exportar a PDF
   const exportarPDF = () => {
-    // Crear un documento en orientación horizontal
     const doc = new jsPDF("landscape");
+
+    // Configurar tamaño de letra global
+    const fontSize = 10;
+    doc.setFontSize(fontSize);
 
     // Agregar logo y encabezado
     const logo = new Image();
-    logo.src = Logo; // Asegúrate de que `Logo` esté importado correctamente.
-    doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ajusta el tamaño y posición según sea necesario
+    logo.src = Logo; // Asegúrate de que "Logo" esté importado correctamente.
+    doc.addImage(logo, "JPEG", 10, 10, 50, 20); // Ajusta tamaño y posición
 
-    doc.setFontSize(12);
     doc.text("CINAGRO SOCIEDAD ANONIMA", 90, 15);
-    doc.setFontSize(10);
     doc.text("Trabajando por un mejor futuro agrícola", 90, 20);
     doc.text("GUATEMALA - GUATEMALA", 90, 25);
     doc.text("Tel: 5466-48578", 90, 30);
@@ -101,21 +102,23 @@ function GastosPage() {
     // Determinar el texto del rango de fechas
     const rangoFechas =
       startDate && endDate
-        ? `Rango: ${new Date(
-            new Date(startDate).setDate(new Date(startDate).getDate() + 1)
-          ).toLocaleDateString()} - ${new Date(
-            new Date(endDate).setDate(new Date(endDate).getDate() + 1)
+        ? `Rango: ${new Date(startDate).toLocaleDateString()} - ${new Date(
+            endDate
           ).toLocaleDateString()}`
         : "General";
 
-    // Título y rango de fechas
-    doc.setFontSize(12);
-    doc.text(`Reporte de Gastos (${rangoFechas})`, 14, 50);
+    doc.text(`Reporte de Gastos (${rangoFechas})`, 14, 45);
 
-    // Crear filas para la tabla
+    // Calcular el total de los gastos
+    const totalGastos = filteredGastos.reduce(
+      (sum, gasto) => sum + gasto.precio,
+      0
+    );
+
+    // Crear filas para la tabla principal
     const rows = filteredGastos.map((place) => [
       place.tipo,
-      `Q.${place.precio}`,
+      `Q.${place.precio.toFixed(2)}`,
       new Date(place.date).toLocaleDateString(),
       new Date(place.date).toLocaleTimeString(),
       getUsernameById(place.user),
@@ -127,25 +130,68 @@ function GastosPage() {
       ["Tipo", "Monto", "Fecha", "Hora", "Usuario", "Descripción"],
     ];
 
-    // Generar la tabla con jsPDF-AutoTable
+    // Generar la tabla principal
     doc.autoTable({
-      startY: 60, // Comienza debajo del encabezado
+      startY: 50,
       head: headers,
       body: rows,
-      styles: { fontSize: 8, cellPadding: 3 },
-      headStyles: { fillColor: [0, 128, 0] }, // Color verde para el encabezado
-      tableWidth: "auto", // Ajustar automáticamente el ancho de la tabla
+      styles: { fontSize: fontSize, cellPadding: 3 },
+      headStyles: { fillColor: [0, 128, 0] },
+      tableWidth: "auto",
     });
 
-    const fechaActual = new Date().toLocaleDateString();
+    // **Agrupación de gastos por categorías específicas**
+    const categorias = {
+      IGGS: 0,
+      Salarios: 0,
+      Impuestos: 0,
+      Alimentacion: 0,
+      Hospedaje: 0,
+      Combustible: 0,
+      "Mant.Vehiculos": 0,
+      "Servicios Profesionales": 0,
+      "Pagos Comisiones": 0,
+      Otros: 0,
+    };
 
-    const fechaArchivo = new Date()
-      .toLocaleDateString("es-GT")
-      .replace(/\//g, "-"); // Reemplazar las barras por guiones para evitar problemas en el nombre
-    const nombreArchivo = `Reporte_Gastos_${fechaArchivo}.pdf`;
+    // Clasificar los gastos en las categorías
+    filteredGastos.forEach((gasto) => {
+      if (categorias.hasOwnProperty(gasto.tipo)) {
+        categorias[gasto.tipo] += gasto.precio;
+      } else {
+        categorias.Otros += gasto.precio;
+      }
+    });
+
+    // Crear filas para la tabla de sumatorias
+    const sumatoriaRows = Object.entries(categorias).map(
+      ([categoria, total]) => [categoria, `Q.${total.toFixed(2)}`]
+    );
+
+    // Encabezados de la tabla de sumatoria
+    const sumatoriaHeaders = [["Categoría", "Total"]];
+
+    // Obtener la posición final de la primera tabla
+    const finalY = doc.autoTable.previous.finalY + 10;
+
+    // Agregar título de sumatoria
+    doc.text("Resumen de Gastos por Categoría", 14, finalY);
+
+    // Generar la tabla de sumatoria
+    doc.autoTable({
+      startY: finalY + 5,
+      head: sumatoriaHeaders,
+      body: sumatoriaRows,
+      styles: { fontSize: fontSize, cellPadding: 3 },
+      headStyles: { fillColor: [0, 128, 0] },
+      tableWidth: "auto",
+    });
 
     // Guardar el archivo PDF
-    doc.save(nombreArchivo);
+    const fechaArchivo = new Date()
+      .toLocaleDateString("es-GT")
+      .replace(/\//g, "-");
+    doc.save(`Reporte_Gastos_${fechaArchivo}.pdf`);
   };
 
   return (

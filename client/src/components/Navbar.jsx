@@ -12,7 +12,7 @@ function Navbar() {
   // Estado para controlar la visibilidad del menú desplegable
   const [dropdownOpenManejo, setDropdownOpenManejo] = useState(false);
   const [dropdownOpenAdmin, setDropdownOpenAdmin] = useState(false);
-  const [dropdownOpenPersonal, setDropdownOpenPersonal] = useState(false);
+  const [dropdownOpenSolicitud, setDropdownOpenSolicitud] = useState(false);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const [Setpermiso, setPermisoToShow] = useState(null);
 
@@ -23,8 +23,8 @@ function Navbar() {
   const handleDropdownToggleAdmin = () => {
     setDropdownOpenAdmin(!dropdownOpenAdmin);
   };
-  const handleDropdownTogglePersonal = () => {
-    setDropdownOpenPersonal(!dropdownOpenPersonal);
+  const handleDropdownToggleSolicitud = () => {
+    setDropdownOpenSolicitud(!dropdownOpenSolicitud);
   };
 
   useEffect(() => {
@@ -53,13 +53,13 @@ function Navbar() {
 
   useEffect(() => {
     let timer;
-    if (dropdownOpenPersonal) {
+    if (dropdownOpenSolicitud) {
       timer = setTimeout(() => {
-        setDropdownOpenPersonal(false);
+        setDropdownOpenSolicitud(false);
       }, 2000); // Cerrar el menú después de 5 segundos
     }
     return () => clearTimeout(timer);
-  }, [dropdownOpenPersonal]);
+  }, [dropdownOpenSolicitud]);
 
   useEffect(() => {
     const permiso = rol.find((permiso) => permiso.name === user.rol);
@@ -207,17 +207,37 @@ function Navbar() {
                       )
                     )}
 
+                    {/* Elemento con submenú */}
                     {rol.map((place) =>
                       place.name !== user.rol ||
-                      !place.permission_Request ? null : (
-                        <a
-                          href="/requests"
-                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
+                      !place.permission_Request  ? null : (
+                        <button
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
+                          onClick={toggleSubMenu3}
                         >
                           Solicitudes
-                        </a>
+                        </button>
                       )
+                    )}
+
+                    {/* Submenú */}
+                    {subMenuVisible3 && (
+                      <div className="pl-4 bg-gray-200">
+                        <a
+                          href="/requests"
+                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
+                          role="menuitem"
+                        >
+                          De Venta
+                        </a>
+                        <a
+                          href="/solicitud-compra"
+                          className="block px-4 py-2 text-lg text-gray-700 bg-gray-200 hover:bg-gray-200"
+                          role="menuitem"
+                        >
+                          De Compra
+                        </a>
+                      </div>
                     )}
 
                     {rol.map((place) =>
@@ -294,7 +314,7 @@ function Navbar() {
             </div>
           </>
         ) : (
-          // Display desktop menu
+          // Display desktop menu ------------------------------------------------------------------------------------------------------
           <ul className="flex gap-x-8 items-center">
             {isAuthenticated && (
               <>
@@ -453,21 +473,22 @@ function Navbar() {
                 </li>
                 <li>
                   <NavLink
-                    to="/requests"
-                    activeStyle={{ background: "green", color: "white" }}
+                    style={{ fontSize: "15px" }}
+                    onClick={handleDropdownToggleSolicitud}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
                       !place.permission_Request ? null : (
                         <option
-                          key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                          key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname === "/requests" ||
                             location.pathname.startsWith("/solicitudes") ||
+                            location.pathname.startsWith("/solicitud") ||
                             location.pathname.startsWith("/requests") ||
                             location.pathname === "/add-request"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -476,7 +497,53 @@ function Navbar() {
                       )
                     )}
                   </NavLink>
+                  {dropdownOpenSolicitud && (
+                    <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-32 flex flex-col justify-center items-center">
+                      {/* Opciones del menú desplegable */}
+                      <li>
+                        <NavLink
+                          onClick={handleDropdownToggleSolicitud}
+                          to="/requests"
+                          activeStyle={{ background: "green", color: "white" }}
+                        >
+                          {rol.map((place) =>
+                            place.name !== user.rol ||
+                            !place.permission_Request ? null : (
+                              <option
+                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                                style={{ fontSize: "15px" }}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                              >
+                                De Venta
+                              </option>
+                            )
+                          )}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleDropdownToggleSolicitud}
+                          to="/solicitud-compra"
+                          activeStyle={{ background: "green", color: "white" }}
+                        >
+                          {rol.map((place) =>
+                            place.name !== user.rol ||
+                            !place.permission_Request ? null : (
+                              <option
+                                key={place.id} // Asegúrate de incluir la clave única para cada elemento
+                                style={{ fontSize: "15px" }}
+                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                              >
+                                De Compra
+                              </option>
+                            )
+                          )}
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
                 </li>
+
                 <li>
                   <NavLink
                     to="/historial"

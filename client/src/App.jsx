@@ -48,6 +48,9 @@ import RegistroVentaPagadaPage from "./pages/RegistroVentaPagadaPage";
 import ProveedorPage from "./pages/ProveedorPage";
 import ProveedorFormPage from "./pages/ProveedorFormPage";
 import ProveedorRoute from "./ProtectedRoutes/ProveedorRoute";
+import SolicitudCompraPage from "./pages/SolicitudCompraPage";
+import SolicitudCompraFormPage from "./pages/SolicitudCompraFormPage";
+import VerSolicitudCompraPage from "./pages/VerSolicitudCompraPage";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -58,6 +61,8 @@ import { PedidoProvider } from "./context/PedidoContext";
 import { GastoProvider } from "./context/GastoContext";
 import { VentaProvider } from "./context/VentaContext";
 import { ProveedorProvider } from "./context/ProveedorContext";
+import { SolicitudCompraProvider } from "./context/SolicitudCompraContext";
+import { PedidoCompraProvider } from "./context/PedidoCompraContext";
 
 function App() {
   return (
@@ -69,190 +74,226 @@ function App() {
               <HistorialProvider>
                 <RolProvider>
                   <SolicitudProvider>
-                    <PedidoProvider>
-                      <VentaProvider>
-                        <GastoProvider>
-                          <BrowserRouter>
-                            <main className="">
-                              <Navbar />
-                              <Routes>
-                                <Route path="/" element={<LoginPage />} />
-                                <Route
-                                  path="/cinagro"
-                                  element={<LandingPage />}
-                                />
+                    <SolicitudCompraProvider>
+                      <PedidoProvider>
+                        <PedidoCompraProvider>
+                          <VentaProvider>
+                            <GastoProvider>
+                              <BrowserRouter>
+                                <main className="">
+                                  <Navbar />
+                                  <Routes>
+                                    <Route path="/" element={<LoginPage />} />
+                                    <Route
+                                      path="/cinagro"
+                                      element={<LandingPage />}
+                                    />
 
-                                <Route element={<ProtectedRoute />}>
-                                  <Route element={<ReportRoute />}>
-                                    <Route
-                                      path="/reporte"
-                                      element={<ReportPage />}
-                                    />
-                                  </Route>
-                                  <Route element={<ManejoInformacionRoute />}>
-                                    <Route
-                                      path="/register"
-                                      element={<RegisterPage />}
-                                    />
-                                    <Route path="/users" element={<Users />} />
-                                    <Route
-                                      path="/users/:id"
-                                      element={<RegisterPage />}
-                                    />
-                                    <Route
-                                      path="/add-rol"
-                                      element={<RolFormPage />}
-                                    />
-                                    <Route
-                                      path="/rols/:id"
-                                      element={<RolFormPage />}
-                                    />
-                                    <Route path="/roles" element={<Roles />} />
-                                  </Route>
-                                  <Route element={<ClientRoute />}>
-                                    <Route
-                                      path="/clientes"
-                                      element={<ClientPage />}
-                                    />
-                                    <Route element={<AddClientRoute />}>
-                                      <Route
-                                        path="/add-client"
-                                        element={<ClientFormPage />}
-                                      />
-                                    </Route>
-                                    <Route
-                                      path="/clients/:id"
-                                      element={<ClientFormPage />}
-                                    />
-                                  </Route>
-                                  <Route element={<ProveedorRoute />}>
-                                    <Route
-                                      path="/proveedors"
-                                      element={<ProveedorPage />}
-                                    />
-                                      <Route
-                                        path="/add-proveedor"
-                                        element={<ProveedorFormPage />}
-                                      />
-                                    <Route
-                                      path="/proveedors/:id"
-                                      element={<ProveedorFormPage />}
-                                    />
-                                  </Route>
-                                  <Route element={<InventarioRoute />}>
-                                    <Route
-                                      path="/inventario"
-                                      element={<Inventory />}
-                                    />
-                                    <Route element={<AddInventarioRoute />}>
-                                      <Route
-                                        path="/add-product"
-                                        element={<ProductFormPage />}
-                                      />
-                                    </Route>
-                                    <Route
-                                      path="/products/:id"
-                                      element={<ProductFormPage />}
-                                    />
-                                    <Route element={<TakeoutStockRoute />}>
-                                      <Route
-                                        path="/restar-products/:id"
-                                        element={<QuitarProductForm />}
-                                      />
-                                    </Route>
-                                    <Route element={<AddStockRoute />}>
-                                      <Route
-                                        path="/sumar-products/:id"
-                                        element={<AgregarProductForm />}
-                                      />
-                                    </Route>
-                                  </Route>
-                                  <Route element={<HistorialRoute />}>
-                                    <Route
-                                      path="/historial"
-                                      element={<HistorialPage />}
-                                    />
-                                  </Route>
-                                  <Route element={<RequestRoute />}>
-                                    <Route
-                                      path="/requests"
-                                      element={<RequestPagePendiente />}
-                                    />
-                                    <Route
-                                      path="/add-request"
-                                      element={<SolicitudFormPage />}
-                                    />
-                                    <Route
-                                      path="/requestsaprobadas"
-                                      element={<RequestPageAprobado />}
-                                    />
-                                    <Route element={<AddSolicitudRoute />}>
-                                      <Route
-                                        path="/solicitudes/:id"
-                                        element={<VerSolicitudPage />}
-                                      />
-                                    </Route>
-                                    <Route element={<FinancialRoute />}>
-                                      <Route element={<AccountsRoute />}>
+                                    <Route element={<ProtectedRoute />}>
+                                      <Route element={<ReportRoute />}>
                                         <Route
-                                          path="/estado-cuenta"
-                                          element={<EstadoCuentaPage />}
-                                        />
-                                        <Route
-                                          path="/estado-cuenta/:id"
-                                          element={<EstadoFacturaPage />}
-                                        />
-                                        <Route
-                                          path="/estado-cuenta/historial/:id"
-                                          element={<EstadoHistorialPage />}
-                                        />
-                                        <Route
-                                          path="/estado-cuenta/historial/:userid/:id"
-                                          element={<AbonoFormPage />}
+                                          path="/reporte"
+                                          element={<ReportPage />}
                                         />
                                       </Route>
-                                      <Route element={<PayoutsRoute />}>
+                                      <Route
+                                        element={<ManejoInformacionRoute />}
+                                      >
                                         <Route
-                                          path="/gastos"
-                                          element={<GastosPage />}
+                                          path="/register"
+                                          element={<RegisterPage />}
                                         />
                                         <Route
-                                          path="/add-gasto"
-                                          element={<GastoFormPage />}
+                                          path="/users"
+                                          element={<Users />}
                                         />
                                         <Route
-                                          path="/gastos/:id"
-                                          element={<GastoFormPage />}
-                                        />
-                                      </Route>
-                                      <Route element={<RegisterSellRoute />}>
-                                        <Route
-                                          path="/registro-venta"
-                                          element={<RegistroVentaPage />}
+                                          path="/users/:id"
+                                          element={<RegisterPage />}
                                         />
                                         <Route
-                                          path="/registro-venta-pagada"
-                                          element={<RegistroVentaPagadaPage />}
+                                          path="/add-rol"
+                                          element={<RolFormPage />}
                                         />
                                         <Route
-                                          path="/add-venta"
-                                          element={<RegistroVentaFormPage />}
+                                          path="/rols/:id"
+                                          element={<RolFormPage />}
                                         />
                                         <Route
-                                          path="/ventas/:id"
-                                          element={<RegistroVentaFormPage />}
+                                          path="/roles"
+                                          element={<Roles />}
                                         />
                                       </Route>
+                                      <Route element={<ClientRoute />}>
+                                        <Route
+                                          path="/clientes"
+                                          element={<ClientPage />}
+                                        />
+                                        <Route element={<AddClientRoute />}>
+                                          <Route
+                                            path="/add-client"
+                                            element={<ClientFormPage />}
+                                          />
+                                        </Route>
+                                        <Route
+                                          path="/clients/:id"
+                                          element={<ClientFormPage />}
+                                        />
+                                      </Route>
+                                      <Route element={<ProveedorRoute />}>
+                                        <Route
+                                          path="/proveedors"
+                                          element={<ProveedorPage />}
+                                        />
+                                        <Route
+                                          path="/add-proveedor"
+                                          element={<ProveedorFormPage />}
+                                        />
+                                        <Route
+                                          path="/proveedors/:id"
+                                          element={<ProveedorFormPage />}
+                                        />
+                                      </Route>
+                                      <Route element={<InventarioRoute />}>
+                                        <Route
+                                          path="/inventario"
+                                          element={<Inventory />}
+                                        />
+                                        <Route element={<AddInventarioRoute />}>
+                                          <Route
+                                            path="/add-product"
+                                            element={<ProductFormPage />}
+                                          />
+                                        </Route>
+                                        <Route
+                                          path="/products/:id"
+                                          element={<ProductFormPage />}
+                                        />
+                                        <Route element={<TakeoutStockRoute />}>
+                                          <Route
+                                            path="/restar-products/:id"
+                                            element={<QuitarProductForm />}
+                                          />
+                                        </Route>
+                                        <Route element={<AddStockRoute />}>
+                                          <Route
+                                            path="/sumar-products/:id"
+                                            element={<AgregarProductForm />}
+                                          />
+                                        </Route>
+                                      </Route>
+                                      <Route element={<HistorialRoute />}>
+                                        <Route
+                                          path="/historial"
+                                          element={<HistorialPage />}
+                                        />
+                                      </Route>
+                                      <Route element={<RequestRoute />}>
+                                        <Route
+                                          path="/requests"
+                                          element={<RequestPagePendiente />}
+                                        />
+                                        <Route
+                                          path="/solicitud-compra"
+                                          element={<SolicitudCompraPage />}
+                                        />
+                                        <Route
+                                          path="/add-request"
+                                          element={<SolicitudFormPage />}
+                                        />
+                                        <Route
+                                          path="/add-solicitud-compra"
+                                          element={<SolicitudCompraFormPage />}
+                                        />
+
+                                        <Route
+                                          path="/requestsaprobadas"
+                                          element={<RequestPageAprobado />}
+                                        />
+                                        <Route element={<AddSolicitudRoute />}>
+                                          <Route
+                                            path="/solicitudes/:id"
+                                            element={<VerSolicitudPage />}
+                                          />
+                                          <Route
+                                            path="/solicitudes_compra/:id"
+                                            element={<VerSolicitudCompraPage />}
+                                          />
+                                        </Route>
+                                        <Route element={<FinancialRoute />}>
+                                          <Route element={<AccountsRoute />}>
+                                            <Route
+                                              path="/estado-cuenta"
+                                              element={<EstadoCuentaPage />}
+                                            />
+                                            <Route
+                                              path="/estado-cuenta/:id"
+                                              element={<EstadoFacturaPage />}
+                                            />
+                                            <Route
+                                              path="/estado-cuenta/historial/:id"
+                                              element={<EstadoHistorialPage />}
+                                            />
+                                            <Route
+                                              path="/estado-cuenta/historial/:userid/:id"
+                                              element={<AbonoFormPage />}
+                                            />
+                                          </Route>
+                                          <Route element={<PayoutsRoute />}>
+                                            <Route
+                                              path="/gastos"
+                                              element={<GastosPage />}
+                                            />
+                                            <Route
+                                              path="/add-gasto"
+                                              element={<GastoFormPage />}
+                                            />
+                                            <Route
+                                              path="/gastos/:id"
+                                              element={<GastoFormPage />}
+                                            />
+                                          </Route>
+                                          <Route
+                                            element={<RegisterSellRoute />}
+                                          >
+                                            <Route
+                                              path="/registro-venta"
+                                              element={<RegistroVentaPage />}
+                                            />
+                                            <Route
+                                              path="/registro-venta-pagada"
+                                              element={
+                                                <RegistroVentaPagadaPage />
+                                              }
+                                            />
+                                            <Route
+                                              path="/add-venta"
+                                              element={
+                                                <RegistroVentaFormPage />
+                                              }
+                                            />
+                                            <Route
+                                              path="/ventas/:id"
+                                              element={
+                                                <RegistroVentaFormPage />
+                                              }
+                                            />
+                                          </Route>
+                                        </Route>
+                                      </Route>
+                                      <Route
+                                        path="/home"
+                                        element={<HomePage />}
+                                      />
                                     </Route>
-                                  </Route>
-                                  <Route path="/home" element={<HomePage />} />
-                                </Route>
-                              </Routes>
-                            </main>
-                          </BrowserRouter>
-                        </GastoProvider>
-                      </VentaProvider>
-                    </PedidoProvider>
+                                  </Routes>
+                                </main>
+                              </BrowserRouter>
+                            </GastoProvider>
+                          </VentaProvider>
+                        </PedidoCompraProvider>
+                      </PedidoProvider>
+                    </SolicitudCompraProvider>
                   </SolicitudProvider>
                 </RolProvider>
               </HistorialProvider>

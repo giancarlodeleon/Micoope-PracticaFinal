@@ -112,7 +112,7 @@ function RequestPageAprobado() {
             to="/requests"
             className="bg-white font-bold text-green-900 border-2 border-green-900  hover:bg-green-500 hover:text-green-50 w-full rounded-bl-lg rounded-tl-lg px-6 py-2 text-center block"
           >
-            Solicitudes Pendientes
+            Solicitudes de Ventas Pendientes
           </Link>
         </div>
         <div className="flex-1" style={{ marginRight: "50px" }}>
@@ -120,7 +120,7 @@ function RequestPageAprobado() {
             to=""
             className="bg-green-900 font-bold text-green-50  hover:text-green-50 border-2 border-green-300 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
           >
-            Solicitudes Aprobadas
+            Solicitudes de Ventas Aprobadas
           </Link>
         </div>
       </div>
@@ -130,7 +130,7 @@ function RequestPageAprobado() {
             className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
             style={{ fontSize: "30px" }}
           >
-            Solicitudes Aprobadas
+            Solicitudes de Ventas Aprobadas
           </h1>
           {/* Campo de búsqueda y filtro de fecha */}
           <div className="flex p-4 space-x-4">

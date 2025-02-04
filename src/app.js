@@ -13,6 +13,8 @@ import pedidoRoutes from './routes/pedido.routes.js'
 import gastoRoutes from './routes/gasto.routes.js'
 import ventaRoutes from './routes/venta.routes.js'
 import proveedorRoutes from './routes/proveedor.routes.js'
+import solicitud_compraRoutes from './routes/solicitud_compra.routes.js'
+import pedido_compraRoutes from './routes/pedido_compra.routes.js'
 
 
 const app = express();
@@ -36,6 +38,8 @@ app.use('/api',pedidoRoutes);
 app.use('/api',gastoRoutes);
 app.use('/api',ventaRoutes);
 app.use('/api',proveedorRoutes);
+app.use('/api',pedido_compraRoutes);
+app.use('/api',solicitud_compraRoutes);
 
 
 export default app;

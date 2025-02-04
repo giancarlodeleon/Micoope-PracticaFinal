@@ -160,19 +160,18 @@ function AbonoFormPage() {
           {metodoPagoSeleccionado === "Cheque" && (
             <div>
               <label className="text-white">Nombre del Banco</label>
-              <input
-                type="text"
-                placeholder="Ingrese el nombre del banco"
-                {...register("banco", {
-                  required: "El nombre del banco es obligatorio.",
-                  maxLength: {
-                    value: 20,
-                    message:
-                      "El nombre del banco no puede exceder 20 caracteres.",
-                  },
-                })}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
-              />
+              <select
+              {...register("banco", {
+                required: "Seleccione un Banco.",
+              })}
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="Banrural">Banrural</option>
+              <option value="G&T">G&T</option>
+              <option value="Industrial">Industrial</option>
+              <option value="BAM">BAM</option>
+            </select>
               {errors.banco && (
                 <p className="text-red-500">{errors.banco.message}</p>
               )}
