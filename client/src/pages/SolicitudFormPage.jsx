@@ -87,8 +87,7 @@ function SolicitudFormPage() {
           p.nombre === nombreValue &&
           p.producto === item.product &&
           p.cantidad === Number(item.quantity) &&
-          p.total === Number(item.total) &&
-          p.precio === Number(item.precio)
+          p.total === Number(item.total)
       );
 
       if (itemToRemove) {
@@ -211,7 +210,7 @@ function SolicitudFormPage() {
         tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Modificar",
-        descripcion: `Se Modificó una solicitud con nombre ${data.nombre} y factura ${factura}`,
+        descripcion: `Se Modificó una solicitud de venta con nombre ${data.nombre} y factura ${factura}`,
         cantidad: 0,
         date,
         user,
@@ -237,7 +236,7 @@ function SolicitudFormPage() {
           tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Agregar",
-          descripcion: `Se Creó una solicitud con nombre ${data.nombre}`,
+          descripcion: `Se Creó una solicitud de venta con nombre ${data.nombre}`,
           cantidad: 0,
           date,
           user,
@@ -253,7 +252,9 @@ function SolicitudFormPage() {
   return (
     <div className="items-center justify-center py-20">
       <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
-        <h1 className="text-2xl text-white font-bold mb-4">Solicitud</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">
+          Solicitud de Venta
+        </h1>
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -276,6 +277,9 @@ function SolicitudFormPage() {
           <div>
             <label className="text-white">Cliente</label>
             <select
+              {...register("cliente", {
+                required: "Debe seleccionar un cliente",
+              })}
               onChange={handleClientChange}
               className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
             >
@@ -287,7 +291,7 @@ function SolicitudFormPage() {
               ))}
             </select>
             {errors.cliente && (
-              <p className="text-red-500">Cliente Requerido</p>
+              <p className="text-red-500">{errors.cliente.message}</p>
             )}
             {errorCliente && (
               <p className="text-red-500">

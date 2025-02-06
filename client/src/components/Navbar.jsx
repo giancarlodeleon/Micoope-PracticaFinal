@@ -487,6 +487,7 @@ function Navbar() {
                             location.pathname.startsWith("/solicitudes") ||
                             location.pathname.startsWith("/solicitud") ||
                             location.pathname.startsWith("/requests") ||
+                            location.pathname.startsWith("/add-solicitud") ||
                             location.pathname === "/add-request"
                               ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
                               : ""

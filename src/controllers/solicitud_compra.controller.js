@@ -11,8 +11,8 @@ export const getSolicitudsCompra = async (req, res) => {
 
 export const createSolicitudsCompra = async (req, res) => {
   try {
-    const {nit,codigo,tipo,nombre,descripcion,date} = req.body;
-  const newSolicitudCompra = new Solicitud({
+    const {nit,codigo,tipo,nombre,descripcion,proveedor,date} = req.body;
+  const newSolicitudCompra = new SolicitudCompra({
     codigo,
     tipo,
     nombre,

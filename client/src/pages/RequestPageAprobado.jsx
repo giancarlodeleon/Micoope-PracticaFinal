@@ -54,7 +54,7 @@ function RequestPageAprobado() {
         tipo_pago: "n/a",
         cliente: "n/a",
         tipo: "Eliminar",
-        descripcion: `Se elimino la solicitud ${Nombre}`,
+        descripcion: `Se elimino la solicitud de venta ${Nombre}`,
         cantidad: 0,
         date,
         user,

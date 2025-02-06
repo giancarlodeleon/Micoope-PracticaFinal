@@ -12,7 +12,7 @@ export const getPedidosCompra = async (req, res) => {
 export const createPedidosCompra = async (req, res) => {
   try {
     const { solicitud,producto,cantidad, presentacion,date} = req.body;
-  const newPedidoCompra = new Pedido({
+  const newPedidoCompra = new PedidoCompra({
     solicitud,
     producto,
     cantidad,

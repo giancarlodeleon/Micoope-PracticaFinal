@@ -190,7 +190,7 @@ const VerSolicitudPage = () => {
           tipo_pago: "n/a",
           cliente: "n/a",
           tipo: "Eliminar",
-          descripcion: `Se eliminó la solicitud ${nombreSolicitud}`,
+          descripcion: `Se eliminó la solicitud de venta ${nombreSolicitud}`,
           cantidad: 0,
           date,
           user,
