@@ -337,7 +337,7 @@ const VerSolicitudPage = () => {
           Regresar
         </Link>
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2"
           style={{ fontSize: "30px" }}
         >
           {nombreSolicitud}
@@ -360,7 +360,7 @@ const VerSolicitudPage = () => {
       <div className="my-4 overflow-x-auto w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
         <table className="w-full border-collapse rounded-lg">
           <thead>
-            <tr className="bg-green-900 text-white">
+            <tr className="bg-blue-900 text-white">
               <th className="py-2 text-center">Nombre</th>
               <th className="py-2 text-center">Producto</th>
               <th className="py-2 text-center">Cantidad</th>
@@ -378,25 +378,25 @@ const VerSolicitudPage = () => {
 
                 return (
                   <tr key={place._id}>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.nombre}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.producto}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.cantidad}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       Q.{place.precio}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       Q.{place.total}
                     </td>
                   </tr>
                 );
               })}
-            <tr className="bg-green-200">
+            <tr className="bg-blue-200">
               <td colSpan="4" className="text-right font-bold py-2">
                 Total General:
               </td>

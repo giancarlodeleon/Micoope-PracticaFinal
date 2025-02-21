@@ -89,7 +89,7 @@ function AbonoFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Abono a Factura</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           {/* Número de Recibo de Caja */}
@@ -106,7 +106,7 @@ function AbonoFormPage() {
                     "El número de recibo no puede exceder 20 caracteres.",
                 },
               })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.reciboCaja && (
               <p className="text-red-500">{errors.reciboCaja.message}</p>
@@ -120,7 +120,7 @@ function AbonoFormPage() {
               {...register("metodoPago", {
                 required: "Seleccione un método de pago.",
               })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Seleccione una opción</option>
               <option value="Cheque">Cheque</option>
@@ -148,7 +148,7 @@ function AbonoFormPage() {
                       "El numero del documento no puede exceder 50 caracteres.",
                   },
                 })}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               />
               {errors.num_doc && (
                 <p className="text-red-500">{errors.num_doc.message}</p>
@@ -164,7 +164,7 @@ function AbonoFormPage() {
               {...register("banco", {
                 required: "Seleccione un Banco.",
               })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Seleccione una opción</option>
               <option value="Banrural">Banrural</option>
@@ -191,7 +191,7 @@ function AbonoFormPage() {
                   Number(value) <= Number(getValues("pendiente")) ||
                   "No puede abonar más de lo pendiente.",
               })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.amountToAdd && (
               <p className="text-red-500">{errors.amountToAdd.message}</p>
@@ -200,7 +200,7 @@ function AbonoFormPage() {
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Abonar
           </button>

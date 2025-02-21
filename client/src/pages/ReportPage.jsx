@@ -95,7 +95,11 @@ const ReportPage = () => {
     return clientMatch && userMatch && dateMatch;
   });
 
-  const filteredPedidos = pedido.filter((ped) => {
+  const pedidosFiltrados = pedido.filter((ped) =>
+    solicituds.some((sol) => sol.nombre === ped.nombre && sol.estado === true)
+  );
+
+  const filteredPedidos = pedidosFiltrados.filter((ped) => {
     const productMatch = selectedProduct
       ? ped.producto === selectedProduct
       : true;
@@ -282,11 +286,52 @@ const ReportPage = () => {
     },
   };
 
+  const getTopClientsByTotalThisMonth = () => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+  
+    // Filtrar solicitudes de este mes
+    const solicitudesThisMonth = solicituds.filter((solicitud) => {
+      const solicitudDate = new Date(solicitud.date);
+      return (
+        solicitudDate.getMonth() === currentMonth &&
+        solicitudDate.getFullYear() === currentYear
+      );
+    });
+  
+    // Inicializar objeto para acumular los totales de los pedidos por cliente
+    const clientTotals = solicitudesThisMonth.reduce((acc, solicitud) => {
+      const clientName = solicitud.cliente;  // Nombre del cliente
+  
+      // Asegurarse de que el cliente esté en el acumulador
+      if (!acc[clientName]) {
+        acc[clientName] = { total: 0, name: clientName };
+      }
+  
+      // Buscar los pedidos relacionados con la solicitud
+      const pedidosAsociados = filteredPedidos.filter((ped) => ped.nombre === solicitud.nombre);
+  
+      // Sumar el total de los pedidos asociados al cliente
+      pedidosAsociados.forEach((ped) => {
+        acc[clientName].total += ped.total; // Sumar el total de cada pedido
+      });
+  
+      return acc;
+    }, {});
+  
+    // Convertir los valores a un array, ordenar y obtener los top 10 clientes con mayor total
+    return Object.values(clientTotals).sort((a, b) => b.total - a.total).slice(0, 10);
+  };
+  
+  // Obtener los 10 clientes con el total más alto de los pedidos (sin sumar el total de la solicitud)
+  const topClients = getTopClientsByTotalThisMonth();
+  
+
   return (
     <div className="flex justify-center p-4">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
           Reporte
@@ -294,44 +339,81 @@ const ReportPage = () => {
 
         {/* Mostrar conteos de manera más bonita */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">Total de Clientes</h2>
             <p className="text-2xl">{client.length}</p>
           </div>
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">Total de Productos</h2>
             <p className="text-2xl">{products.length}</p>
           </div>
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">Total de Solicitudes de Venta</h2>
             <p className="text-2xl">{solicituds.length}</p>
           </div>
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">Total de Proveedores</h2>
             <p className="text-2xl">{proveedors.length}</p>
           </div>
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">Total de Usuarios</h2>
             <p className="text-2xl">{users.length}</p>
           </div>
-          <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+          <div className="bg-blue-100 rounded-lg shadow p-4 text-center">
             <h2 className="font-bold text-xl">
               Total de Solicitudes de Compra
             </h2>
             <p className="text-2xl">{solicituds_compra.length}</p>
           </div>
         </div>
-        <div className="bg-green-100 rounded-lg shadow p-4 text-center">
+        <div className="bg-blue-100 rounded-lg shadow p-4 my-2 text-center">
           <h2 className="font-bold text-xl">
             Producto con Más Pedidos Este Mes
           </h2>
           <p className="text-2xl">{topProduct || "No hay pedidos este mes"}</p>
         </div>
 
+
+        {/* Tabla de los 10 clientes con mayor total en solicitudes */}
+<div className="border border-blue-700 rounded-lg mb-4 py-3">
+  <h1 className="text-center rounded-lg bg-blue-900 font-bold text-white py-1 relative" style={{ fontSize: "20px" }}>
+    Top 10 Clientes con Mayor Total en Pedidos de este Mes
+  </h1>
+  <div className="overflow-x-auto p-4">
+    <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+      <thead>
+        <tr className="bg-blue-300 text-gray-800">
+          <th className="py-2 px-4 border">#</th>
+          <th className="py-2 px-4 border">Cliente</th>
+          <th className="py-2 px-4 border">Total Acumulado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {topClients.length > 0 ? (
+          topClients.map((client, index) => (
+            <tr key={index} className="text-center border-t">
+              <td className="py-2 px-4 border">{index + 1}</td>
+              <td className="py-2 px-4 border">{client.name}</td>
+              <td className="py-2 px-4 border">Q{client.total.toFixed(2)}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="3" className="py-2 px-4 border text-center text-gray-500">
+              No hay datos disponibles
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
         {/* Sección de Solicitudes de Venta */}
-        <div className="border border-green-700 rounded-lg mb-4 py-3">
+        <div className="border border-blue-700 rounded-lg mb-4 py-3">
           <h1
-            className="text-center rounded-lg bg-green-900 font-bold text-white py-1 relative"
+            className="text-center rounded-lg bg-blue-900 font-bold text-white py-1 relative"
             style={{ fontSize: "20px" }}
           >
             Solicitudes de Venta
@@ -396,30 +478,34 @@ const ReportPage = () => {
           <div className="my-2 overflow-x-auto rounded-lg">
             <table className="w-full border-collapse rounded-lg">
               <thead>
-                <tr className="bg-green-700 text-white">
+                <tr className="bg-blue-700 text-white">
                   <th className="py-2 text-center">Nombre</th>
                   <th className="py-2 text-center">Descripción</th>
                   <th className="py-2 text-center">Cliente</th>
                   <th className="py-2 text-center">Usuario</th>
+                  <th className="py-2 text-center">Estado</th>
                   <th className="py-2 text-center">Fecha</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredSolicituds.map((place) => (
                   <tr key={place._id}>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.nombre}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.descripcion}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.cliente}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {getUsernameById(place.user)}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
+                      {place.estado ? "Aprobado" : "Desaprobado"}
+                    </td>
+                    <td className="text-center border border-blue-100">
                       {new Date(place.date).toLocaleDateString()}
                     </td>
                   </tr>
@@ -430,9 +516,9 @@ const ReportPage = () => {
         </div>
 
         {/* Sección de Pedidos */}
-        <div className="border border-green-700 rounded-lg mb-4">
+        <div className="border border-blue-700 rounded-lg mb-4">
           <h1
-            className="text-center rounded-lg bg-green-900 font-bold text-white py-1 relative"
+            className="text-center rounded-lg bg-blue-900 font-bold text-white py-1 relative"
             style={{ fontSize: "20px" }}
           >
             Pedidos
@@ -459,7 +545,7 @@ const ReportPage = () => {
               className="p-2 border rounded"
             >
               <option value="">Todas las Solicitudes</option>
-              {solicituds.map((solicitud) => (
+              {pedidosFiltrados.map((solicitud) => (
                 <option key={solicitud._id} value={solicitud.nombre}>
                   {solicitud.nombre}
                 </option>
@@ -497,7 +583,7 @@ const ReportPage = () => {
           <div className="my-2 overflow-x-auto rounded-lg">
             <table className="w-full border-collapse rounded-lg mt-4">
               <thead>
-                <tr className="bg-green-700 text-white">
+                <tr className="bg-blue-700 text-white">
                   <th className="py-2 text-center">Nombre</th>
                   <th className="py-2 text-center">Producto</th>
                   <th className="py-2 text-center">Cantidad</th>
@@ -513,47 +599,47 @@ const ReportPage = () => {
                   const totalCost = costPrice * place.cantidad;
                   return (
                     <tr key={place._id}>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         {place.nombre}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         {place.producto}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         {place.cantidad}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         Q.{totalCost.toFixed(2)}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         Q.{place.total}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         Q.{(place.total - totalCost).toFixed(2)}
                       </td>
-                      <td className="text-center border border-green-100">
+                      <td className="text-center border border-blue-100">
                         {new Date(place.date).toLocaleDateString()}
                       </td>
                     </tr>
                   );
                 })}
-                <tr className="bg-green-200 font-bold">
+                <tr className="bg-blue-200 font-bold">
                   <td
-                    className="text-center border border-green-100"
+                    className="text-center border border-blue-100"
                     colSpan="3"
                   >
                     Total
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     Q.{totalCost.toFixed(2)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     Q.{totalSales.toFixed(2)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     Q.{totalProfit.toFixed(2)}
                   </td>
-                  <td className="border border-green-100"></td>
+                  <td className="border border-blue-100"></td>
                 </tr>
               </tbody>
             </table>
@@ -561,9 +647,9 @@ const ReportPage = () => {
         </div>
 
         {/* Sección de Gastos */}
-        <div className="border border-green-700 rounded-lg mb-4">
+        <div className="border border-blue-700 rounded-lg mb-4">
           <h1
-            className="text-center rounded-lg bg-green-900 font-bold text-white py-1 relative"
+            className="text-center rounded-lg bg-blue-900 font-bold text-white py-1 relative"
             style={{ fontSize: "20px" }}
           >
             Gastos
@@ -601,7 +687,7 @@ const ReportPage = () => {
           <div className="my-2 overflow-x-auto rounded-lg">
             <table className="w-full border-collapse rounded-lg">
               <thead>
-                <tr className="bg-green-700 text-white">
+                <tr className="bg-blue-700 text-white">
                   <th className="py-2 text-center">Concepto</th>
                   <th className="py-2 text-center">Precio</th>
                   <th className="py-2 text-center">Fecha</th>
@@ -610,13 +696,13 @@ const ReportPage = () => {
               <tbody>
                 {filteredGastos.map((place) => (
                   <tr key={place._id}>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.tipo}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       Q.{place.precio}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {new Date(place.date).toLocaleDateString()}
                     </td>
                   </tr>
@@ -627,9 +713,9 @@ const ReportPage = () => {
         </div>
 
         {/* Balance General */}
-        <div className="border border-green-700 rounded-lg mb-4">
+        <div className="border border-blue-700 rounded-lg mb-4">
           <h1
-            className="text-center rounded-lg bg-green-900 font-bold text-white py-1 relative"
+            className="text-center rounded-lg bg-blue-900 font-bold text-white py-1 relative"
             style={{ fontSize: "20px" }}
           >
             Balance General

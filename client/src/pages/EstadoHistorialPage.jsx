@@ -241,14 +241,14 @@ function EstadoHistorialPage() {
           Regresar
         </Link>
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2"
           style={{ fontSize: "30px" }}
         >
           Historial de {clientName || "Cliente no encontrado"}
         </h1>
 
         {/* Tabla de ventas */}
-        <div className="bg-green-900 text-white text-center py-2 my-2 font-bold">
+        <div className="bg-blue-900 text-white text-center py-2 my-2 font-bold">
           Facturas pagadas
         </div>
 
@@ -263,7 +263,7 @@ function EstadoHistorialPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
                 />
               </div>
 
@@ -275,7 +275,7 @@ function EstadoHistorialPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
                 />
               </div>
 
@@ -286,7 +286,7 @@ function EstadoHistorialPage() {
                 <select
                   value={tipoSolicitud}
                   onChange={(e) => setTipoSolicitud(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
                 >
                   <option value="">Todos</option>
                   <option value="Contado">Contado</option>
@@ -297,7 +297,7 @@ function EstadoHistorialPage() {
           </div>
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">No. Docu</th>
                 <th className="py-2 text-center">No. Fact</th>
                 <th className="py-2 text-center">FEL Serie</th>
@@ -314,37 +314,37 @@ function EstadoHistorialPage() {
             <tbody>
               {currentVentas.map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero_factura}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_serie}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.solicitud}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.monto}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.pendiente}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleDateString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.fecha_pago}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getTipoByCodigo(place.numero)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getFechaVencimiento(
                       place.numero,
                       new Date(place.date).toLocaleDateString()
@@ -360,7 +360,7 @@ function EstadoHistorialPage() {
         <div className="flex justify-center mt-4">
           {currentVentasPage > 1 && (
             <button
-              className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
               onClick={() => setCurrentVentasPage(currentVentasPage - 1)}
             >
               Anterior
@@ -368,7 +368,7 @@ function EstadoHistorialPage() {
           )}
           {currentVentasPage < totalVentasPages && (
             <button
-              className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
               onClick={() => setCurrentVentasPage(currentVentasPage + 1)}
             >
               Siguiente
@@ -396,7 +396,7 @@ function EstadoHistorialPage() {
               placeholder="Buscar por descripción..."
               value={searchTerm2}
               onChange={(e) => setSearchTerm2(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
           <div className="flex-1">
@@ -407,19 +407,19 @@ function EstadoHistorialPage() {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
         </div>
 
         {/* Tabla de Historiales */}
-        <div className="bg-green-900 text-white text-center py-2 font-bold">
+        <div className="bg-blue-900 text-white text-center py-2 font-bold">
           Historial de Abonos
         </div>
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">Tipo</th>
                 <th className="py-2 text-center">Descripción</th>
                 <th className="py-2 text-center">Tipo de Pago</th>
@@ -435,34 +435,34 @@ function EstadoHistorialPage() {
             <tbody>
               {currentHistorials.map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.tipo}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.descripcion}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.tipo_pago}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.num_doc}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.banco}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.recibo}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.cantidad}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleDateString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleTimeString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getUsernameById(place.user)}
                   </td>
                 </tr>
@@ -475,7 +475,7 @@ function EstadoHistorialPage() {
         <div className="flex justify-center mt-4">
           {currentHistorialPage > 1 && (
             <button
-              className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
               onClick={() => setCurrentHistorialPage(currentHistorialPage - 1)}
             >
               Anterior
@@ -483,7 +483,7 @@ function EstadoHistorialPage() {
           )}
           {currentHistorialPage < totalHistorialPages && (
             <button
-              className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+              className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
               onClick={() => setCurrentHistorialPage(currentHistorialPage + 1)}
             >
               Siguiente

@@ -58,8 +58,6 @@ function GastosPage() {
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
     const matchesSearchTerm = gasto.tipo
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
 
     if (start && end) {
       // Incluir un día extra al rango
@@ -198,13 +196,13 @@ function GastosPage() {
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
           Registro de Gastos
           <Link
             to="/add-gasto"
-            className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
+            className="bg-blue-400 text-white hover:bg-blue-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
             style={{ width: "36px", height: "36px" }}
           >
             +
@@ -221,7 +219,7 @@ function GastosPage() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
 
@@ -233,7 +231,7 @@ function GastosPage() {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
 
@@ -246,7 +244,7 @@ function GastosPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Buscar por tipo..."
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
         </div>
@@ -255,7 +253,7 @@ function GastosPage() {
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">Tipo</th>
                 <th className="py-2 text-center">Monto</th>
                 <th className="py-2 text-center">Fecha</th>
@@ -268,26 +266,26 @@ function GastosPage() {
             <tbody>
               {currentGastos.map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.tipo}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     Q.{place.precio}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleDateString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleTimeString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getUsernameById(place.user)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.nombre}
                   </td>
 
-                  <td className="flex justify-center items-center border border-green-100">
+                  <td className="flex justify-center items-center border border-blue-100">
                     <Link
                       to={`/gastos/${place._id}`}
                       className="bg-green-500 font-bold hover:bg-green-400 text-white py-1 px-2 rounded-lg mr-2"
@@ -308,7 +306,7 @@ function GastosPage() {
           <div className="flex justify-center mt-4">
             {currentPage !== 1 && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 Anterior
@@ -316,7 +314,7 @@ function GastosPage() {
             )}
             {indexOfLastGasto < filteredGastos.length && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 Siguiente

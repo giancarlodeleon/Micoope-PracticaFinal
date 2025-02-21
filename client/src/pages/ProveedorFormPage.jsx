@@ -92,7 +92,7 @@ function ProveedorFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Proveedor</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -101,7 +101,7 @@ function ProveedorFormPage() {
               type="number"
               placeholder="Nit"
               {...register("nit", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.nit && <p className="text-red-500">Nit Requerido</p>}
           </div>
@@ -112,7 +112,7 @@ function ProveedorFormPage() {
               type="text"
               placeholder="Nombre"
               {...register("nombre", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
           </div>
@@ -123,7 +123,7 @@ function ProveedorFormPage() {
               type="text"
               placeholder="Correo"
               {...register("email", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.email && <p className="text-red-500">Correo Requerido</p>}
           </div>
@@ -134,7 +134,7 @@ function ProveedorFormPage() {
               type="text"
               placeholder="Dirección"
               {...register("direccion", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.direccion && (
               <p className="text-red-500">Dirección Requerida</p>
@@ -147,7 +147,7 @@ function ProveedorFormPage() {
               type="text"
               placeholder="Empresa"
               {...register("empresa", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.empresa && (
               <p className="text-red-500">Empresa Requerida</p>
@@ -160,14 +160,14 @@ function ProveedorFormPage() {
               type="number"
               placeholder="Teléfono"
               {...register("telefono", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.telefono && <p className="text-red-500">Teléfono Requerido</p>}
           </div>
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

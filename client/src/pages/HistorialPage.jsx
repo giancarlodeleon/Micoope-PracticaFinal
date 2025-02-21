@@ -65,7 +65,7 @@ function HistorialPage() {
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
           Historial
@@ -99,7 +99,7 @@ function HistorialPage() {
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">Tipo</th>
                 <th className="py-2 text-center">Descripción</th>
                 <th className="py-2 text-center">Cantidad</th>
@@ -145,7 +145,7 @@ function HistorialPage() {
           <div className="flex justify-center mt-4">
             {currentPage !== 1 && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 Anterior
@@ -153,7 +153,7 @@ function HistorialPage() {
             )}
             {indexOfLastHistorial < filteredHistorials.length && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 Siguiente

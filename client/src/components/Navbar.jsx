@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
 import Logo from "../assets/cinagro.jpg";
+import { useSolicituds } from "../context/SolicitudContext";
 
 function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -15,6 +16,7 @@ function Navbar() {
   const [dropdownOpenSolicitud, setDropdownOpenSolicitud] = useState(false);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const [Setpermiso, setPermisoToShow] = useState(null);
+  const { getSolicituds, solicituds } = useSolicituds();
 
   // Función para manejar el clic en el botón de desplegar
   const handleDropdownToggleManejo = () => {
@@ -39,6 +41,7 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
+    getSolicituds();
   }, []);
 
   useEffect(() => {
@@ -89,6 +92,8 @@ function Navbar() {
   const toggleSubMenu3 = () => {
     setSubMenuVisible3(!subMenuVisible3);
   };
+
+  const solicitudesPendientes = solicituds.filter((sol) => !sol.estado).length;
 
   return (
     <>
@@ -206,16 +211,21 @@ function Navbar() {
                         </a>
                       )
                     )}
-
                     {/* Elemento con submenú */}
                     {rol.map((place) =>
                       place.name !== user.rol ||
-                      !place.permission_Request  ? null : (
+                      !place.permission_Request ? null : (
                         <button
-                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
+                          key={place.id}
+                          className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left flex items-center"
                           onClick={toggleSubMenu3}
                         >
                           Solicitudes
+                          {solicitudesPendientes > 0 && (
+                            <span className="ml-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                              {solicitudesPendientes}
+                            </span>
+                          )}
                         </button>
                       )
                     )}
@@ -331,13 +341,13 @@ function Navbar() {
                         <option
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname.startsWith("/users") ||
                             location.pathname.startsWith("/rols") ||
                             location.pathname === "/register" ||
                             location.pathname === "/add-rol" ||
                             location.pathname === "/roles"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -355,7 +365,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleManejo}
                           to="/users"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -363,7 +373,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Usuarios
                               </option>
@@ -375,7 +385,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleManejo}
                           to="/roles"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -383,7 +393,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Roles
                               </option>
@@ -397,7 +407,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/clientes"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -405,11 +415,11 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/clientes" ||
                             location.pathname.startsWith("/clients") ||
                             location.pathname === "/add-client"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -422,7 +432,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/proveedors"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -430,11 +440,11 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/proveedors" ||
                             location.pathname.startsWith("/proveedors") ||
                             location.pathname === "/add-proveedor"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -447,7 +457,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/inventario"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -455,13 +465,13 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/inventario" ||
                             location.pathname.startsWith("/products") ||
                             location.pathname.startsWith("/sumar") ||
                             location.pathname.startsWith("/restar") ||
                             location.pathname === "/add-product"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -475,29 +485,35 @@ function Navbar() {
                   <NavLink
                     style={{ fontSize: "15px" }}
                     onClick={handleDropdownToggleSolicitud}
+                    className="flex items-center"
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
                       !place.permission_Request ? null : (
-                        <option
-                          key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
-                          style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                        <span
+                          key={place.id}
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg flex items-center ${
                             location.pathname === "/requests" ||
                             location.pathname.startsWith("/solicitudes") ||
                             location.pathname.startsWith("/solicitud") ||
                             location.pathname.startsWith("/requests") ||
                             location.pathname.startsWith("/add-solicitud") ||
                             location.pathname === "/add-request"
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
                           Solicitudes
-                        </option>
+                          {solicitudesPendientes > 0 && (
+                            <span className="ml-1 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                              {solicitudesPendientes}
+                            </span>
+                          )}
+                        </span>
                       )
                     )}
                   </NavLink>
+
                   {dropdownOpenSolicitud && (
                     <ul className="absolute bg-white shadow-md rounded-lg mt-1  w-32 flex flex-col justify-center items-center">
                       {/* Opciones del menú desplegable */}
@@ -505,7 +521,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleSolicitud}
                           to="/requests"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -513,7 +529,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 De Venta
                               </option>
@@ -525,7 +541,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleSolicitud}
                           to="/solicitud-compra"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -533,7 +549,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 De Compra
                               </option>
@@ -548,7 +564,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/historial"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -556,10 +572,10 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/historial" ||
                             location.pathname.startsWith("/historial")
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -572,7 +588,7 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/reporte"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     {rol.map((place) =>
                       place.name !== user.rol ||
@@ -580,9 +596,9 @@ function Navbar() {
                         <option
                           key={place.id} // Asegúrate de incluir la clave única para cada elemento
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                             location.pathname === "/reporte"
-                              ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -603,13 +619,13 @@ function Navbar() {
                         <option
                           key={place.id} // Utiliza _id en lugar de id si así está definido en tu objeto place
                           style={{ fontSize: "15px" }}
-                          className={`font-bold hover:text-green-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
+                          className={`font-bold hover:text-blue-600 text-black gap-x-10 px-4 py-2 rounded-lg ${
                             location.pathname === "/gastos" ||
                             location.pathname.startsWith("/registro-venta") ||
                             location.pathname.startsWith("/add-venta") ||
                             location.pathname.startsWith("/add-gasto") ||
                             location.pathname.startsWith("/estado-cuenta")
-                              ? "bg-green-900 text-blue-50 hover:bg-green-800 hover:text-blue-50"
+                              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                               : ""
                           }`}
                         >
@@ -626,7 +642,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleAdmin}
                           to="/registro-venta"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -634,7 +650,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Registro de ventas
                               </option>
@@ -646,7 +662,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleAdmin}
                           to="/gastos"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -654,7 +670,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Gastos
                               </option>
@@ -666,7 +682,7 @@ function Navbar() {
                         <NavLink
                           onClick={handleDropdownToggleAdmin}
                           to="/estado-cuenta"
-                          activeStyle={{ background: "green", color: "white" }}
+                          activeStyle={{ background: "blue", color: "white" }}
                         >
                           {rol.map((place) =>
                             place.name !== user.rol ||
@@ -674,7 +690,7 @@ function Navbar() {
                               <option
                                 key={place.id} // Asegúrate de incluir la clave única para cada elemento
                                 style={{ fontSize: "15px" }}
-                                className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg`}
+                                className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg`}
                               >
                                 Estado de cuenta
                               </option>
@@ -690,11 +706,11 @@ function Navbar() {
                   <NavLink
                     to="/"
                     style={{ fontSize: "15px", marginLeft: "30px" }}
-                    className="font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg"
+                    className="font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg"
                     onClick={() => {
                       logout();
                     }}
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     <p className="justify-between">Salir</p>
                   </NavLink>
@@ -707,14 +723,14 @@ function Navbar() {
                 <li>
                   <NavLink
                     to="/"
-                    activeStyle={{ background: "green", color: "white" }}
+                    activeStyle={{ background: "blue", color: "white" }}
                   >
                     <option
                       style={{ fontSize: "18px" }}
-                      className={`font-bold hover:text-green-600 text-black px-4 py-2 rounded-lg ${
+                      className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                         location.pathname === "/" ||
                         location.pathname === "/cinagro"
-                          ? "bg-green-900 text-green-50 hover:bg-green-800 hover:text-green-50"
+                          ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                           : ""
                       }`}
                     >

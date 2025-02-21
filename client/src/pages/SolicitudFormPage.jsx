@@ -251,7 +251,7 @@ function SolicitudFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">
           Solicitud de Venta
         </h1>
@@ -263,7 +263,7 @@ function SolicitudFormPage() {
               type="text"
               placeholder="Nombre"
               {...register("nombre", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               disabled={!isNombreEditable}
             />
             {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
@@ -281,7 +281,7 @@ function SolicitudFormPage() {
                 required: "Debe seleccionar un cliente",
               })}
               onChange={handleClientChange}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
             >
               <option value="">Seleccione un cliente</option>
               {client.map((place, i) => (
@@ -306,7 +306,7 @@ function SolicitudFormPage() {
               type="text"
               placeholder="Descripción"
               {...register("descripcion", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.descripcion && (
               <p className="text-red-500">Descripción Requerida</p>
@@ -318,7 +318,7 @@ function SolicitudFormPage() {
               <select
                 {...register("tipo", { required: true })}
                 onChange={handleTipoChange}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               >
                 <option value="">Selecciona tipo</option>
                 <option value="Credito">Credito</option>
@@ -339,7 +339,7 @@ function SolicitudFormPage() {
                     validate: (value) =>
                       value > 0 || "Los días de crédito deben ser mayores a 0",
                   })}
-                  className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                  className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
                 />
                 {errors.dias_credito && (
                   <p className="text-red-500">{errors.dias_credito.message}</p>
@@ -353,7 +353,7 @@ function SolicitudFormPage() {
             <div className="w-2/3">
               <label className="text-white">Producto</label>
               <select
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
               >
@@ -371,7 +371,7 @@ function SolicitudFormPage() {
                 type="number"
                 value={selectedQuantity}
                 onChange={(e) => setSelectedQuantity(e.target.value)}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
                 placeholder="Cantidad"
               />
             </div>
@@ -381,7 +381,7 @@ function SolicitudFormPage() {
             <button
               type="button"
               onClick={handleAddProduct}
-              className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
+              className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
             >
               Agregar
             </button>
@@ -445,13 +445,13 @@ function SolicitudFormPage() {
               type="text"
               placeholder="Observacion"
               {...register("observacion", { required: false })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mt-4"
+            className="w-full text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mt-4"
           >
             Guardar Solicitud
           </button>

@@ -242,7 +242,7 @@ function SolicitudCompraFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">
           Solicitud de Compra
         </h1>
@@ -254,7 +254,7 @@ function SolicitudCompraFormPage() {
               type="text"
               placeholder="Nombre"
               {...register("nombre", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               disabled={!isNombreEditable}
             />
             {errors.nombre && <p className="text-red-500">Nombre Requerido</p>}
@@ -271,7 +271,7 @@ function SolicitudCompraFormPage() {
               {...register("tipo", {
                 required: "Seleccione un tipo.",
               })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Seleccione una opción</option>
               <option value="Solicitud de Compra">Solicitud de Compra</option>
@@ -291,7 +291,7 @@ function SolicitudCompraFormPage() {
                 required: "Debe seleccionar un proveedor",
               })}
               onChange={handleProveedorChange}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
             >
               <option value="">Seleccione un proveedor</option>
               {proveedors.map((place, i) => (
@@ -317,7 +317,7 @@ function SolicitudCompraFormPage() {
               type="text"
               placeholder="Descripción"
               {...register("descripcion", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.descripcion && (
               <p className="text-red-500">Descripción Requerida</p>
@@ -329,7 +329,7 @@ function SolicitudCompraFormPage() {
             <div className="w-2/3">
               <label className="text-white">Producto</label>
               <select
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
               >
@@ -347,7 +347,7 @@ function SolicitudCompraFormPage() {
                 type="number"
                 value={selectedQuantity}
                 onChange={(e) => setSelectedQuantity(e.target.value)}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
                 placeholder="Cantidad"
               />
             </div>
@@ -357,7 +357,7 @@ function SolicitudCompraFormPage() {
             <button
               type="button"
               onClick={handleAddProduct}
-              className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
+              className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
             >
               Agregar
             </button>
@@ -407,7 +407,7 @@ function SolicitudCompraFormPage() {
 
           <button
             type="submit"
-            className="w-full text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mt-4"
+            className="w-full text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mt-4"
           >
             Guardar Solicitud
           </button>

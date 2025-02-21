@@ -24,7 +24,7 @@ function LoginPage() {
 
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center ">
-      <div className="bg-green-900 max-w-md w-full p-10 rounded-md">
+      <div className="bg-blue-900 max-w-md w-full p-10 rounded-md">
       {signinErrors.map((error, i) => (
         <div className="bg-red-500 p-2 my-1 text-white rounded-md text-center" key={i}>
           {error}
@@ -35,7 +35,7 @@ function LoginPage() {
           <input
             type="email"
             {...register("email", { required: true })}
-            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Correo Electronico"
             
           />
@@ -44,7 +44,7 @@ function LoginPage() {
           <input
             type="password"
             {...register("password", { required: true })}
-            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
             placeholder="Contrasena"
              style={{ color: "white", '::placeholder': { color: 'white' } }}
           />
@@ -52,7 +52,7 @@ function LoginPage() {
             <p className="text-red-500">Password is required</p>
           )}
 
-          <button type="submit" className="text-white bg-green-600 px-3 py-1 hover:bg-green-500">
+          <button type="submit" className="text-white bg-blue-600 px-3 py-1 hover:bg-blue-500">
             Login
           </button>
         </form>

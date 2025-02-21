@@ -145,7 +145,7 @@ function ClientFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Cliente</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -154,7 +154,7 @@ function ClientFormPage() {
               type="number"
               placeholder="Nit"
               {...register("nit", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.nit && <p className="text-red-500">Nit Requerido</p>}
           </div>
@@ -165,7 +165,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Nombre"
               {...register("name", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.name && <p className="text-red-500">Nombre Requerido</p>}
           </div>
@@ -174,7 +174,7 @@ function ClientFormPage() {
             <label className="text-white">Tipo de Cliente</label>
             <select
               {...register("type", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Selecciona tipo</option>
               <option value="Empresa">Empresa</option>
@@ -191,7 +191,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Correo"
               {...register("email", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.email && <p className="text-red-500">Correo Requerido</p>}
           </div>
@@ -202,7 +202,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Razón Social"
               {...register("social", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.social && (
               <p className="text-red-500">Razón Social Requerido</p>
@@ -214,7 +214,7 @@ function ClientFormPage() {
             <select
               {...register("department", { required: true })}
               onChange={handleDepartmentChange}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Selecciona un departamento</option>
               {Object.keys(departamentosMunicipios).map((dep) => (
@@ -232,7 +232,7 @@ function ClientFormPage() {
             <label className="text-white">Municipio</label>
             <select
               {...register("municipio", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Selecciona un municipio</option>
               {municipios.map((municipio) => (
@@ -252,7 +252,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Dirección"
               {...register("direction", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.direction && (
               <p className="text-red-500">Dirección Requerida</p>
@@ -265,7 +265,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Referencia"
               {...register("reference", { required: false })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.reference && (
               <p className="text-red-500">Referencia Requerida</p>
@@ -278,7 +278,7 @@ function ClientFormPage() {
               type="number"
               placeholder="Teléfono"
               {...register("phone", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.phone && <p className="text-red-500">Teléfono Requerido</p>}
           </div>
@@ -289,7 +289,7 @@ function ClientFormPage() {
               type="text"
               placeholder="Plazo Crédito"
               {...register("plazo_credito", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.plazo_credito && (
               <p className="text-red-500">Plazo Crédito Requerido</p>
@@ -300,7 +300,7 @@ function ClientFormPage() {
             <label className="text-white">Nivel de Factura</label>
             <select
               {...register("factura", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Selecciona un nivel</option>
               <option value="Nivel 1">Nivel 1</option>
@@ -316,14 +316,14 @@ function ClientFormPage() {
               type="text"
               placeholder="Nota"
               {...register("nota", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.nota && <p className="text-red-500">Nota Requerida</p>}
           </div>
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

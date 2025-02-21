@@ -183,7 +183,7 @@ function VerSolicitudCompraPage() {
           Regresar
         </Link>
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2"
           style={{ fontSize: "30px" }}
         >
           {nombreSolicitud}
@@ -210,7 +210,7 @@ function VerSolicitudCompraPage() {
       <div className="my-4 overflow-x-auto w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md">
         <table className="w-full border-collapse rounded-lg">
           <thead>
-            <tr className="bg-green-900 text-white">
+            <tr className="bg-blue-900 text-white">
               <th className="py-2 text-center">Producto</th>
               <th className="py-2 text-center">Presentacion</th>
               <th className="py-2 text-center">Cantidad</th>
@@ -226,13 +226,13 @@ function VerSolicitudCompraPage() {
 
                 return (
                   <tr key={place._id}>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.producto}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.presentacion}
                     </td>
-                    <td className="text-center border border-green-100">
+                    <td className="text-center border border-blue-100">
                       {place.cantidad}
                     </td>
                   </tr>

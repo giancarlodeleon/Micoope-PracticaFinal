@@ -79,7 +79,7 @@ const QuitarProductForm = () => {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">
           Quitar Producto/Servicio
         </h1>
@@ -90,7 +90,7 @@ const QuitarProductForm = () => {
               type="number"
               placeholder="Cantidad a restar"
               {...register("amountToSubtract", { required: true, min: 1 })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.amountToSubtract && (
               <p className="text-red-500">Ingrese una cantidad válida</p>
@@ -99,7 +99,7 @@ const QuitarProductForm = () => {
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

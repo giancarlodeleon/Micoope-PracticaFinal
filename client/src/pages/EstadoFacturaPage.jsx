@@ -219,7 +219,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
         
         {/* Título */}
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2"
           style={{ fontSize: "30px" }}
         >
           Facturas de {clientName || "Cliente no encontrado"}
@@ -235,7 +235,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
               />
             </div>
   
@@ -246,7 +246,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
               />
             </div>
   
@@ -256,7 +256,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
               <select
                 value={tipoSolicitud}
                 onChange={(e) => setTipoSolicitud(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
               >
                 <option value="">Todos</option>
                 <option value="Contado">Contado</option>
@@ -271,7 +271,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">No. Docu</th>
                 <th className="py-2 text-center">No. Fact</th>
                 <th className="py-2 text-center">FEL Serie</th>
@@ -290,43 +290,43 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
             <tbody>
               {currentVentas.map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero_factura}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_serie}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.solicitud}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.monto}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.pendiente}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleDateString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.fecha_pago}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getTipoByCodigo(place.numero)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getFechaVencimiento(
                       place.numero,
                       new Date(place.date).toLocaleDateString()
                     )}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getDiasDeAtraso(
                       getFechaVencimiento(
                         place.numero,
@@ -351,7 +351,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
           <div className="flex justify-center mt-4">
             {currentPage !== 1 && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 Anterior
@@ -359,7 +359,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // Orden ascendente por defec
             )}
             {indexOfLastVenta < filteredVentas.length && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 Siguiente

@@ -89,7 +89,7 @@ function GastoFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Gasto Pagado</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           
@@ -97,7 +97,7 @@ function GastoFormPage() {
             <label className="text-white">Tipo</label>
             <select
               {...register("tipo", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               onChange={handleTipoChange}
             >
               <option value="">Selecciona un tipo</option>
@@ -123,7 +123,7 @@ function GastoFormPage() {
                 type="text"
                 placeholder="Especificar tipo"
                 {...register("otroTipo", { required: true })}
-                className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
               />
               {errors.otroTipo && (
                 <p className="text-red-500">Especificar tipo requerido</p>
@@ -136,7 +136,7 @@ function GastoFormPage() {
               type="text"
               placeholder="No. Factura"
               {...register("factura", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.factura && (
               <p className="text-red-500">No. Factura Requerido</p>
@@ -149,7 +149,7 @@ function GastoFormPage() {
               type="number"
               placeholder="Precio"
               {...register("precio", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.precio && <p className="text-red-500">Precio requerido</p>}
           </div>
@@ -161,13 +161,13 @@ function GastoFormPage() {
               type="text"
               placeholder="Descripcion"
               {...register("nombre", { required: false })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
           </div>
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

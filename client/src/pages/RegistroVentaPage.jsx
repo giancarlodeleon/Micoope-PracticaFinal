@@ -193,13 +193,13 @@ function RegistroVentaPage() {
     <div className="flex justify-center p-4 ">
       <div className="w-full md:w-3/4 lg:w-4/5 xl:w-3/4 bg-white rounded-lg shadow-md ">
         <h1
-          className="text-center rounded-lg bg-green-900 font-bold text-white py-2 relative"
+          className="text-center rounded-lg bg-blue-900 font-bold text-white py-2 relative"
           style={{ fontSize: "30px" }}
         >
           Registro de Ventas
           <Link
             to="/add-venta"
-            className="bg-green-400 text-white hover:bg-green-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
+            className="bg-blue-400 text-white hover:bg-blue-500 px-3 rounded-full absolute top-1/2 transform -translate-y-1/2 right-4 flex items-center justify-center"
             style={{ width: "36px", height: "36px" }}
           >
             +
@@ -209,7 +209,7 @@ function RegistroVentaPage() {
           <div className="flex-1 py-2">
             <Link
               to=""
-              className="bg-green-900 font-bold text-green-50 hover:text-green-50 border-2 border-green-300 w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
+              className="bg-blue-900 font-bold text-blue-50 hover:text-blue-50 border-2 border-blue-300 w-full rounded-tl-lg rounded-bl-lg px-6 py-2 text-center block"
             >
               Facturas Pendientes
             </Link>
@@ -217,7 +217,7 @@ function RegistroVentaPage() {
           <div className="flex-1 py-2">
             <Link
               to="/registro-venta-pagada"
-              className="bg-white font-bold text-green-900 border-2 border-green-900 hover:bg-green-500 hover:text-green-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
+              className="bg-white font-bold text-blue-900 border-2 border-blue-900 hover:bg-blue-500 hover:text-blue-50 w-full rounded-tr-lg rounded-br-lg px-6 py-2 text-center block"
             >
               Facturas Pagadas
             </Link>
@@ -233,7 +233,7 @@ function RegistroVentaPage() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
 
@@ -246,7 +246,7 @@ function RegistroVentaPage() {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             />
           </div>
 
@@ -258,7 +258,7 @@ function RegistroVentaPage() {
             <select
               value={tipoSolicitud}
               onChange={(e) => setTipoSolicitud(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-green-500 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-blue-500 rounded-lg"
             >
               <option value="">Todos</option>
               <option value="Credito">Crédito</option>
@@ -269,7 +269,7 @@ function RegistroVentaPage() {
         <div className="my-2 overflow-x-auto rounded-lg">
           <table className="w-full border-collapse rounded-lg">
             <thead>
-              <tr className="bg-green-900 text-white">
+              <tr className="bg-blue-900 text-white">
                 <th className="py-2 text-center">No. Docu</th>
                 <th className="py-2 text-center">No. Fact</th>
                 <th className="py-2 text-center">FEL Serie</th>
@@ -288,43 +288,43 @@ function RegistroVentaPage() {
             <tbody>
               {currentVentas.map((place) => (
                 <tr key={place._id}>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.numero_factura}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_serie}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.FEL_numero}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.solicitud}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.monto}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.pendiente}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {new Date(place.date).toLocaleDateString()}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {place.fecha_pago}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getTipoByCodigo(place.numero)}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getFechaVencimiento(
                       place.numero,
                       new Date(place.date).toLocaleDateString()
                     )}
                   </td>
-                  <td className="text-center border border-green-100">
+                  <td className="text-center border border-blue-100">
                     {getDiasDeAtraso(
                       getFechaVencimiento(
                         place.numero,
@@ -332,7 +332,7 @@ function RegistroVentaPage() {
                       )
                     )}
                   </td>
-                  <td className="flex justify-center items-center border border-green-100">
+                  <td className="flex justify-center items-center border border-blue-100">
                     <button
                       className="bg-red-500 font-bold hover:bg-red-400 text-white py-1 px-2 rounded-lg"
                       onClick={() =>
@@ -349,7 +349,7 @@ function RegistroVentaPage() {
           <div className="flex justify-center mt-4">
             {currentPage !== 1 && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg mr-2"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg mr-2"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 Anterior
@@ -357,7 +357,7 @@ function RegistroVentaPage() {
             )}
             {indexOfLastVenta < filteredVentas.length && (
               <button
-                className="bg-green-500 font-bold hover:bg-green-400 text-white py-2 px-4 rounded-lg"
+                className="bg-blue-500 font-bold hover:bg-blue-400 text-white py-2 px-4 rounded-lg"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 Siguiente

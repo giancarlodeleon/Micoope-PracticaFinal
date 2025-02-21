@@ -141,7 +141,7 @@ function RegistroVentaFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">Venta Facturada</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -150,7 +150,7 @@ function RegistroVentaFormPage() {
               type="number"
               placeholder="Numero de Factura"
               {...register("numero_factura", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.numero_factura && (
               <p className="text-red-500">Numero de Factura Requerido</p>
@@ -163,7 +163,7 @@ function RegistroVentaFormPage() {
               type="text"
               placeholder="FEL Serie"
               {...register("FEL_serie", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.FEL_serie && (
               <p className="text-red-500">FEL de Serie Requerido</p>
@@ -176,7 +176,7 @@ function RegistroVentaFormPage() {
               type="number"
               placeholder="FEL Numero"
               {...register("FEL_numero", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.FEL_numero && (
               <p className="text-red-500">FEL de Numero Requerido</p>
@@ -187,7 +187,7 @@ function RegistroVentaFormPage() {
             <label className="text-white">Solicitud</label>
             <select
               {...register("solicitud", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Selecciona una solicitud</option>
               {solicituds &&
@@ -211,14 +211,14 @@ function RegistroVentaFormPage() {
               step="0.01" // Permite decimales
               placeholder="Monto"
               {...register("monto", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.monto && <p className="text-red-500">Monto Requerido</p>}
           </div>
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

@@ -117,7 +117,7 @@ function ProductFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">
           Producto/Servicio
         </h1>
@@ -128,7 +128,7 @@ function ProductFormPage() {
               type="text"
               placeholder="Nombre"
               {...register("name", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.name && <p className="text-red-500">Nombre Requerido</p>}
           </div>
@@ -139,7 +139,7 @@ function ProductFormPage() {
               type="text"
               placeholder="Presentacion"
               {...register("presentation", { required: false })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
           </div>
 
@@ -147,7 +147,7 @@ function ProductFormPage() {
             <label className="text-white">Proveedor</label>
             <select
               {...register("proveedor", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             >
               <option value="">Seleccione un proveedor</option>
               {proveedors.map((proveedor) => (
@@ -167,7 +167,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Precio Costo"
               {...register("cost_price", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.cost_price && (
               <p className="text-red-500">Precio Costo Requerido</p>
@@ -180,7 +180,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Precio Base"
               {...register("selling_price_1", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.selling_price_1 && (
               <p className="text-red-500">Precio Base Requerido</p>
@@ -193,7 +193,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Porcentaje segundo precio"
               {...register("selling_price_2", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.selling_price_2 && (
               <p className="text-red-500">Porcentaje Requerido</p>
@@ -206,7 +206,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Porcentaje tercer precio"
               {...register("selling_price_3", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.selling_price_3 && (
               <p className="text-red-500">Porcentaje Requerido</p>
@@ -219,7 +219,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Stock"
               {...register("stock", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.stock && <p className="text-red-500">Stock Requerido</p>}
           </div>
@@ -230,7 +230,7 @@ function ProductFormPage() {
               type="number"
               placeholder="Stock Minimo"
               {...register("minimum_stock", { required: true })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.minimum_stock && (
               <p className="text-red-500">Stock Mínimo Requerido</p>
@@ -248,7 +248,7 @@ function ProductFormPage() {
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

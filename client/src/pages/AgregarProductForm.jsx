@@ -82,7 +82,7 @@ const AgregarProductForm = () => {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-lg p-10 rounded-md mx-auto relative">
+      <div className="bg-blue-900 max-w-lg p-10 rounded-md mx-auto relative">
         <h1 className="text-2xl text-white font-bold mb-4">
           Agregar Producto/Servicio
         </h1>
@@ -93,7 +93,7 @@ const AgregarProductForm = () => {
               type="number"
               placeholder="Cantidad a agregar"
               {...register("amountToAdd", { required: true, min: 1 })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.amountToAdd && (
               <p className="text-red-500">Ingrese una cantidad válida</p>
@@ -107,7 +107,7 @@ const AgregarProductForm = () => {
               step="0.01"
               placeholder="Precio de venta 1"
               {...register("selling_price_1", { required: true, min: 0.01 })}
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-md"
+              className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
             />
             {errors.selling_price_1 && (
               <p className="text-red-500">Ingrese un precio válido</p>
@@ -116,7 +116,7 @@ const AgregarProductForm = () => {
 
           <button
             type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md"
+            className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md"
           >
             Guardar
           </button>

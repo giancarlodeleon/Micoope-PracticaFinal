@@ -89,177 +89,164 @@ function RolFormPage() {
 
   return (
     <div className="items-center justify-center py-20">
-      <div className="bg-green-900 max-w-md p-10 rounded-md mx-auto relative">
-        <h1 className="text-2xl text-white font-bold">Rol</h1>
-        <form onSubmit={onSubmit}>
+    <div className="bg-blue-900 max-w-md p-10 rounded-md mx-auto relative">
+      <h1 className="text-2xl text-white font-bold">Rol</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="Nombre"
+          {...register("name", { required: true })}
+          className="w-full bg-blue-700 text-white px-4 py-2 rounded-md my-2"
+          autoFocus
+        />
+        {errors.name && <p className="text-red-500">Nombre Requerido</p>}
+        
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso al Manejo de informacion</label>
           <input
-            type="text"
-            placeholder="Nombre"
-            {...register("name", { required: true })}
-            className="w-full bg-green-700 text-white px-4 py-2 rounded-md my-2"
-            autoFocus
+            type="checkbox"
+            {...register("permission_of_information", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
           />
-          {errors.name && <p className="text-red-500">Nombre Requerido</p>}
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso al Manejo de informacion
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_of_information", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al Inventario</label>
-            <input
-              type="checkbox"
-              {...register("permission_Warehouse", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al Reporte</label>
-            <input
-              type="checkbox"
-              {...register("permission_Summary", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso al los Clientes</label>
-            <input
-              type="checkbox"
-              {...register("permission_of_Client", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para agregar Clientes
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_of_add_Client", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para agregar Productos
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_of_add_Product", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para agregar a Stock
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_add_stock", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para quitar a Stock
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_takeout_stock", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para Solicitudes</label>
-            <input
-              type="checkbox"
-              {...register("permission_Request", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para ver Solicitudes
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_See_Request", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para Historial</label>
-            <input
-              type="checkbox"
-              {...register("permission_Historial", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso para Registro de Ventas
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_Register_Sell", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso para Gastos</label>
-            <input
-              type="checkbox"
-              {...register("permission_Payouts", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">
-              Permiso Estados de Cuenta
-            </label>
-            <input
-              type="checkbox"
-              {...register("permission_Account", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso Finanzas</label>
-            <input
-              type="checkbox"
-              {...register("permission_Financial", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-
-          <div className="flex items-center py-2">
-            <label className="text-white font ">Permiso a Proveedores</label>
-            <input
-              type="checkbox"
-              {...register("permission_of_Proveedor", { value: true })}
-              className="bg-green-700 text-white px-4 py-2 rounded-md mr-2"
-            />
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-green-500 hover:bg-green-400 px-4 py-2 rounded-md mr-auto"
-          >
-            Guardar
-          </button>
-        </form>
-        <Link
-          to="/roles"
-          className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso al Inventario</label>
+          <input
+            type="checkbox"
+            {...register("permission_Warehouse", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso al Reporte</label>
+          <input
+            type="checkbox"
+            {...register("permission_Summary", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso al los Clientes</label>
+          <input
+            type="checkbox"
+            {...register("permission_of_Client", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para agregar Clientes</label>
+          <input
+            type="checkbox"
+            {...register("permission_of_add_Client", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para agregar Productos</label>
+          <input
+            type="checkbox"
+            {...register("permission_of_add_Product", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para agregar a Stock</label>
+          <input
+            type="checkbox"
+            {...register("permission_add_stock", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para quitar a Stock</label>
+          <input
+            type="checkbox"
+            {...register("permission_takeout_stock", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para Solicitudes</label>
+          <input
+            type="checkbox"
+            {...register("permission_Request", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para ver Solicitudes</label>
+          <input
+            type="checkbox"
+            {...register("permission_See_Request", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para Historial</label>
+          <input
+            type="checkbox"
+            {...register("permission_Historial", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para Registro de Ventas</label>
+          <input
+            type="checkbox"
+            {...register("permission_Register_Sell", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso para Gastos</label>
+          <input
+            type="checkbox"
+            {...register("permission_Payouts", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso Estados de Cuenta</label>
+          <input
+            type="checkbox"
+            {...register("permission_Account", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso Finanzas</label>
+          <input
+            type="checkbox"
+            {...register("permission_Financial", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+  
+        <div className="flex items-center py-2">
+          <label className="text-white font">Permiso a Proveedores</label>
+          <input
+            type="checkbox"
+            {...register("permission_of_Proveedor", { value: true })}
+            className="bg-blue-700 text-white px-4 py-2 rounded-md mr-2"
+          />
+        </div>
+        
+        <button
+          type="submit"
+          className="text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md mr-auto"
         >
-          Regresar
-        </Link>
-      </div>
+          Guardar
+        </button>
+      </form>
+      <Link
+        to="/roles"
+        className="absolute top-0 right-0 hover:text-gray-200 text-white mt-2 mr-2"
+      >
+        Regresar
+      </Link>
     </div>
+  </div>
+  
   );
 }
 
