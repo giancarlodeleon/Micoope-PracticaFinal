@@ -40,6 +40,9 @@ function SolicitudFormPage() {
   const [nit, setNit] = useState("");
   const [showDiasCredito, setShowDiasCredito] = useState(false);
 
+  const [useSpecialPrice, setUseSpecialPrice] = useState(false);
+  const [specialPrice, setSpecialPrice] = useState("");
+
   useEffect(() => {
     getClients();
     getProducts();
@@ -126,18 +129,26 @@ function SolicitudFormPage() {
       );
 
       let price;
-      if (factura === "Nivel 1") {
-        price = productData.selling_price_1;
-      } else if (factura === "Nivel 2") {
-        price =
-          productData.selling_price_1 +
-          productData.selling_price_1 * (productData.selling_price_2 / 100);
-      } else if (factura === "Nivel 3") {
-        price =
-          productData.selling_price_1 +
-          productData.selling_price_1 * (productData.selling_price_3 / 100);
+      if (useSpecialPrice) {
+        if (specialPrice === "" || specialPrice < 0) {
+          alert("El precio especial debe ser un valor positivo.");
+          return;
+        }
+        price = Number(specialPrice);
       } else {
-        price = productData.selling_price_1;
+        if (factura === "Nivel 1") {
+          price = productData.selling_price_1;
+        } else if (factura === "Nivel 2") {
+          price =
+            productData.selling_price_1 +
+            productData.selling_price_1 * (productData.selling_price_2 / 100);
+        } else if (factura === "Nivel 3") {
+          price =
+            productData.selling_price_1 +
+            productData.selling_price_1 * (productData.selling_price_3 / 100);
+        } else {
+          price = productData.selling_price_1;
+        }
       }
 
       const date = new Date();
@@ -165,6 +176,7 @@ function SolicitudFormPage() {
       setOrderItems([...orderItems, newItem]);
       setSelectedProduct("");
       setSelectedQuantity(0);
+      setSpecialPrice("");
       setIsNombreEditable(false);
     }
   };
@@ -376,6 +388,30 @@ function SolicitudFormPage() {
               />
             </div>
           </div>
+
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={useSpecialPrice}
+              onChange={(e) => setUseSpecialPrice(e.target.checked)}
+              className="form-checkbox text-blue-500"
+            />
+            <label className="text-white">Usar Precio Especial</label>
+          </div>
+
+          {useSpecialPrice && (
+            <div className="w-1/3 mt-2">
+              <label className="text-white">Precio Especial</label>
+              <input
+                type="number"
+                value={specialPrice}
+                onChange={(e) => setSpecialPrice(e.target.value)}
+                className="w-full bg-blue-700 text-white px-4 py-2 rounded-md"
+                placeholder=""
+                min="0"
+              />
+            </div>
+          )}
 
           <div className="flex space-x-4 mt-4">
             <button

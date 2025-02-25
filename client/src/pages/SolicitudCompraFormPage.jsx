@@ -48,6 +48,8 @@ function SolicitudCompraFormPage() {
   const [solicitudCount, setSolicitudCount] = useState(0);
   const [nit, setNit] = useState("");
 
+  
+
   useEffect(() => {
     getProveedors();
     getProducts();
