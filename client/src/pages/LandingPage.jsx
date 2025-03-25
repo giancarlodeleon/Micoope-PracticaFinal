@@ -92,39 +92,83 @@ function LandingPage() {
       >
         <h2 className="text-3xl font-bold text-blue-900 mb-12">Conócenos</h2>
 
-        <motion.div className="flex justify-center mb-6" whileHover={{ scale: 1.05 }}>
+        <motion.div
+          className="flex justify-center mb-6"
+          whileHover={{ scale: 1.05 }}
+        >
           <img src={cinagro} style={{ maxWidth: "300px" }} alt="CINAGRO" />
         </motion.div>
 
         <p className="text-gray-600 text-2xl">
-        CINAGRO S.A Nace el 15 de marzo del 2023, después de varios intentos y
-          experiencias vividas en la región, se hace urgente la necesidad de
-          realizarla y es así como es fundada por tres socios cofundadores: Rene
-          Patzán Reyes, Milton Josué Patzán León, Denis René Patzán León. Con el
-          objetivo de ser proveedores de insumos a los agricultores de la región
-          con productos básicos, para una diversidad de cultivos con calidez,
-          calidad y precio competitivo a través de surtir los diferentes Agro
-          servicios de la región Nororiental del país. Teniendo con sede el
-          municipio de Salamá, del departamento de Baja Verapaz.
+          CINAGRO S.A es una empresa con el objetivo de ser un proveedor de
+          insumos para diversidad de cultivos con calidez, calidad y precio
+          competitivos a través de surtir a los diferentes agro servicios del
+          país, atención directa a exportadoras y fincas, siendo el medio para
+          que los productores tengan acceso a productos innovadores con
+          tecnología de la más alta calidad, tanto en producción agrícola como
+          en la pecuaria, siempre en búsqueda de los mejores
+          resultados y rendimientos.
         </p>
       </motion.div>
       <div className="w-full my-12 relative">
-      <motion.img
-        src="https://cdn.pixabay.com/photo/2018/01/19/09/26/field-3092043_1280.jpg"
-        alt="Banner publicitario"
-        className="w-full object-cover"
-        style={{ height: "600px" }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        viewport={{ once: true }}
-      />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <h1 className="text-white text-3xl md:text-5xl font-bold text-center bg-black bg-opacity-50 px-4 py-2 rounded-lg">
-          Trabajando para un mejor futuro agrícola
-        </h1>
+  {/* Imagen con animación */}
+  <motion.img
+    src="https://cdn.pixabay.com/photo/2018/01/19/09/26/field-3092043_1280.jpg"
+    alt="Banner publicitario"
+    className="w-full object-cover"
+    style={{ height: "600px" }}
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ duration: 1.5 }}
+    viewport={{ once: true }}
+  />
+  {/* Título sobre la imagen */}
+  <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-white text-xl px-6">
+      {/* Columna de Misión */}
+      <div>
+        <h2 className="font-bold text-3xl mb-4">Misión</h2>
+        <p>
+          Ser una empresa en constante crecimiento en Guatemala, ofertando
+          servicios, productos agrícolas y pecuarios, de la más alta calidad,
+          en búsqueda de soluciones y tecnologías innovadoras que generen los
+          mejores resultados.
+        </p>
+      </div>
+
+      {/* Columna de Visión */}
+      <div>
+        <h2 className="font-bold text-3xl mb-4">Visión</h2>
+        <p>
+          Empresa líder, ágil y eficiente en la importación, distribución, de
+          productos agrícolas y pecuarios, con tecnología innovadora, enfocada
+          en la mejora constante de los rendimientos de producción de nuestros
+          clientes.
+        </p>
       </div>
     </div>
+  </div>
+</div>
+
+{/* Sección de Misión y Visión */}
+<div className="max-w-2xl mx-auto px-6 md:px-12 py-12 grid grid-cols-1 md:grid-cols-1 gap-12 text-gray-800">
+  {/* Sección de Valores con animación */}
+  <motion.div
+    className="bg-white p-6 rounded-lg shadow-lg"
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+    viewport={{ once: true }}
+  >
+    <h2 className="text-3xl font-bold text-green-700 mb-4">Valores</h2>
+    <ul className="list-disc pl-6 text-2xl leading-relaxed">
+      <li>Innovación</li>
+      <li>Respeto</li>
+      <li>Calidad</li>
+      <li>Servicio</li>
+    </ul>
+  </motion.div>
+</div>
 
       {/* Sección de Socios con animación al hacer scroll */}
       <motion.div
@@ -137,32 +181,52 @@ function LandingPage() {
         <h2 className="text-3xl font-bold text-blue-900 text-center mb-6">
           Nuestros Socios
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <img
-              src={quimia}
-              alt="quimia"
-              className="object-contain rounded-lg"
-              style={{ width: "100%", height: "300px" }}
-            />
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <img
-              src={mitzan}
-              alt="mitzan"
-              className="object-contain rounded-lg"
-              style={{ width: "100%", height: "300px" }}
-            />
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <img
-              src={bioorganicos}
-              alt="bioorganicos"
-              className="object-contain rounded-lg"
-              style={{ width: "100%", height: "300px" }}
-            />
-          </motion.div>
-        </div>
+       
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <a href="/lista-productos-quimia">
+    <motion.div whileHover={{ scale: 1.05 }}>
+      <img
+        src={quimia}
+        alt="quimia"
+        className="object-contain rounded-lg"
+        style={{ width: "100%", height: "300px" }}
+      />
+    </motion.div>
+  </a>
+  <a href="/lista-productos-nitzan">
+    <motion.div whileHover={{ scale: 1.05 }}>
+      <img
+        src={mitzan}
+        alt="mitzan"
+        className="object-contain rounded-lg"
+        style={{ width: "100%", height: "300px" }}
+      />
+    </motion.div>
+  </a>
+  <a href="/lista-productos-bioorganicos">
+    <motion.div whileHover={{ scale: 1.05 }}>
+      <img
+        src={bioorganicos}
+        alt="bioorganicos"
+        className="object-contain rounded-lg"
+        style={{ width: "100%", height: "300px" }}
+      />
+    </motion.div>
+  </a>
+  <a>
+  <motion.div
+  whileHover={{ scale: 1.05 }}
+  className="flex items-center justify-center rounded-lg"
+  style={{ width: "100%", height: "300px" }}
+>
+  <a href="/lista-productos-globalagra" className="text-6xl font-bold text-gray-700">
+    Globalagra
+  </a>
+</motion.div>
+  </a>
+</div>
+
+        
       </motion.div>
 
       {/* Botón "Regresar al inicio" */}

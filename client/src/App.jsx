@@ -51,6 +51,10 @@ import ProveedorRoute from "./ProtectedRoutes/ProveedorRoute";
 import SolicitudCompraPage from "./pages/SolicitudCompraPage";
 import SolicitudCompraFormPage from "./pages/SolicitudCompraFormPage";
 import VerSolicitudCompraPage from "./pages/VerSolicitudCompraPage";
+import ListaProductoGlocalAgra from "./pages/ListaProductoGlobalAgra";
+import ListaProductoNitzan from "./pages/ListaProductoNitzan";
+import ListaProductoQuimia from "./pages/ListaProductoQuimia";
+import ListaProductoBioorganico from "./pages/ListaProductoBioorganico";
 import { ProductProvider } from "./context/ProductContext";
 import { UserProvider } from "./context/UserContext";
 import { RolProvider } from "./context/RolContext";
@@ -87,6 +91,22 @@ function App() {
                                     <Route
                                       path="/cinagro"
                                       element={<LandingPage />}
+                                    />
+                                    <Route
+                                      path="/lista-productos-globalagra"
+                                      element={<ListaProductoGlocalAgra />}
+                                    />
+                                    <Route
+                                      path="/lista-productos-nitzan"
+                                      element={<ListaProductoNitzan />}
+                                    />
+                                    <Route
+                                      path="/lista-productos-quimia"
+                                      element={<ListaProductoQuimia />}
+                                    />
+                                     <Route
+                                      path="/lista-productos-bioorganicos"
+                                      element={<ListaProductoBioorganico />}
                                     />
 
                                     <Route element={<ProtectedRoute />}>

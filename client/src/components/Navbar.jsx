@@ -41,6 +41,16 @@ function Navbar() {
 
   useEffect(() => {
     getRols();
+  
+    const interval = setInterval(() => {
+      getRols();
+    }, 500); 
+  
+    return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
+  }, []);
+
+
+  useEffect(() => {
     getSolicituds();
   }, []);
 
@@ -94,6 +104,8 @@ function Navbar() {
   };
 
   const solicitudesPendientes = solicituds.filter((sol) => !sol.estado).length;
+
+ 
 
   return (
     <>
@@ -729,7 +741,11 @@ function Navbar() {
                       style={{ fontSize: "18px" }}
                       className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
                         location.pathname === "/" ||
-                        location.pathname === "/cinagro"
+                        location.pathname === "/cinagro" ||
+                        location.pathname === "/lista-productos-quimia" ||
+                        location.pathname === "/lista-productos-nitzan" ||
+                        location.pathname === "/lista-productos-bioorganicos" ||
+                         location.pathname === "/lista-productos-globalagra"
                           ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
                           : ""
                       }`}
