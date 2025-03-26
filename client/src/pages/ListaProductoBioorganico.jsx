@@ -1,5 +1,12 @@
 import React from 'react'
 import bioorganicos from "../assets/bioorganicos.png";
+import bio1 from "../assets/bio1.png";
+import bio2 from "../assets/bio2.png";
+import bio3 from "../assets/bio3.png";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 function ListaProductoBioorganico() {
 
@@ -18,6 +25,18 @@ function ListaProductoBioorganico() {
         { nombre: "Aller-Green", ai: "Extracto de Ajo al 85%" },
         { nombre: "Pam-Plex", ai: "Extracto de Ajo, Mostaza, Neem, Liomnela 85%" },
       ];
+
+      const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: false,
+      };
+    
     
   return (
      <div className="m-16 p-0">
@@ -30,6 +49,16 @@ function ListaProductoBioorganico() {
            />
          </a>
        </div>
+       
+       <div className="mb-10">
+        <Slider {...settings}>
+          {[bio1,bio2,bio3].map((image, index) => (
+            <div key={index}>
+              <img src={image} alt={`slide-${index}`} className="w-full h-64 object-cover " />
+            </div>
+          ))}
+        </Slider>
+      </div>
        {/* Tabla de Productos Quimia */}
        <div className="overflow-x-auto mb-12">
          <h2 className="text-2xl font-bold text-center mb-4">

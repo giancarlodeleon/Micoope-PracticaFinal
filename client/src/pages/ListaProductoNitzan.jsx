@@ -1,6 +1,20 @@
 import React from 'react'
 import mitzan from "../assets/mitzan.jpg";
+import nitzan1 from "../assets/nitzan1.jpg";
+import nitzan2 from "../assets/nitzan2.jpg";
+import nitzan3 from "../assets/nitzan3.jpg";
+import nitzan4 from "../assets/nitzan4.jpg";
+import nitzan5 from "../assets/nitzan5.jpg";
+import nitzan6 from "../assets/nitzan6.jpg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
+
+
 function ListaProductoNitzan() {
+
+  
     
   const productosNitzan = [
     { nombre: "NATURCOMPLET G", ai: "ÁCIDOS HÚMICOS GRANULADOS DE LIBERACIÓN LENTA" },
@@ -18,6 +32,17 @@ function ListaProductoNitzan() {
     { nombre: "NEMATON", ai: "NEMATICIDA" },
   ];
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+  };
+
   return (
      <div className="m-0 p-8">
      
@@ -31,6 +56,16 @@ function ListaProductoNitzan() {
              />
            </a>
          </div>
+
+         <div className="mb-10">
+        <Slider {...settings}>
+          {[nitzan1,nitzan2,nitzan3,nitzan4,nitzan5,nitzan6].map((image, index) => (
+            <div key={index}>
+              <img src={image} alt={`slide-${index}`} className="w-full h-64 object-cover " />
+            </div>
+          ))}
+        </Slider>
+      </div>
    
          {/* Tabla de Productos Nitzan */}
          <div className="overflow-x-auto mb-12">

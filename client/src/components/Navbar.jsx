@@ -3,6 +3,9 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useRols } from "../context/RolContext";
 import Logo from "../assets/cinagro.jpg";
+import facebook from "../assets/facebook.webp";
+import instagram from "../assets/instagram.png";
+import tiktok from "../assets/tiktok.webp";
 import { useSolicituds } from "../context/SolicitudContext";
 
 function Navbar() {
@@ -730,32 +733,44 @@ function Navbar() {
               </>
             )}
 
-            {!isAuthenticated && (
-              <>
-                <li>
-                  <NavLink
-                    to="/"
-                    activeStyle={{ background: "blue", color: "white" }}
-                  >
-                    <option
-                      style={{ fontSize: "18px" }}
-                      className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
-                        location.pathname === "/" ||
-                        location.pathname === "/cinagro" ||
-                        location.pathname === "/lista-productos-quimia" ||
-                        location.pathname === "/lista-productos-nitzan" ||
-                        location.pathname === "/lista-productos-bioorganicos" ||
-                         location.pathname === "/lista-productos-globalagra"
-                          ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
-                          : ""
-                      }`}
-                    >
-                      Contribuyente
-                    </option>
-                  </NavLink>
-                </li>
-              </>
-            )}
+{!isAuthenticated && (
+  <>
+    <li className="flex items-center gap-2">
+      {/* Logos de redes sociales */}
+      <a href="https://www.facebook.com/profile.php?id=100092560148097" target="_blank" rel="noopener noreferrer">
+        <img src={facebook} alt="Facebook" className="w-12 h-12" />
+      </a>
+      <a href="https://www.instagram.com/cinagrogt?igsh=enF1MjlpdHJ2MDcx" target="_blank" rel="noopener noreferrer">
+        <img src={instagram} alt="Instagram" className="w-13 h-8" />
+      </a>
+      <a href="https://www.tiktok.com/@cinagroguate?_t=ZM-8uy9hRTHnba&_r=1" target="_blank" rel="noopener noreferrer">
+        <img src={tiktok} alt="TikTok" className="w-10 h-10" />
+      </a>
+      {/* Botón Contribuyente */}
+      <NavLink
+        to="/"
+        activeStyle={{ background: "blue", color: "white" }}
+      >
+        <option
+          style={{ fontSize: "18px" }}
+          className={`font-bold hover:text-blue-600 text-black px-4 py-2 rounded-lg ${
+            location.pathname === "/" ||
+            location.pathname === "/cinagro" ||
+            location.pathname === "/lista-productos-quimia" ||
+            location.pathname === "/lista-productos-nitzan" ||
+            location.pathname === "/lista-productos-bioorganicos" ||
+            location.pathname === "/lista-productos-globalagra"
+              ? "bg-blue-900 text-blue-50 hover:bg-blue-800 hover:text-blue-50"
+              : ""
+          }`}
+        >
+          Contribuyente
+        </option>
+      </NavLink>
+    </li>
+  </>
+)}
+
           </ul>
         )}
       </nav>

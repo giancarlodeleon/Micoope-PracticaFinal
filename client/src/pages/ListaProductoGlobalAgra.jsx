@@ -1,4 +1,19 @@
 import React from "react";
+import global1 from "../assets/global1.jpg";
+import global2 from "../assets/global2.jpg";
+import global3 from "../assets/global3.jpg";
+import global4 from "../assets/global4.jpg";
+import global5 from "../assets/global5.jpg";
+import global6 from "../assets/global6.jpg";
+import global7 from "../assets/global7.jpg";
+import global8 from "../assets/global8.jpg";
+import global9 from "../assets/global9.jpg";
+import global10 from "../assets/global10.jpg";
+import global11 from "../assets/global11.jpg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
 
 function ListaProducto() {
   const productosGlobalagra  = [
@@ -48,6 +63,17 @@ function ListaProducto() {
     
   ];
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+  };
+
   return (
     <div className="mb-0 p-8">
       {/* Imagen y Texto Globalagra */}
@@ -56,6 +82,16 @@ function ListaProducto() {
           <span className="text-6xl font-bold text-gray-700">Globalagra</span>
         </a>
       
+      </div>
+
+      <div className="mb-10">
+        <Slider {...settings}>
+          {[global1,global2,global3,global4,global5,global6,global7,global8,global9,global10,global11].map((image, index) => (
+            <div key={index}>
+              <img src={image} alt={`slide-${index}`} className="w-full h-64 object-cover " />
+            </div>
+          ))}
+        </Slider>
       </div>
 
       {/* Tabla de Productos Globalagra */}

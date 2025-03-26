@@ -3,14 +3,17 @@ import meme from "../assets/milton.jpg";
 import cinagro from "../assets/cinagro.jpg";
 import bioorganicos from "../assets/bioorganicos.png";
 import quimia from "../assets/quimia.png";
+import banner1 from "../assets/Banner1.jpg";
+import banner2 from "../assets/Banner2.jpg";
+import banner3 from "../assets/Banner3.jpg";
 import mitzan from "../assets/mitzan.jpg";
 import { motion } from "framer-motion"; // Importa Framer Motion
 
 function LandingPage() {
   const images = [
-    "https://mexico.infoagro.com/wp-content/uploads/2018/04/Agricultores.png",
-    meme,
-    "https://advancingecoag.com/wp-content/uploads/2024/02/top-Investor-Banner-1695x1010.jpg",
+    banner1,
+    banner2,
+    banner3,
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -160,7 +163,7 @@ function LandingPage() {
     transition={{ duration: 1 }}
     viewport={{ once: true }}
   >
-    <h2 className="text-3xl font-bold text-green-700 mb-4">Valores</h2>
+    <h2 className="text-3xl font-bold text-green-700 mb-4">Nuestros Valores</h2>
     <ul className="list-disc pl-6 text-2xl leading-relaxed">
       <li>Innovación</li>
       <li>Respeto</li>
